@@ -19,13 +19,17 @@ class ClickableFrame : public QFrame
 
     Q_OBJECT
 public:
-    explicit ClickableFrame(const QString &name, QWidget *parent = 0,
+    explicit ClickableFrame(const QString &header, QWidget *parent = 0,
                             Qt::WindowFlags f = 0);
 
     void setClickable(bool status);
     bool getClickable();
-    void setName(const QString &name);
-    QString getName();
+    void setHeader(const QString &header);
+    QString getHeader();
+    void setNormalStylesheet(const QString &stylesheet);
+    QString getNormalStylesheet();
+    void setHoverStylesheet(const QString &stylesheet);
+    QString getHoverStylesheet();
 
 signals:
     void singleClick(const QPoint &pos);
@@ -37,8 +41,13 @@ public slots:
 private:
     QLabel *caretLabel;
     QLabel *nameLabel;
-    QString originalStylesheet;
-    QString name;
+
+    QString hoverStylesheet;
+    QString normalStylesheet;
+
+    QString header;
+    QString tooltip;
+
     bool clickable;
 
     void initFrame();

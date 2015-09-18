@@ -21,7 +21,8 @@
 
 #include "qAccordion/qaccordion.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -35,8 +36,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
-
 };
 
 #endif // MAINWINDOW_H

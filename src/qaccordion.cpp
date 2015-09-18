@@ -26,6 +26,7 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
     this->spacer = dynamic_cast<QSpacerItem *>(this->layout()->itemAt(0));
     this->currentlyOpen = nullptr;
     this->maximumHeightContentPanes = 200;
+    this->highestdHeightContentPanes = 0;
 }
 
 uint QAccordion::addContentPane(const QString &header)
@@ -119,7 +120,92 @@ void QAccordion::setHeaderName(const uint &index, const QString &header)
 
 QString QAccordion::getHeaderName(const uint &index)
 {
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not get Header name for index " << index;
+        return "";
+    }
+
     return this->contentPanesHeader.at(index)->getHeader();
+}
+
+void QAccordion::setHeaderTooltip(const uint &index, const QString &tooltip)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not set Tooltip for index " << index;
+        return;
+    }
+
+    this->contentPanesHeader.at(index)->setToolTip(tooltip);
+}
+
+QString QAccordion::getHeaderTooltip(const uint &index)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not get Tooltip for index " << index;
+        return "";
+    }
+    return this->contentPanesHeader.at(index)->toolTip();
+}
+
+void QAccordion::setHeaderNormalStylesheet(const uint &index,
+                                           const QString &stylesheet)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not set normal stylsheet for index "
+                 << index;
+        return;
+    }
+
+    this->contentPanesHeader.at(index)->setNormalStylesheet(stylesheet);
+}
+
+QString QAccordion::getHeaderNormalStylesheet(const uint &index)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not get normal stylsheet for index "
+                 << index;
+        return "";
+    }
+    return this->contentPanesHeader.at(index)->getNormalStylesheet();
+}
+
+void QAccordion::setHeaderHoverStylesheet(const uint &index,
+                                          const QString &stylesheet)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not set hover stylsheet for index "
+                 << index;
+        return;
+    }
+
+    this->contentPanesHeader.at(index)->setHoverStylesheet(stylesheet);
+}
+
+QString QAccordion::getHeaderHoverStylesheet(const uint &index)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not get hover stylsheet for index "
+                 << index;
+        return "";
+    }
+    return this->contentPanesHeader.at(index)->getHoverStylesheet();
+}
+
+void QAccordion::determineHighestHeight()
+{
+    if (!this->contentPanes.empty()) {
+        std::vector<QFrame *> localContentPanes = this->contentPanes;
+        std::sort(localContentPanes.begin(), localContentPanes.end(),
+                  [](QFrame *a, QFrame *b) {
+                      return b->sizeHint().height() < a->sizeHint().height();
+                  });
+        qDebug() << Q_FUNC_INFO << "Currently highest height: "
+                 << localContentPanes.at(0)->sizeHint().height();
+        this->highestdHeightContentPanes =
+            localContentPanes.at(0)->sizeHint().height();
+    } else {
+        this->highestdHeightContentPanes = 0;
+    }
 }
 
 ClickableFrame *QAccordion::initHeaderFrame(const QString &name,
@@ -236,6 +322,8 @@ uint QAccordion::internalAddContentPane(const QString &header,
 
     this->initPropertyAnimation(container, clickFrame);
 
+    // this->determineHighestHeight();
+
     return this->contentPanes.size() - 1;
 }
 
@@ -259,13 +347,16 @@ void QAccordion::internalInsertContentPane(const QString &header,
     this->addInsertWidget(widgetIndex, container);
 
     this->initPropertyAnimation(container, clickFrame);
+
+    // this->determineHighestHeight();
 }
 
 void QAccordion::internalRemoveContentPane(int index, const QString &name,
                                            QFrame *contentPane)
 {
     if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Index out of range " << index;
+        qDebug() << Q_FUNC_INFO << "Can not remove content pane at index  "
+                 << index;
         return;
     }
     if (index == -1) {

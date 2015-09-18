@@ -57,8 +57,14 @@ public:
     QFrame *getContentPane(const uint &index);
     int getContentPaneIndex(QFrame *contentPane);
 
-    void setHeaderName(const uint &index);
+    void setHeaderName(const uint &index, const QString &header);
     QString getHeaderName(const uint &index);
+    void setHeaderTooltip(const uint &index, const QString &tooltip);
+    QString getHeaderTooltip(const uint &index);
+    void setHeaderNormalStylesheet(const uint &index, const QString &stylesheet);
+    QString getHeaderNormalStylesheet(const uint &index);
+    void setHeaderHoverStylesheet(const uint &index, const QString &stylesheet);
+    QString getHeaderHoverStylesheet(const uint &index);
 
 signals:
 
@@ -72,6 +78,7 @@ private:
     std::map<QFrame *, std::vector<std::shared_ptr<QPropertyAnimation>>>
         paneAnimationsMap;
 
+    int highestdHeightContentPanes;
     int maximumHeightContentPanes;
 
     ClickableFrame *currentlyOpen;
@@ -80,14 +87,17 @@ private:
     QString headerStylesheet;
     QString headerStylesheetHover;
 
+    void determineHighestHeight();
+
     ClickableFrame *initHeaderFrame(const QString &name, const int &index);
     QFrame *initContainerFrame(const int &index);
     void *initContentFrame(QFrame *container, QFrame *content, const int &index);
     void initPropertyAnimation(QFrame *container, ClickableFrame *clickFrame);
 
-    uint internalAddContentPane(const QString &header, QFrame *contentPane=nullptr);
+    uint internalAddContentPane(const QString &header,
+                                QFrame *contentPane = nullptr);
     void internalInsertContentPane(const QString &header, const uint &index,
-                                   QFrame *contentPane=nullptr);
+                                   QFrame *contentPane = nullptr);
     void internalRemoveContentPane(int index = -1, const QString &name = "",
                                    QFrame *contentPane = nullptr);
     void addInsertWidget(const int &index, QFrame *frame);

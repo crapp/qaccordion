@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     this->setMinimumSize(QSize(640, 480));
+    this->setWindowIcon(QPixmap(":/icons/accordion_cc_grey.svg"));
 
     int indexFirst = ui->widget->addContentPane("FirstTest");
     QFrame *firstFrame = ui->widget->getContentPane(indexFirst);
@@ -38,7 +39,22 @@ MainWindow::MainWindow(QWidget *parent)
         frame->setLayout(new QVBoxLayout());
         frame->layout()->addWidget(
             new QLabel("This frame is swapping content of InsertAfter One"));
+        frame->layout()->addWidget(new QLabel("Here is a second label"));
         ui->widget->swapContentPane(1, frame);
+    });
+
+    QObject::connect(ui->pushButton_2, &QPushButton::clicked, [this]() {
+        QFrame *f = ui->widget->getContentPane(0);
+        qDebug() << Q_FUNC_INFO << "2Height: " << f->height();
+        qDebug() << Q_FUNC_INFO
+                 << "2SizeHint Height: " << f->sizeHint().height();
+    });
+
+    QObject::connect(ui->pushButton_3, &QPushButton::clicked, [this]() {
+        QFrame *f = ui->widget->getContentPane(1);
+        qDebug() << Q_FUNC_INFO << "3Height: " << f->height();
+        qDebug() << Q_FUNC_INFO
+                 << "3SizeHint Height: " << f->sizeHint().height();
     });
 }
 

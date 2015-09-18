@@ -1,13 +1,17 @@
 #include "qAccordion/clickableframe.h"
 
-ClickableFrame::ClickableFrame(const QString &name, QWidget *parent,
+ClickableFrame::ClickableFrame(const QString &header, QWidget *parent,
                                Qt::WindowFlags f)
-    : name(name), QFrame(parent, f)
+    : header(header), QFrame(parent, f)
 {
     this->setAttribute(Qt::WA_Hover, true);
     this->clickable = true;
     this->setCursor(Qt::PointingHandCursor);
     this->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    QColor background = this->palette().color(QPalette::ColorRole::Background);
+    QColor lighter = background.lighter(110);
+    this->normalStylesheet = "";
+    this->hoverStylesheet = "background-color: " + lighter.name() + ";";
     this->initFrame();
 }
 
@@ -23,17 +27,28 @@ void ClickableFrame::setClickable(bool status)
 
 bool ClickableFrame::getClickable() { return this->clickable; }
 
-void ClickableFrame::setName(const QString &name)
+void ClickableFrame::setHeader(const QString &header)
 {
-    this->name = name;
-    this->nameLabel->setText(this->name);
-
+    this->header = header;
+    this->nameLabel->setText(this->header);
 }
 
-QString ClickableFrame::getName()
+QString ClickableFrame::getHeader() { return this->header; }
+
+void ClickableFrame::setNormalStylesheet(const QString &stylesheet)
 {
-    return this->name;
+    this->normalStylesheet = stylesheet;
+    this->setStyleSheet(this->normalStylesheet);
 }
+
+QString ClickableFrame::getNormalStylesheet() { return this->normalStylesheet; }
+
+void ClickableFrame::setHoverStylesheet(const QString &stylesheet)
+{
+    this->hoverStylesheet = stylesheet;
+}
+
+QString ClickableFrame::getHoverStylesheet() { return this->hoverStylesheet; }
 
 void ClickableFrame::setCaretPixmap(const QString &pixmapPath)
 {
@@ -51,7 +66,7 @@ void ClickableFrame::initFrame()
     this->layout()->addWidget(this->caretLabel);
 
     this->nameLabel = new QLabel();
-    nameLabel->setText(this->name);
+    nameLabel->setText(this->header);
     this->layout()->addWidget(nameLabel);
 
     dynamic_cast<QHBoxLayout *>(this->layout())->addStretch();
@@ -65,21 +80,18 @@ void ClickableFrame::mousePressEvent(QMouseEvent *event)
     } else {
         event->ignore();
     }
-
 }
 
 void ClickableFrame::enterEvent(QEvent *event)
 {
     if (this->clickable) {
-        if (this->originalStylesheet == "")
-            this->originalStylesheet = this->styleSheet();
-        // this->setStyleSheet("background-color: rgb(82, 82, 82);");
+        this->setStyleSheet(this->hoverStylesheet);
     }
 }
 
 void ClickableFrame::leaveEvent(QEvent *event)
 {
     if (this->clickable) {
-        // this->setStyleSheet(this->originalStylesheet);
+        this->setStyleSheet(this->normalStylesheet);
     }
 }
