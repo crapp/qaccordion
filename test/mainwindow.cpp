@@ -22,6 +22,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    this->setMinimumSize(QSize(640, 480));
+
+    int indexFirst = ui->widget->addContentPane("FirstTest");
+    QFrame *firstFrame = ui->widget->getContentPane(indexFirst);
+    firstFrame->setLayout(new QVBoxLayout());
+    firstFrame->layout()->addWidget(new QLabel("Ich bin ein Bi Ba Butzemann"));
+    dynamic_cast<QVBoxLayout *>(firstFrame->layout())->addStretch();
+    ui->widget->addContentPane("SecondTest");
+    ui->widget->insertContentPane("InsertAfterOne", 1);
+
+    QObject::connect(ui->pushButton, &QPushButton::clicked, [this](){
+        this->ui->widget->removeContentPane(uint(0));
+    });
+
+
 }
 
 MainWindow::~MainWindow()

@@ -19,6 +19,8 @@
 
 #include <QMainWindow>
 
+#include "qAccordion/qaccordion.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -33,6 +35,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+
 };
 
 #endif // MAINWINDOW_H

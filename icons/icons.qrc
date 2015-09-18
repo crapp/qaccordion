@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>caret-bottom.png</file>
+        <file>caret-right.png</file>
+    </qresource>
+</RCC>

@@ -29,5 +29,5 @@ int main(int argc, char *argv[])
     MainWindow mw;
     mw.show();
 
-    return 0;
+    return qAccordionTester.exec();
 }

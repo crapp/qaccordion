@@ -41,15 +41,21 @@ configure_file (
 )
 
 set (SOURCE
+    ${CMAKE_CURRENT_SOURCE_DIR}/clickableframe.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/qaccordion.cpp
 )
 
-add_library (qAccordion SHARED ${HEADER} ${SOURCE})
+set(ICON_RESOURCE ${PROJECT_SOURCE_DIR}/icons/icons.qrc)
+# add resource files so they can be compiled into the binary
+qt5_add_resources(ICON_RESOURCE_ADDED ${ICON_RESOURCE})
+
+add_library (qAccordion SHARED ${HEADER} ${SOURCE} ${ICON_RESOURCE_ADDED})
 target_link_libraries(qAccordion Qt5::Widgets)
 
 if (BUILD_TESTER)
     # generate ui_*.h files
     qt5_wrap_ui(accordion_tester_FORMS ${TEST_UI})
+    find_package(Qt5Network REQUIRED)
     add_executable(accordion_tester ${TEST_HEADER} ${TEST_SOURCE} ${accordion_tester_FORMS})
-    target_link_libraries(accordion_tester qAccordion Qt5::Widgets)
+    target_link_libraries(accordion_tester qAccordion Qt5::Widgets Qt5::Network)
 endif()

@@ -88,3 +88,4 @@ install_manifest.txt
 ### Custom ###
 
 build
+CMakeLists.txt.user

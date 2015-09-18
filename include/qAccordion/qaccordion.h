@@ -18,6 +18,23 @@
 #define QACCORDION_H
 
 #include <QWidget>
+#include <QFrame>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPainter>
+#include <QStyleOption>
+#include <QSpacerItem>
+#include <QString>
+#include <QPropertyAnimation>
+#include <QDebug>
+
+#include <vector>
+#include <map>
+#include <memory>
+#include <algorithm>
+
+#include "clickableframe.h"
 
 class QAccordion : public QWidget
 {
@@ -25,9 +42,59 @@ class QAccordion : public QWidget
 public:
     explicit QAccordion(QWidget *parent = 0);
 
+    QFrame *getContentPane(const uint &index);
+
+    uint addContentPane(const QString &header);
+    uint addContentPane(const QString &header, QFrame *contentPane);
+    void insertContentPane(const QString &header, const uint &index);
+    void insertContentPane(const QString &header, const uint &index,
+                           QFrame *contentPane);
+
+    void swapContentPane(const uint &index, QFrame *newContentPane);
+
+    void removeContentPane(const uint &index);
+    void removeContentPane(const QString &header);
+    void removeContentPane(QFrame *contentPane);
+
+    int getContentPaneIndex(QFrame *contentPane);
+
 signals:
 
 public slots:
+
+private:
+    std::vector<ClickableFrame *> contentPanesHeader;
+    std::vector<QFrame *> contentPanesContainer;
+    std::vector<QFrame *> contentPanes;
+
+    std::map<QFrame *, std::vector<std::shared_ptr<QPropertyAnimation>>>
+        paneAnimationsMap;
+
+    int maximumHeightContentPanes;
+
+    ClickableFrame *currentlyOpen;
+    QSpacerItem *spacer;
+
+    QString headerStylesheet;
+    QString headerStylesheetHover;
+
+    ClickableFrame *initHeaderFrame(const QString &name, const int &index);
+    QFrame *initContainerFrame(const int &index);
+    void *initContentFrame(QFrame *container, QFrame *content, const int &index);
+    void initPropertyAnimation(QFrame *container, ClickableFrame *clickFrame);
+
+    uint internalAddContentPane(const QString &header, QFrame *contentPane=nullptr);
+    void internalInsertContentPane(const QString &header, const uint &index,
+                                   QFrame *contentPane=nullptr);
+    void internalRemoveContentPane(int index = -1, const QString &name = "",
+                                   QFrame *contentPane = nullptr);
+    void addInsertWidget(const int &index, QFrame *frame);
+
+    /**
+     * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
+     * @param event
+     */
+    void paintEvent(QPaintEvent *event);
 };
 
 #endif // QACCORDION_H

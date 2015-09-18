@@ -17,11 +17,11 @@
 #ifndef CONFIG_H_IN
 #define CONFIG_H_IN
 
-#define VERSION_MAJOR "@labpowerqt_VERSION_MAJOR@"
-#define VERSION_MINOR "@labpowerqt_VERSION_MINOR@"
-#define VERSION_PATCH "@labpowerqt_VERSION_PATCH@"
+#define VERSION_MAJOR "@qAccordion_VERSION_MAJOR@"
+#define VERSION_MINOR "@qAccordion_VERSION_MINOR@"
+#define VERSION_PATCH "@qAccordion_VERSION_PATCH@"
 
-#cmakedefine QT_NO_DEBUG_OUTPUT
+//#cmakedefine
 
 #endif // CONFIG_H_IN
 
