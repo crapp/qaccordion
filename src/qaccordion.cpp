@@ -28,16 +28,6 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
     this->maximumHeightContentPanes = 200;
 }
 
-QFrame *QAccordion::getContentPane(const uint &index)
-{
-    try {
-        return this->contentPanes.at(index);
-    } catch (const std::out_of_range &ex) {
-        qDebug() << Q_FUNC_INFO << "Can not return Content Pane: " << ex.what();
-        return nullptr;
-    }
-}
-
 uint QAccordion::addContentPane(const QString &header)
 {
     return this->internalAddContentPane(header);
@@ -94,6 +84,16 @@ void QAccordion::removeContentPane(QFrame *contentPane)
     this->internalRemoveContentPane(-1, "", contentPane);
 }
 
+QFrame *QAccordion::getContentPane(const uint &index)
+{
+    try {
+        return this->contentPanes.at(index);
+    } catch (const std::out_of_range &ex) {
+        qDebug() << Q_FUNC_INFO << "Can not return Content Pane: " << ex.what();
+        return nullptr;
+    }
+}
+
 int QAccordion::getContentPaneIndex(QFrame *contentPane)
 {
     int index = -1;
@@ -105,6 +105,21 @@ int QAccordion::getContentPaneIndex(QFrame *contentPane)
         qDebug() << Q_FUNC_INFO << "Can not find Content Pane";
     }
     return index;
+}
+
+void QAccordion::setHeaderName(const uint &index, const QString &header)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Can not set header name at index " << index;
+        return;
+    }
+
+    this->contentPanesHeader.at(index)->setHeader(header);
+}
+
+QString QAccordion::getHeaderName(const uint &index)
+{
+    return this->contentPanesHeader.at(index)->getHeader();
 }
 
 ClickableFrame *QAccordion::initHeaderFrame(const QString &name,
@@ -258,7 +273,7 @@ void QAccordion::internalRemoveContentPane(int index, const QString &name,
             auto result = std::find_if(this->contentPanesHeader.begin(),
                                        this->contentPanesHeader.end(),
                                        [&name](ClickableFrame *header) {
-                                           return header->getName() == name;
+                                           return header->getHeader() == name;
                                        });
             if (result != std::end(this->contentPanesHeader)) {
                 // get the index by subtracting begin iterator from result

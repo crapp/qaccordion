@@ -42,8 +42,6 @@ class QAccordion : public QWidget
 public:
     explicit QAccordion(QWidget *parent = 0);
 
-    QFrame *getContentPane(const uint &index);
-
     uint addContentPane(const QString &header);
     uint addContentPane(const QString &header, QFrame *contentPane);
     void insertContentPane(const QString &header, const uint &index);
@@ -56,7 +54,11 @@ public:
     void removeContentPane(const QString &header);
     void removeContentPane(QFrame *contentPane);
 
+    QFrame *getContentPane(const uint &index);
     int getContentPaneIndex(QFrame *contentPane);
+
+    void setHeaderName(const uint &index);
+    QString getHeaderName(const uint &index);
 
 signals:
 
