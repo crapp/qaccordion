@@ -59,7 +59,25 @@ void QAccordion::insertContentPane(const QString &header, const uint &index,
     this->internalInsertContentPane(header, index, contentPane);
 }
 
-void QAccordion::swapContentPane(const uint &index, QFrame *newContentPane) {}
+void QAccordion::swapContentPane(const uint &index, QFrame *newContentPane)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << "Index out of range " << index;
+        return;
+    }
+
+    // remove the old content pane from the containers layout
+    dynamic_cast<QVBoxLayout *>(this->contentPanesContainer.at(index)->layout())
+        ->removeWidget(this->contentPanes.at(index));
+    delete this->contentPanes.at(index);
+
+    // add the new content pane to the appropriate vector
+    this->contentPanes.at(index) = newContentPane;
+
+    // add the new content pane the containers layout
+    this->contentPanesContainer.at(index)->layout()->addWidget(
+        this->contentPanes.at(index));
+}
 
 void QAccordion::removeContentPane(const uint &index)
 {
@@ -233,6 +251,7 @@ void QAccordion::internalRemoveContentPane(int index, const QString &name,
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Index out of range " << index;
+        return;
     }
     if (index == -1) {
         if (name != "") {

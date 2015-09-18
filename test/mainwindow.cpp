@@ -17,9 +17,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -33,14 +32,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->addContentPane("SecondTest");
     ui->widget->insertContentPane("InsertAfterOne", 1);
 
-    QObject::connect(ui->pushButton, &QPushButton::clicked, [this](){
-        this->ui->widget->removeContentPane(uint(0));
+    QObject::connect(ui->pushButton, &QPushButton::clicked, [this]() {
+        // this->ui->widget->removeContentPane(uint(0));
+        QFrame *frame = new QFrame();
+        frame->setLayout(new QVBoxLayout());
+        frame->layout()->addWidget(
+            new QLabel("This frame is swapping content of InsertAfter One"));
+        ui->widget->swapContentPane(1, frame);
     });
-
-
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
