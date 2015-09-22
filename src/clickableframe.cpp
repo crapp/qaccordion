@@ -1,6 +1,6 @@
 #include "qAccordion/clickableframe.h"
 
-ClickableFrame::ClickableFrame(const QString &header, QWidget *parent,
+ClickableFrame::ClickableFrame(QString header, QWidget *parent,
                                Qt::WindowFlags f)
     : header(header), QFrame(parent, f)
 {
@@ -27,7 +27,7 @@ void ClickableFrame::setClickable(bool status)
 
 bool ClickableFrame::getClickable() { return this->clickable; }
 
-void ClickableFrame::setHeader(const QString &header)
+void ClickableFrame::setHeader(QString header)
 {
     this->header = header;
     this->nameLabel->setText(this->header);
@@ -35,7 +35,7 @@ void ClickableFrame::setHeader(const QString &header)
 
 QString ClickableFrame::getHeader() { return this->header; }
 
-void ClickableFrame::setNormalStylesheet(const QString &stylesheet)
+void ClickableFrame::setNormalStylesheet(QString stylesheet)
 {
     this->normalStylesheet = stylesheet;
     this->setStyleSheet(this->normalStylesheet);
@@ -43,14 +43,14 @@ void ClickableFrame::setNormalStylesheet(const QString &stylesheet)
 
 QString ClickableFrame::getNormalStylesheet() { return this->normalStylesheet; }
 
-void ClickableFrame::setHoverStylesheet(const QString &stylesheet)
+void ClickableFrame::setHoverStylesheet(QString stylesheet)
 {
     this->hoverStylesheet = stylesheet;
 }
 
 QString ClickableFrame::getHoverStylesheet() { return this->hoverStylesheet; }
 
-void ClickableFrame::setCaretPixmap(const QString &pixmapPath)
+void ClickableFrame::setCaretPixmap(QString pixmapPath)
 {
     this->caretLabel->setPixmap(QPixmap(pixmapPath));
 }

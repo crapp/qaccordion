@@ -18,6 +18,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+
+#include <QNetworkAccessManager>
+
+#include <memory>
+#include <queue>
 
 #include "qAccordion/qaccordion.h"
 
@@ -35,7 +44,15 @@ public:
     ~MainWindow();
 
 private:
+    const char* const ipsumApi = "http://loripsum.net/api/1/short";
     Ui::MainWindow *ui;
+
+    std::unique_ptr<QNetworkAccessManager> networkManager;
+
+    std::queue<QLabel *> labelIpsumQueue;
+    
+    void networkRequestFinished(QNetworkReply *reply);
+    void networkRequestError();
 };
 
 #endif // MAINWINDOW_H

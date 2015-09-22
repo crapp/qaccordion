@@ -40,42 +40,98 @@ class QAccordion : public QWidget
 {
     Q_OBJECT
 public:
+
+    enum ACCORDION_ERROR {
+        INDEX_OUT_OF_RANGE,
+
+    };
+
     explicit QAccordion(QWidget *parent = 0);
 
-    uint addContentPane(const QString &header);
-    uint addContentPane(const QString &header, QFrame *contentPane);
-    void insertContentPane(const QString &header, const uint &index);
-    void insertContentPane(const QString &header, const uint &index,
-                           QFrame *contentPane);
+    /**
+     * @brief Returns the number of content panes
+     * @return int
+     */
+    int numberOfContentPanes();
 
-    void swapContentPane(const uint &index, QFrame *newContentPane);
+    /**
+     * @brief Add a new content Pane
+     * @param header Header of the content pane
+     * @return uint Content pane index
+     *
+     * Use this method to add a new content pane with the Header header.
+     * The method will return the index of the new content pane
+     */
+    uint addContentPane(QString header);
+    /**
+     * @brief Add a new content Pane
+     * @param header Header of the content pane
+     * @param contentPane The new content pane
+     * @return uint Content pane index
+     *
+     * This is an overloaded method of QAccordion#addContentPane(QString), that
+     * allows you to provide your own content pane.
+     */
+    uint addContentPane(QString header, QFrame *contentPane);
+    /**
+     * @brief Insert content pane
+     * @param header Header of the content pane
+     * @param index Index of the content pane
+     *
+     * You can use this method to insert a new content pane at given index with
+     * \p header defining the Header.
+     */
+    void insertContentPane(QString header, uint index);
+    void insertContentPane(QString header, uint index, QFrame *contentPane);
 
-    void removeContentPane(const uint &index);
-    void removeContentPane(const QString &header);
+    void swapContentPane(uint index, QFrame *newContentPane);
+
+    void removeContentPane(uint index);
+    void removeContentPane(QString header);
     void removeContentPane(QFrame *contentPane);
 
-    QFrame *getContentPane(const uint &index);
+    void setDisableContentPane(uint index, bool disable);
+    void setDisableContentPane(QString header, bool disable);
+    void setDisableContentPane(QFrame *contentPane, bool disable);
+
+    void setContentPaneMaxHeight(uint maxHeight);
+    void setContentPaneMaxHeight(uint index, uint maxHeight);
+
+    QFrame *getContentPane(uint index);
     int getContentPaneIndex(QFrame *contentPane);
 
-    void setHeaderName(const uint &index, const QString &header);
-    QString getHeaderName(const uint &index);
-    void setHeaderTooltip(const uint &index, const QString &tooltip);
-    QString getHeaderTooltip(const uint &index);
-    void setHeaderNormalStylesheet(const uint &index, const QString &stylesheet);
-    QString getHeaderNormalStylesheet(const uint &index);
-    void setHeaderHoverStylesheet(const uint &index, const QString &stylesheet);
-    QString getHeaderHoverStylesheet(const uint &index);
+    void setHeaderName(uint index, QString header);
+    QString getHeaderName(uint index);
+    void setHeaderTooltip(uint index, QString tooltip);
+    QString getHeaderTooltip(uint index);
+    void setHeaderNormalStylesheet(uint index, QString stylesheet);
+    QString getHeaderNormalStylesheet(uint index);
+    void setHeaderHoverStylesheet(uint index, QString stylesheet);
+    QString getHeaderHoverStylesheet(uint index);
+
+    void setAnimationDuration(uint duration, uint index);
+    int getAnimationDuration(uint index);
+
+    QString getError();
 
 signals:
 
+    void numberOfContentPanesChanged(int number);
+    void openedContentPane(uint index);
+    void closedContentPane(uint index);
+    void accordionError(QAccordion::ACCORDION_ERROR err);
+
 public slots:
+
+    void openContentPane(uint index);
+    void closeContentPane(uint index);
 
 private:
     std::vector<ClickableFrame *> contentPanesHeader;
     std::vector<QFrame *> contentPanesContainer;
     std::vector<QFrame *> contentPanes;
 
-    std::map<QFrame *, std::vector<std::shared_ptr<QPropertyAnimation>>>
+    std::map<ClickableFrame *, std::vector<std::shared_ptr<QPropertyAnimation>>>
         paneAnimationsMap;
 
     int highestdHeightContentPanes;
@@ -87,20 +143,25 @@ private:
     QString headerStylesheet;
     QString headerStylesheetHover;
 
-    void determineHighestHeight();
+    QString errorString;
 
-    ClickableFrame *initHeaderFrame(const QString &name, const int &index);
-    QFrame *initContainerFrame(const int &index);
-    void *initContentFrame(QFrame *container, QFrame *content, const int &index);
+    void determineHighestHeight();
+    void emitOpenPaneIndex();
+
+    ClickableFrame *initHeaderFrame(QString name, int index);
+    QFrame *initContainerFrame(int index);
+    void *initContentFrame(QFrame *container, QFrame *content, int index);
     void initPropertyAnimation(QFrame *container, ClickableFrame *clickFrame);
 
-    uint internalAddContentPane(const QString &header,
-                                QFrame *contentPane = nullptr);
-    void internalInsertContentPane(const QString &header, const uint &index,
+    uint internalAddContentPane(QString header, QFrame *contentPane = nullptr);
+    void internalInsertContentPane(QString header, uint index,
                                    QFrame *contentPane = nullptr);
-    void internalRemoveContentPane(int index = -1, const QString &name = "",
+    void internalRemoveContentPane(int index = -1, QString name = "",
                                    QFrame *contentPane = nullptr);
-    void addInsertWidget(const int &index, QFrame *frame);
+    void internalEnableDisableContentPane(bool disable, int index = -1, QString header = "",
+                                    QFrame *contentPane = nullptr);
+    void addInsertWidget(int index, QFrame *frame);
+    int findContentPaneIndex(QString name="", QFrame *contentPane = nullptr);
 
     /**
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets

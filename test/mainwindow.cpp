@@ -25,37 +25,65 @@ MainWindow::MainWindow(QWidget *parent)
     this->setMinimumSize(QSize(640, 480));
     this->setWindowIcon(QPixmap(":/icons/accordion_cc_grey.svg"));
 
-    int indexFirst = ui->widget->addContentPane("FirstTest");
-    QFrame *firstFrame = ui->widget->getContentPane(indexFirst);
-    firstFrame->setLayout(new QVBoxLayout());
-    firstFrame->layout()->addWidget(new QLabel("Ich bin ein Bi Ba Butzemann"));
-    dynamic_cast<QVBoxLayout *>(firstFrame->layout())->addStretch();
-    ui->widget->addContentPane("SecondTest");
-    ui->widget->insertContentPane("InsertAfterOne", 1);
+    // create a network access manager to get some lorem ipsum :)
+    this->networkManager =
+        std::unique_ptr<QNetworkAccessManager>(new QNetworkAccessManager());
+    QObject::connect(this->networkManager.get(),
+                     &QNetworkAccessManager::finished,
+                     this,
+                     &MainWindow::networkRequestFinished);
 
-    QObject::connect(ui->pushButton, &QPushButton::clicked, [this]() {
-        // this->ui->widget->removeContentPane(uint(0));
-        QFrame *frame = new QFrame();
-        frame->setLayout(new QVBoxLayout());
-        frame->layout()->addWidget(
-            new QLabel("This frame is swapping content of InsertAfter One"));
-        frame->layout()->addWidget(new QLabel("Here is a second label"));
-        ui->widget->swapContentPane(1, frame);
-    });
+    ui->scrollAreaWidgetAccordion->addContentPane("Pane1");
 
-    QObject::connect(ui->pushButton_2, &QPushButton::clicked, [this]() {
-        QFrame *f = ui->widget->getContentPane(0);
-        qDebug() << Q_FUNC_INFO << "2Height: " << f->height();
-        qDebug() << Q_FUNC_INFO
-                 << "2SizeHint Height: " << f->sizeHint().height();
-    });
+    int indexAddPane = ui->widgetControlAccordion->addContentPane("Add Pane");
+    int indexInsertPane =
+        ui->widgetControlAccordion->addContentPane("Insert Pane");
+    int indexRemovePane =
+        ui->widgetControlAccordion->addContentPane("Remove Pane");
 
-    QObject::connect(ui->pushButton_3, &QPushButton::clicked, [this]() {
-        QFrame *f = ui->widget->getContentPane(1);
-        qDebug() << Q_FUNC_INFO << "3Height: " << f->height();
-        qDebug() << Q_FUNC_INFO
-                 << "3SizeHint Height: " << f->sizeHint().height();
+    QFrame *addPane = ui->widgetControlAccordion->getContentPane(indexAddPane);
+    addPane->setLayout(new QVBoxLayout());
+    QLineEdit *headerName = new QLineEdit();
+    headerName->setPlaceholderText("Header name");
+    addPane->layout()->addWidget(headerName);
+    QPushButton *addPaneButton = new QPushButton("Add Content Pane");
+    QObject::connect(addPaneButton, &QPushButton::clicked, [this, headerName]() {
+        if (headerName->text() != "") {
+            QNetworkRequest quest;
+            quest.setUrl(QUrl(this->ipsumApi));
+            this->networkManager->get(quest);
+
+            QFrame *frame = new QFrame();
+            frame->setLayout(new QVBoxLayout());
+            QLabel *ipsumLabel = new QLabel();
+            frame->layout()->addWidget(ipsumLabel);
+            this->labelIpsumQueue.push(ipsumLabel);
+            this->ui->scrollAreaWidgetAccordion->addContentPane(
+                headerName->text(), frame);
+            dynamic_cast<QVBoxLayout *>(frame->layout())->addStretch();
+        }
     });
+    addPane->layout()->addWidget(addPaneButton);
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::networkRequestFinished(QNetworkReply *reply)
+{
+    if (reply->error() == QNetworkReply::NetworkError::NoError) {
+        QByteArray data = reply->readAll();
+        QLabel *ipsumLabel = this->labelIpsumQueue.front();
+        this->labelIpsumQueue.pop();
+        ipsumLabel->setTextFormat(Qt::TextFormat::RichText);
+        ipsumLabel->setWordWrap(true);
+        ipsumLabel->setText(QString(data));
+        qDebug() << Q_FUNC_INFO << data;
+    }
+    reply->deleteLater();
+}
+
+void MainWindow::networkRequestError()
+{
+//    qDebug() << reply;
+//    reply->deleteLater();
+}
