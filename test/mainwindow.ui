@@ -35,7 +35,7 @@
          <x>0</x>
          <y>0</y>
          <width>882</width>
-         <height>556</height>
+         <height>494</height>
         </rect>
        </property>
       </widget>
@@ -51,6 +51,20 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>PushButton 0-2</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>PushButton 1-2</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -59,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

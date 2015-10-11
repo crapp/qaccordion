@@ -26,39 +26,46 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
     this->spacer = dynamic_cast<QSpacerItem *>(this->layout()->itemAt(0));
     this->currentlyOpen = nullptr;
     this->maximumHeightContentPanes = 120;
-    this->highestdHeightContentPanes = 0;
+    this->headerFrameStyle = QFrame::Shape::StyledPanel | QFrame::Shadow::Raised;
+    this->contentPaneFrameStyle =
+        QFrame::Shape::StyledPanel | QFrame::Shadow::Plain;
 }
 
 int QAccordion::numberOfContentPanes() { return this->contentPanes.size(); }
 
-uint QAccordion::addContentPane(QString header)
+int QAccordion::addContentPane(QString header)
 {
     return this->internalAddContentPane(std::move(header));
 }
 
-uint QAccordion::addContentPane(QString header, QFrame *contentPane)
+int QAccordion::addContentPane(QString header, QFrame *contentPane)
 {
     return this->internalAddContentPane(std::move(header), contentPane);
 }
 
-void QAccordion::insertContentPane(QString header, uint index)
+bool QAccordion::insertContentPane(QString header, uint index)
 {
-    this->internalInsertContentPane(header, index);
+    return this->internalInsertContentPane(header, index);
 }
 
-void QAccordion::insertContentPane(QString header, uint index,
+bool QAccordion::insertContentPane(QString header, uint index,
                                    QFrame *contentPane)
 {
-    this->internalInsertContentPane(header, index, contentPane);
+    return this->internalInsertContentPane(header, index, contentPane);
 }
 
-void QAccordion::swapContentPane(uint index, QFrame *newContentPane)
+bool QAccordion::swapContentPane(uint index, QFrame *newContentPane)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Index out of range " << index;
-        emit this->accordionError(
-            QAccordion::ACCORDION_ERROR::INDEX_OUT_OF_RANGE);
-        return;
+    if (this->checkIndexError(index, "Can not swap content pane at index " +
+                                         QString::number(index) +
+                                         ". Index out of range.")) {
+        return false;
+    }
+
+    if (this->findContentPaneIndex("", newContentPane) != -1) {
+        this->errorString = "Can not swap content pane as new pane is already "
+                            "managed by accordion widget";
+        return false;
     }
 
     // remove the old content pane from the containers layout
@@ -72,36 +79,77 @@ void QAccordion::swapContentPane(uint index, QFrame *newContentPane)
     // add the new content pane the containers layout
     this->contentPanesContainer.at(index)->layout()->addWidget(
         this->contentPanes.at(index));
+    return true;
 }
 
-void QAccordion::removeContentPane(uint index)
+bool QAccordion::removeContentPane(uint index)
 {
-    this->internalRemoveContentPane(index);
+    return this->internalRemoveContentPane(index);
 }
 
-void QAccordion::removeContentPane(QString header)
+bool QAccordion::removeContentPane(QString header)
 {
-    this->internalRemoveContentPane(-1, header);
+    return this->internalRemoveContentPane(-1, header);
 }
 
-void QAccordion::removeContentPane(QFrame *contentPane)
+bool QAccordion::removeContentPane(QFrame *contentPane)
 {
-    this->internalRemoveContentPane(-1, "", contentPane);
+    return this->internalRemoveContentPane(-1, "", contentPane);
 }
 
-void QAccordion::setDisableContentPane(uint index, bool disable)
+bool QAccordion::moveContentPane(uint currentIndex, uint newIndex)
 {
-    this->internalEnableDisableContentPane(disable, index);
+    if (this->checkIndexError(currentIndex, "Can not move from " +
+                                                QString::number(currentIndex) +
+                                                ". Index out of range.") ||
+        this->checkIndexError(newIndex, "Can not move to " +
+                                            QString::number(newIndex) +
+                                            ". Index out of range.")) {
+        return false;
+    }
+
+    // TODO: To make things easier I could add both header and container into one
+    // QFrame. Makes some operations much less painfull. Maybe other downsides
+    // though.
+    ClickableFrame *oldIndexHeader = this->contentPanesHeader.at(currentIndex);
+    QFrame *oldIndexContainer = this->contentPanesContainer.at(currentIndex);
+    QFrame *oldIndexCPane = this->contentPanes.at(currentIndex);
+
+    QVBoxLayout *layout = dynamic_cast<QVBoxLayout *>(this->layout());
+    layout->removeWidget(oldIndexHeader);
+    layout->removeWidget(oldIndexContainer);
+    layout->insertWidget(2 * newIndex, oldIndexHeader);
+    layout->insertWidget(2 * newIndex + 1, oldIndexContainer);
+
+    this->contentPanesHeader.erase(this->contentPanesHeader.begin() +
+                                   currentIndex);
+    this->contentPanesHeader.insert(this->contentPanesHeader.begin() + newIndex,
+                                    oldIndexHeader);
+    this->contentPanesContainer.erase(this->contentPanesContainer.begin() +
+                                      currentIndex);
+    this->contentPanesContainer.insert(
+        this->contentPanesContainer.begin() + newIndex, oldIndexContainer);
+    this->contentPanes.erase(this->contentPanes.begin() + currentIndex);
+    this->contentPanes.insert(this->contentPanes.begin() + newIndex,
+                              oldIndexCPane);
+
+    return true;
 }
 
-void QAccordion::setDisableContentPane(QString header, bool disable)
+bool QAccordion::setDisabledContentPane(uint index, bool disable)
 {
-    this->internalEnableDisableContentPane(disable, -1, std::move(header));
+    return this->internalEnableDisableContentPane(disable, index);
 }
 
-void QAccordion::setDisableContentPane(QFrame *contentPane, bool disable)
+bool QAccordion::setDisabledContentPane(QString header, bool disable)
 {
-    this->internalEnableDisableContentPane(disable, -1, "", contentPane);
+    return this->internalEnableDisableContentPane(disable, -1,
+                                                  std::move(header));
+}
+
+bool QAccordion::setDisabledContentPane(QFrame *contentPane, bool disable)
+{
+    return this->internalEnableDisableContentPane(disable, -1, "", contentPane);
 }
 
 void QAccordion::setContentPaneMaxHeight(uint maxHeight)
@@ -120,7 +168,7 @@ void QAccordion::setContentPaneMaxHeight(uint index, uint maxHeight)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO
-                 << "Can not set maximum hight for content pane at index "
+                 << "Can not set maximum height for content pane at index "
                  << index << ". Index out of range";
         return;
     }
@@ -161,34 +209,34 @@ int QAccordion::getContentPaneIndex(QFrame *contentPane)
     return index;
 }
 
-void QAccordion::setHeaderName(uint index, QString header)
-{
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not set header name at index " << index
-                 << ". Index out of range";
-        return;
-    }
+int QAccordion::getNumberOfContentPanes() { return this->contentPanes.size(); }
 
+bool QAccordion::setHeader(uint index, QString header)
+{
+    if (this->checkIndexError(index, "Can not set header name at index " +
+                                         QString::number(index) +
+                                         ". Index out of range."))
+        return false;
     this->contentPanesHeader.at(index)->setHeader(header);
 }
 
-QString QAccordion::getHeaderName(uint index)
+QString QAccordion::getHeader(uint index)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not get Header name for index " << index
-                 << ". Index out of range";
+    if (this->checkIndexError(index, "Can not get header name at index " +
+                                         QString::number(index) +
+                                         ". Index out of range.")) {
         return "";
     }
 
     return this->contentPanesHeader.at(index)->getHeader();
 }
 
-void QAccordion::setHeaderTooltip(uint index, QString tooltip)
+bool QAccordion::setHeaderTooltip(uint index, QString tooltip)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Can not set Tooltip for index " << index
                  << ". Index out of range";
-        return;
+        return false;
     }
 
     this->contentPanesHeader.at(index)->setToolTip(tooltip);
@@ -204,18 +252,19 @@ QString QAccordion::getHeaderTooltip(uint index)
     return this->contentPanesHeader.at(index)->toolTip();
 }
 
-void QAccordion::setHeaderNormalStylesheet(uint index, QString stylesheet)
+bool QAccordion::setHeaderStylesheet(uint index, QString stylesheet)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Can not set normal stylsheet for index "
                  << index << ". Index out of range";
-        return;
+        return false;
     }
 
     this->contentPanesHeader.at(index)->setNormalStylesheet(stylesheet);
+    return true;
 }
 
-QString QAccordion::getHeaderNormalStylesheet(uint index)
+QString QAccordion::getHeaderStylesheet(uint index)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Can not get normal stylsheet for index "
@@ -225,12 +274,12 @@ QString QAccordion::getHeaderNormalStylesheet(uint index)
     return this->contentPanesHeader.at(index)->getNormalStylesheet();
 }
 
-void QAccordion::setHeaderHoverStylesheet(uint index, QString stylesheet)
+bool QAccordion::setHeaderHoverStylesheet(uint index, QString stylesheet)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Can not set hover stylsheet for index "
                  << index << ". Index out of range";
-        return;
+        return false;
     }
 
     this->contentPanesHeader.at(index)->setHoverStylesheet(stylesheet);
@@ -246,12 +295,12 @@ QString QAccordion::getHeaderHoverStylesheet(uint index)
     return this->contentPanesHeader.at(index)->getHoverStylesheet();
 }
 
-void QAccordion::setAnimationDuration(uint duration, uint index)
+bool QAccordion::setAnimationDuration(uint duration, uint index)
 {
     if (index >= this->contentPanes.size()) {
         qDebug() << Q_FUNC_INFO << "Can not set duration for index " << index
                  << ". Index out of range";
-        return;
+        return false;
     }
 
     for (const auto &animation :
@@ -262,21 +311,45 @@ void QAccordion::setAnimationDuration(uint duration, uint index)
 
 int QAccordion::getAnimationDuration(uint index)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not set duration for index " << index
-                 << ". Index out of range";
+    if (this->checkIndexError(index, "Can not get duration for index " +
+                                         QString::number(index) +
+                                         ". Index out of range")) {
         return -1;
     }
 
     return this->paneAnimationsMap.at(this->contentPanesHeader.at(index))
         .at(0)
-            ->duration();
+        ->duration();
 }
 
-QString QAccordion::getError()
+void QAccordion::setHeaderFrameStyle(int style)
 {
-    return this->errorString;
+    if (style != this->headerFrameStyle) {
+        this->headerFrameStyle = style;
+        for (auto headerFrame : this->contentPanesHeader) {
+            headerFrame->setFrameStyle(this->headerFrameStyle);
+        }
+    }
 }
+
+int QAccordion::getHeaderFrameStyle() { return this->headerFrameStyle; }
+
+void QAccordion::setContentPaneFrameStyle(int style)
+{
+    if (style != this->contentPaneFrameStyle) {
+        this->contentPaneFrameStyle = style;
+        for (auto contentPaneFrame : this->contentPanes) {
+            contentPaneFrame->setFrameStyle(this->contentPaneFrameStyle);
+        }
+    }
+}
+
+int QAccordion::getContentPaneFrameStyle()
+{
+    return this->contentPaneFrameStyle;
+}
+
+QString QAccordion::getError() { return this->errorString; }
 
 void QAccordion::openContentPane(uint index)
 {
@@ -337,6 +410,7 @@ void QAccordion::emitOpenPaneIndex()
 ClickableFrame *QAccordion::initHeaderFrame(QString name, int index)
 {
     ClickableFrame *cframe = new ClickableFrame(std::move(name));
+    cframe->setFrameStyle(this->headerFrameStyle);
     if (index == -1) {
         this->contentPanesHeader.push_back(cframe);
     } else {
@@ -350,7 +424,7 @@ QFrame *QAccordion::initContainerFrame(int index)
 {
     QFrame *containerFrame = new QFrame();
     containerFrame->setLayout(new QVBoxLayout());
-    containerFrame->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    containerFrame->setFrameStyle(this->contentPaneFrameStyle);
     containerFrame->setMaximumHeight(0);
     containerFrame->setSizePolicy(QSizePolicy::Policy::Preferred,
                                   QSizePolicy::Policy::Expanding);
@@ -363,7 +437,7 @@ QFrame *QAccordion::initContainerFrame(int index)
     return containerFrame;
 }
 
-void *QAccordion::initContentFrame(QFrame *container, QFrame *content, int index)
+void QAccordion::initContentFrame(QFrame *container, QFrame *content, int index)
 {
     if (content == nullptr)
         content = new QFrame();
@@ -398,7 +472,7 @@ void QAccordion::initPropertyAnimation(QFrame *container,
 
     QObject::connect(
         clickFrame, &ClickableFrame::singleClick,
-        [this, clickFrame](const QPoint &pos) {
+        [this, clickFrame](__attribute__((unused)) const QPoint &pos) {
             if (this->currentlyOpen == nullptr) {
                 // open associated container
                 std::shared_ptr<QPropertyAnimation> animation =
@@ -433,8 +507,13 @@ void QAccordion::initPropertyAnimation(QFrame *container,
         });
 }
 
-uint QAccordion::internalAddContentPane(QString header, QFrame *contentPane)
+int QAccordion::internalAddContentPane(QString header, QFrame *contentPane)
 {
+    if (this->findContentPaneIndex(header, contentPane) != -1) {
+        this->errorString = "Can not add content pane as it already exists";
+        return -1;
+    }
+
     ClickableFrame *clickFrame = this->initHeaderFrame(std::move(header), -1);
 
     QFrame *container = this->initContainerFrame(-1);
@@ -453,50 +532,59 @@ uint QAccordion::internalAddContentPane(QString header, QFrame *contentPane)
     return this->contentPanes.size() - 1;
 }
 
-void QAccordion::internalInsertContentPane(QString header, uint index,
+bool QAccordion::internalInsertContentPane(QString header, uint index,
                                            QFrame *contentPane)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not insert Content Pane at index "
-                 << index << ". Index out of range";
-        return;
+    if (this->checkIndexError(index, "Can not insert Content Pane at index " +
+                                         QString::number(index) +
+                                         ". Index out of range")) {
+        return false;
     }
+
+    if (this->findContentPaneIndex(header, contentPane) != -1) {
+        return false;
+    }
+
     ClickableFrame *clickFrame = this->initHeaderFrame(std::move(header), index);
 
     QFrame *container = this->initContainerFrame(index);
     this->initContentFrame(container, contentPane, index);
 
-    int widgetIndex = 2 * index + 1;
+    int containerIndex = 2 * index + 1;
 
-    this->addInsertWidget(widgetIndex - 1, clickFrame);
-    this->addInsertWidget(widgetIndex, container);
+    this->addInsertWidget(containerIndex - 1, clickFrame);
+    this->addInsertWidget(containerIndex, container);
 
     this->initPropertyAnimation(container, clickFrame);
 
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
     // this->determineHighestHeight();
+    return true;
 }
-// TODO: This QString could be made a const reference. But the compiler recognize
-// this.
-void QAccordion::internalRemoveContentPane(int index, QString name,
+
+bool QAccordion::internalRemoveContentPane(int index, QString name,
                                            QFrame *contentPane)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not remove content pane at index "
-                 << index << ". Index out of range";
-        return;
+    if (this->checkIndexError(index, "Can not remove content pane at index " +
+                                         QString::number(index) +
+                                         ". Index out of range")) {
+        return false;
     }
+
     if (index == -1) {
         index = this->findContentPaneIndex(std::move(name), contentPane);
-        if (index == -1)
-            return;
+        if (index == -1) {
+            this->errorString = "Can not remove content pane as it is not part "
+                                "of the accordion widget";
+            return false;
+        }
     }
 
     dynamic_cast<QVBoxLayout *>(this->layout())
-        ->removeWidget(this->contentPanesHeader.at(index));
+        ->removeWidget(this->contentPanesHeader.at(2 * index));
     dynamic_cast<QVBoxLayout *>(this->layout())
-        ->removeWidget(this->contentPanesContainer.at(index));
+        ->removeWidget(this->contentPanesContainer.at(2 * index + 1));
 
     delete this->contentPanesHeader.at(index);
     delete this->contentPanesContainer.at(index);
@@ -509,25 +597,31 @@ void QAccordion::internalRemoveContentPane(int index, QString name,
     this->contentPanes.erase(this->contentPanes.begin() + index);
 
     emit numberOfContentPanesChanged(this->contentPanes.size());
+    return true;
 }
 
-void QAccordion::internalEnableDisableContentPane(bool disable, int index,
+bool QAccordion::internalEnableDisableContentPane(bool disable, int index,
                                                   QString header,
                                                   QFrame *contentPane)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not disable content pane at index "
-                 << index << ". Index out of range";
-        return;
+    if (this->checkIndexError(index, "Can not disable content pane at index " +
+                                         QString::number(index) +
+                                         ". Index out of range")) {
+        return false;
     }
 
     if (index == -1) {
         index = this->findContentPaneIndex(std::move(header), contentPane);
-        if (index == -1)
-            return;
+        if (index == -1) {
+            this->errorString = "Can not enable/disable content pane as it is "
+                                "not part of the accordion widget";
+            return false;
+        }
     }
 
     this->contentPanesHeader.at(index)->setDisabled(disable);
+
+    return true;
 }
 
 void QAccordion::addInsertWidget(int index, QFrame *frame)
@@ -549,27 +643,42 @@ int QAccordion::findContentPaneIndex(QString name, QFrame *contentPane)
             // iterator
             // TODO: Is this cast really necessary?
             index = static_cast<int>(result - this->contentPanesHeader.begin());
-        } else {
-            qDebug() << Q_FUNC_INFO
-                     << "Can not remove / disable Content Pane with Header "
-                     << name;
         }
+        //        else {
+        //            qDebug() << Q_FUNC_INFO
+        //                     << "Can not remove / disable Content Pane with
+        //                     Header "
+        //                     << name;
+        //        }
     }
     if (contentPane != nullptr) {
         auto result = std::find(this->contentPanes.begin(),
                                 this->contentPanes.end(), contentPane);
         if (result != std::end(this->contentPanes)) {
             index = static_cast<int>(result - this->contentPanes.begin());
-        } else {
-            qDebug() << Q_FUNC_INFO
-                     << "Can not remove / disable Content Pane as this "
-                        "frame is not managed by qAccordion";
         }
+        //        else {
+        //            qDebug() << Q_FUNC_INFO
+        //                     << "Can not remove / disable Content Pane as
+        //                     this
+        //                     "
+        //                        "frame is not managed by qAccordion";
+        //        }
     }
     return index;
 }
 
-void QAccordion::paintEvent(QPaintEvent *event)
+bool QAccordion::checkIndexError(uint index, const QString &errMessage)
+{
+    if (index >= this->contentPanes.size()) {
+        qDebug() << Q_FUNC_INFO << errMessage;
+        this->errorString = errMessage;
+        return true;
+    }
+    return false;
+}
+
+void QAccordion::paintEvent(__attribute__((unused)) QPaintEvent *event)
 {
     QStyleOption o;
     o.initFrom(this);

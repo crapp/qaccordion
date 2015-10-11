@@ -41,7 +41,9 @@ configure_file (
 )
 
 set (SOURCE
+    ${CMAKE_CURRENT_SOURCE_DIR}/accordionmodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/clickableframe.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/contentpane.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/qaccordion.cpp
 )
 

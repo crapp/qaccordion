@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     this->setMinimumSize(QSize(640, 480));
     this->setWindowIcon(QPixmap(":/icons/accordion_cc_grey.svg"));
 
@@ -29,8 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->networkManager =
         std::unique_ptr<QNetworkAccessManager>(new QNetworkAccessManager());
     QObject::connect(this->networkManager.get(),
-                     &QNetworkAccessManager::finished,
-                     this,
+                     &QNetworkAccessManager::finished, this,
                      &MainWindow::networkRequestFinished);
 
     ui->scrollAreaWidgetAccordion->addContentPane("Pane1");
@@ -49,21 +47,32 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *addPaneButton = new QPushButton("Add Content Pane");
     QObject::connect(addPaneButton, &QPushButton::clicked, [this, headerName]() {
         if (headerName->text() != "") {
-            QNetworkRequest quest;
-            quest.setUrl(QUrl(this->ipsumApi));
-            this->networkManager->get(quest);
-
             QFrame *frame = new QFrame();
-            frame->setLayout(new QVBoxLayout());
-            QLabel *ipsumLabel = new QLabel();
-            frame->layout()->addWidget(ipsumLabel);
-            this->labelIpsumQueue.push(ipsumLabel);
-            this->ui->scrollAreaWidgetAccordion->addContentPane(
-                headerName->text(), frame);
-            dynamic_cast<QVBoxLayout *>(frame->layout())->addStretch();
+
+            if (this->ui->scrollAreaWidgetAccordion->addContentPane(
+                    headerName->text(), frame) != -1) {
+                frame->setLayout(new QVBoxLayout());
+                QLabel *ipsumLabel = new QLabel();
+                frame->layout()->addWidget(ipsumLabel);
+                this->labelIpsumQueue.push(ipsumLabel);
+                dynamic_cast<QVBoxLayout *>(frame->layout())->addStretch();
+
+                QNetworkRequest quest;
+                quest.setUrl(QUrl(this->ipsumApi));
+                this->networkManager->get(quest);
+            } else {
+                delete frame;
+            }
         }
     });
     addPane->layout()->addWidget(addPaneButton);
+
+    QObject::connect(ui->pushButton, &QPushButton::clicked, [this]() {
+        this->ui->scrollAreaWidgetAccordion->moveContentPane(0, 2);
+    });
+    QObject::connect(ui->pushButton_2, &QPushButton::clicked, [this]() {
+        this->ui->scrollAreaWidgetAccordion->moveContentPane(2, 1);
+    });
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -84,6 +93,6 @@ void MainWindow::networkRequestFinished(QNetworkReply *reply)
 
 void MainWindow::networkRequestError()
 {
-//    qDebug() << reply;
-//    reply->deleteLater();
+    //    qDebug() << reply;
+    //    reply->deleteLater();
 }

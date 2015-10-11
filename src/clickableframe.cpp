@@ -7,7 +7,6 @@ ClickableFrame::ClickableFrame(QString header, QWidget *parent,
     this->setAttribute(Qt::WA_Hover, true);
     this->clickable = true;
     this->setCursor(Qt::PointingHandCursor);
-    this->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
     QColor background = this->palette().color(QPalette::ColorRole::Background);
     QColor lighter = background.lighter(110);
     this->normalStylesheet = "";
@@ -82,14 +81,14 @@ void ClickableFrame::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void ClickableFrame::enterEvent(QEvent *event)
+void ClickableFrame::enterEvent(__attribute__ ((unused)) QEvent *event)
 {
     if (this->clickable) {
         this->setStyleSheet(this->hoverStylesheet);
     }
 }
 
-void ClickableFrame::leaveEvent(QEvent *event)
+void ClickableFrame::leaveEvent(__attribute__ ((unused)) QEvent *event)
 {
     if (this->clickable) {
         this->setStyleSheet(this->normalStylesheet);
