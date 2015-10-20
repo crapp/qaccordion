@@ -12,6 +12,7 @@ ClickableFrame::ClickableFrame(QString header, QWidget *parent,
     this->normalStylesheet = "";
     this->hoverStylesheet = "background-color: " + lighter.name() + ";";
     this->initFrame();
+    this->setStyleSheet("ClickableFrame {border: 1px solid green}");
 }
 
 void ClickableFrame::setClickable(bool status)

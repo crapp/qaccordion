@@ -35,7 +35,8 @@
 #include <algorithm>
 
 #include "clickableframe.h"
-#include "accordionmodel.h"
+
+#include "contentpane.h"
 
 /**
  * @brief The QAccordion class
@@ -47,7 +48,6 @@ class QAccordion : public QWidget
 {
     Q_OBJECT
 public:
-
     explicit QAccordion(QWidget *parent = 0);
 
     /**
@@ -70,18 +70,28 @@ public:
     /**
      * @brief Add a new content Pane
      * @param header Header of the content pane
-     * @param contentPane The new content pane
+     * @param contentFrame The content of the pane
+     * @return Content pane index
+     *
+     * @details
+     * This is an overloaded method of addContentPane(QString), that
+     * allows you to provide your own content frame.
+     */
+    int addContentPane(QString header, QFrame *contentFrame);
+    /**
+     * @brief Add content pane
+     * @param cpane New content pane to add
      * @return Content pane index
      *
      * @details
      * This is an overloaded method of addContentPane(QString), that
      * allows you to provide your own content pane.
      */
-    int addContentPane(QString header, QFrame *contentPane);
+    int addContentPane(ContentPane *cpane);
     /**
      * @brief Insert content pane
-     * @param header Header of the content pane
      * @param index Index of the content pane
+     * @param header Header of the content pane
      * @return bool True if insert was successfull
      *
      * @details
@@ -91,20 +101,32 @@ public:
      *
      * Returns true if the insert was successfull.
      */
-    bool insertContentPane(QString header, uint index);
+    bool insertContentPane(uint index, QString header);
     /**
      * @brief Insert content pane
-     * @param header Header of the content pane
      * @param index Index of the content pane
-     * @param contentPane New content pane
+     * @param header Header of the content pane
+     * @param contentFrame Content frame of the content pane
      * @return bool True if insert was successfull
      *
      * @details
-     * This is an overloaded method of insertContentPane(QString, uint).
+     * This is an overloaded method of insertContentPane(uint, QString).
+     * Use this method when you already created a content frame that you want to
+     * insert.
+     */
+    bool insertContentPane(uint index, QString header, QFrame *contentFrame);
+    /**
+     * @brief Insert content pane
+     * @param index Index of the content pane
+     * @param cpane Content Pane to insert
+     * @return bool True if insert was successfull
+     *
+     * @details
+     * This is an overloaded method of insertContentPane(uint, QString).
      * Use this method when you already created a content pane that you want to
      * insert.
      */
-    bool insertContentPane(QString header, uint index, QFrame *contentPane);
+    bool insertContentPane(uint index, ContentPane *cpane);
 
     /**
      * @brief Swap the content pane
@@ -120,7 +142,7 @@ public:
      *
      * The old content pane will be __deleted__.
      */
-    bool swapContentPane(uint index, QFrame *newContentPane);
+    bool swapContentPane(uint index, ContentPane *cpane);
 
     /**
      * @brief Remove a content pane
@@ -144,13 +166,22 @@ public:
     bool removeContentPane(QString header);
     /**
      * @brief Remove a content pane
+     * @param contentframe Content frame of the content pane
+     * @return bool
+     *
+     * @details
+     * This is an overloaded method of removeContentPane(uint).
+     */
+    bool removeContentPane(QFrame *contentframe);
+    /**
+     * @brief Remove a content pane
      * @param contentPane The content pane to remove
      * @return bool
      *
      * @details
      * This is an overloaded method of removeContentPane(uint).
      */
-    bool removeContentPane(QFrame *contentPane);
+    bool removeContentPane(ContentPane *contentPane);
 
     /**
      * @brief Move content pane
@@ -204,33 +235,6 @@ public:
     bool setDisabledContentPane(QFrame *contentPane, bool disable);
 
     /**
-     * @brief Set the maximum height of the content pane containers.
-     * @param maxHeight
-     *
-     * @details
-     * Every content pane is in a container that defines the visible maximum
-     * height. With this function you can change this setting for all content
-     * panes.
-     *
-     * @note
-     * This setting does not set the maximum height of the content pane. It is
-     * the users responsibilty to make sure everything in the content pane is
-     * visible. This can be influenced by either changing the maximum height of
-     * container or for example by adding a [QScrollArea](http://doc.qt.io/qt-5.5/qscrollarea.html).
-     */
-    void setContentPaneMaxHeight(uint maxHeight);
-    /**
-     * @brief Set the maximum height of a content pane container.
-     * @param index Index of the content pane
-     * @param maxHeight
-     *
-     * @details
-     * This an overloaded function of setContentPaneMaxHeight(uint). Use this
-     * function to set the maximum height of one container.
-     */
-    void setContentPaneMaxHeight(uint index, uint maxHeight);
-
-    /**
      * @brief Get content pane
      * @param index Index of the content pane
      * @return QFrame* or nullptr
@@ -239,137 +243,22 @@ public:
      * Get a content pane (QFrame*) with \p index. This method will return a
      * __nullptr__ if the content pane does not exist.
      */
-    QFrame *getContentPane(uint index);
+    ContentPane *getContentPane(uint index);
     /**
      * @brief Get the index of a content pane
-     * @param contentPane QFrame*
+     * @param contentPane ContentPane*
      * @return Index of the content pane
      *
      * @details
-     * Get the index of a provided content pane (QFrame*) this method will return
+     * Get the index of a provided content pane (ContentPane*) this method will return
      * <b>-1</b> if the content pane does not exist.
      */
-    int getContentPaneIndex(QFrame *contentPane);
+    int getContentPaneIndex(ContentPane *contentPane);
     /**
      * @brief Get the number of content panes
      * @return Number of content panes
      */
     int getNumberOfContentPanes();
-
-    /**
-     * @brief Set header of a content pane
-     * @param index Index of the content pane
-     * @param header
-     * @return boolean
-     *
-     * @details
-     * Set the header of a content pane at \p index.
-     * Returns false if \p index is out of range.
-     */
-    bool setHeader(uint index, QString header);
-    /**
-     * @brief Return the header of a content pane
-     * @param index Index of the content pane
-     * @return Header
-     *
-     * @details
-     * Get the header of a content pane at \p index. Returns an empty String if
-     * \p index is out of range
-     */
-    QString getHeader(uint index);
-    /**
-     * @brief Set header tooltip
-     * @param index Index of the content pane
-     * @param tooltip String to show as tooltip
-     * @return boolean
-     *
-     * @details
-     * Set a string as header tooltip that will be shown when the mouse hovers
-     * over the header area.
-     * Returns false if \p index is out of range.
-     */
-    bool setHeaderTooltip(uint index, QString tooltip);
-    /**
-     * @brief Get the tooltip for a content pane
-     * @param index Index of the content pane
-     * @return Tooltip as QString
-     *
-     * @details
-     * Get the header tooltip as QString for content pane at \p index.
-     * Returns an empty string if the \p index is out of range.
-     */
-    QString getHeaderTooltip(uint index);
-    /**
-     * @brief Set a stylesheet for the header frame
-     * @param index Index of the content pane
-     * @param stylesheet CSS Style Sheet as string
-     *
-     * @details
-     * You can use [Cascading Style Sheets](http://doc.qt.io/qt-5/stylesheet.html) as supported by Qt to
-     * style the header. This is the standard style sheet. You may also set a
-     * style for mouse over with setHeaderHoverStylesheet().
-     * Returns false if \p index is out of range.
-     */
-    bool setHeaderStylesheet(uint index, QString stylesheet);
-    /**
-     * @brief Get the current header style sheet
-     * @param index Index of the content pane
-     * @return CSS string
-     *
-     * @details
-     * Get the css of the content pane header at \p index. Returns an empty string
-     * if \p index is out of range.
-     */
-    QString getHeaderStylesheet(uint index);
-    /**
-     * @brief Set a stylesheet for the header frame when the mouse hovers over it
-     * @param index Index of the content pane
-     * @param stylesheet CSS Style Sheet as string
-     * @return boolean
-     *
-     * @details
-     * Set a \p stylesheet for the header for a special effect when the mouse
-     * hovers over it.
-     * Returns false if \p index is out of range.
-     * @sa
-     * setHeaderStylesheet() for additional details.
-     */
-    bool setHeaderHoverStylesheet(uint index, QString stylesheet);
-    /**
-     * @brief Get the mouse over header style sheet
-     * @param index Index of the content pane
-     * @return CSS Style Sheet as string
-     *
-     * @details
-     * Returns the mouse over header style sheet or an empty string of \p index
-     * is out of range.
-     */
-    QString getHeaderHoverStylesheet(uint index);
-
-    /**
-     * @brief Set the duration of the open and close animation
-     * @param duration Duration in milliseconds
-     * @param index Index of the content pane.
-     * @return boolean
-     *
-     * @details
-     * Set the duration of the PropertyAnimation in milliseconds. Will return
-     * false if \p index is out of range.
-     */
-    bool setAnimationDuration(uint duration, uint index);
-    /**
-     * @brief Get the duration of the open, close animation.
-     * @param Index of the content pane.
-     * @return Duration in milliseconds
-     *
-     * @details
-     */
-    int getAnimationDuration(uint index);
-
-    void setHeaderFrameStyle(int style);
-    int getHeaderFrameStyle();
-    void setContentPaneFrameStyle(int style);
-    int getContentPaneFrameStyle();
 
     /**
      * @brief Get error string
@@ -390,23 +279,7 @@ signals:
      * Signal will be emitted if the number of content panes changes
      */
     void numberOfContentPanesChanged(int number);
-    /**
-     * @brief Index of the content pane that was opened
-     * @param index
-     *
-     * @details
-     * This signal will be emitted when a content was opened and it is fully
-     * visible.
-     */
-    void openedContentPane(uint index);
-    /**
-     * @brief Index of the content pane that was opened
-     * @param index Index
-     *
-     * This signal will be emitted when a content was closed and it is no longer
-     * visible.
-     */
-    void closedContentPane(uint index);
+
 
 public slots:
 
@@ -428,48 +301,32 @@ public slots:
     void closeContentPane(uint index);
 
 private:
-    std::vector<ClickableFrame *> contentPanesHeader;
-    std::vector<QFrame *> contentPanesContainer;
-    std::vector<QFrame *> contentPanes;
 
-    std::map<ClickableFrame *, std::vector<std::shared_ptr<QPropertyAnimation>>>
-        paneAnimationsMap;
+    std::vector<ContentPane *> contentPanes;
 
-    std::shared_ptr<AccordionModel> model;
-
-    int highestdHeightContentPanes;
-    int maximumHeightContentPanes;
-
-    ClickableFrame *currentlyOpen;
     QSpacerItem *spacer;
 
-    QString headerStylesheet;
-    QString headerStylesheetHover;
-
-    int headerFrameStyle;
-    int contentPaneFrameStyle;
-
     QString errorString;
-
-    void determineHighestHeight();
-    void emitOpenPaneIndex();
 
     ClickableFrame *initHeaderFrame(QString name, int index);
     QFrame *initContainerFrame(int index);
     void initContentFrame(QFrame *container, QFrame *content, int index);
     void initPropertyAnimation(QFrame *container, ClickableFrame *clickFrame);
 
-    int internalAddContentPane(QString header, QFrame *contentPane = nullptr);
-    bool internalInsertContentPane(QString header, uint index,
-                                   QFrame *contentPane = nullptr);
+    int internalAddContentPane(QString header, QFrame *cframe = nullptr,
+                               ContentPane *cpane = nullptr);
+    bool internalInsertContentPane(uint index, QString header,
+                                   QFrame *contentFrame = nullptr,
+                                   ContentPane *cpane = nullptr);
     bool internalRemoveContentPane(int index = -1, QString name = "",
-                                   QFrame *contentPane = nullptr);
+                                   QFrame *contentFrame = nullptr,
+                                   ContentPane *cpane = nullptr);
     bool internalEnableDisableContentPane(bool disable, int index = -1,
                                           QString header = "",
                                           QFrame *contentPane = nullptr);
 
-    void addInsertWidget(int index, QFrame *frame);
-    int findContentPaneIndex(QString name = "", QFrame *contentPane = nullptr);
+    int findContentPaneIndex(QString name = "", QFrame *cframe = nullptr,
+                             ContentPane *cpane = nullptr);
 
     bool checkIndexError(uint index, const QString &errMessage);
 

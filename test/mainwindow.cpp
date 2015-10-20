@@ -31,15 +31,16 @@ MainWindow::MainWindow(QWidget *parent)
                      &QNetworkAccessManager::finished, this,
                      &MainWindow::networkRequestFinished);
 
-    ui->scrollAreaWidgetAccordion->addContentPane("Pane1");
-
     int indexAddPane = ui->widgetControlAccordion->addContentPane("Add Pane");
     int indexInsertPane =
         ui->widgetControlAccordion->addContentPane("Insert Pane");
     int indexRemovePane =
         ui->widgetControlAccordion->addContentPane("Remove Pane");
+    int indexMoveContentP =
+        ui->widgetControlAccordion->addContentPane("Move Pane");
 
-    QFrame *addPane = ui->widgetControlAccordion->getContentPane(indexAddPane);
+    QFrame *addPane = ui->widgetControlAccordion->getContentPane(indexAddPane)
+                          ->getContentFrame();
     addPane->setLayout(new QVBoxLayout());
     QLineEdit *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
@@ -47,25 +48,37 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *addPaneButton = new QPushButton("Add Content Pane");
     QObject::connect(addPaneButton, &QPushButton::clicked, [this, headerName]() {
         if (headerName->text() != "") {
+            // create a QFrame that will hold our content
             QFrame *frame = new QFrame();
-
+            // add a new content pane with the provided header and the content
+            // frame
             if (this->ui->scrollAreaWidgetAccordion->addContentPane(
                     headerName->text(), frame) != -1) {
+                // add some basic stuff to our QFrame
                 frame->setLayout(new QVBoxLayout());
                 QLabel *ipsumLabel = new QLabel();
                 frame->layout()->addWidget(ipsumLabel);
                 this->labelIpsumQueue.push(ipsumLabel);
                 dynamic_cast<QVBoxLayout *>(frame->layout())->addStretch();
 
-                QNetworkRequest quest;
-                quest.setUrl(QUrl(this->ipsumApi));
-                this->networkManager->get(quest);
+                QNetworkRequest rquest;
+                rquest.setUrl(QUrl(this->ipsumApi));
+                this->networkManager->get(rquest);
             } else {
+                // if a pane with chosen header already exists we need to delete
+                // the QFrame
                 delete frame;
             }
         }
     });
     addPane->layout()->addWidget(addPaneButton);
+
+    // insert content pane
+    QFrame *insertPane =
+        ui->widgetControlAccordion->getContentPane(indexInsertPane)
+            ->getContentFrame();
+    insertPane->setLayout(new QVBoxLayout());
+    insertPane->layout()->addWidget(new QLabel("Ich bin ein biba butzemann"));
 
     QObject::connect(ui->pushButton, &QPushButton::clicked, [this]() {
         this->ui->scrollAreaWidgetAccordion->moveContentPane(0, 2);
@@ -79,19 +92,22 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::networkRequestFinished(QNetworkReply *reply)
 {
+    QLabel *ipsumLabel = this->labelIpsumQueue.front();
+    this->labelIpsumQueue.pop();
+    ipsumLabel->setTextFormat(Qt::TextFormat::RichText);
+    ipsumLabel->setWordWrap(true);
     if (reply->error() == QNetworkReply::NetworkError::NoError) {
         QByteArray data = reply->readAll();
-        QLabel *ipsumLabel = this->labelIpsumQueue.front();
-        this->labelIpsumQueue.pop();
-        ipsumLabel->setTextFormat(Qt::TextFormat::RichText);
-        ipsumLabel->setWordWrap(true);
         ipsumLabel->setText(QString(data));
-        qDebug() << Q_FUNC_INFO << data;
+    } else {
+        qDebug() << Q_FUNC_INFO << "Netowrk error: " << reply->error() << "\n"
+                 << reply->errorString();
+        ipsumLabel->setText(this->offlineIpsum);
     }
     reply->deleteLater();
 }
 
-void MainWindow::networkRequestError()
+void MainWindow::networkRequestError(QNetworkReply::NetworkError code)
 {
     //    qDebug() << reply;
     //    reply->deleteLater();

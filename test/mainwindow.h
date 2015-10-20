@@ -44,15 +44,22 @@ public:
     ~MainWindow();
 
 private:
-    const char* const ipsumApi = "http://loripsum.net/api/1/short";
+    const char* const ipsumApi = "http://loripsum.net/api/1/short/code";
+    const char* const offlineIpsum = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed plane dicit quod intellegit. Aufert enim sensus actionemque tollit omnem. Itaque ab his ordiamur. Restatis igitur vos; </p>"
+            "<pre>"
+            "Quod enim vituperabile est per se ipsum, id eo ipso vitium"
+            "nominatum puto, vel etiam a vitio dictum vituperari."
+            "Qui autem esse poteris, nisi te amor ipse ceperit?"
+            "</pre>";
     Ui::MainWindow *ui;
 
     std::unique_ptr<QNetworkAccessManager> networkManager;
 
     std::queue<QLabel *> labelIpsumQueue;
+
     
     void networkRequestFinished(QNetworkReply *reply);
-    void networkRequestError();
+    void networkRequestError(QNetworkReply::NetworkError code);
 };
 
 #endif // MAINWINDOW_H
