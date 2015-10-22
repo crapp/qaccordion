@@ -12,7 +12,6 @@ ClickableFrame::ClickableFrame(QString header, QWidget *parent,
     this->normalStylesheet = "";
     this->hoverStylesheet = "background-color: " + lighter.name() + ";";
     this->initFrame();
-    this->setStyleSheet("ClickableFrame {border: 1px solid green}");
 }
 
 void ClickableFrame::setClickable(bool status)
@@ -70,7 +69,17 @@ void ClickableFrame::initFrame()
     this->layout()->addWidget(nameLabel);
 
     dynamic_cast<QHBoxLayout *>(this->layout())->addStretch();
+
+    this->setStyleSheet(this->normalStylesheet);
 }
+
+//void ClickableFrame::paintEvent(__attribute__((unused)) QPaintEvent *event)
+//{
+//    QStyleOption o;
+//    o.initFrom(this);
+//    QPainter p(this);
+//    style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
+//}
 
 void ClickableFrame::mousePressEvent(QMouseEvent *event)
 {

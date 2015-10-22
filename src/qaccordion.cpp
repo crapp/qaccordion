@@ -21,9 +21,12 @@ namespace clickcon = ClickableFrame_constants;
 QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
 {
     this->setLayout(new QVBoxLayout());
+
     dynamic_cast<QVBoxLayout *>(this->layout())->addStretch();
-    this->layout()->setSpacing(2);
+    this->layout()->setSpacing(0);
+    this->layout()->setMargin(0);
     this->spacer = dynamic_cast<QSpacerItem *>(this->layout()->itemAt(0));
+
 }
 
 int QAccordion::numberOfContentPanes() { return this->contentPanes.size(); }

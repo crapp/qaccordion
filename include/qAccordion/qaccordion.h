@@ -34,8 +34,6 @@
 #include <memory>
 #include <algorithm>
 
-#include "clickableframe.h"
-
 #include "contentpane.h"
 
 /**
@@ -308,11 +306,6 @@ private:
 
     QString errorString;
 
-    ClickableFrame *initHeaderFrame(QString name, int index);
-    QFrame *initContainerFrame(int index);
-    void initContentFrame(QFrame *container, QFrame *content, int index);
-    void initPropertyAnimation(QFrame *container, ClickableFrame *clickFrame);
-
     int internalAddContentPane(QString header, QFrame *cframe = nullptr,
                                ContentPane *cpane = nullptr);
     bool internalInsertContentPane(uint index, QString header,
@@ -330,6 +323,7 @@ private:
 
     bool checkIndexError(uint index, const QString &errMessage);
 
+protected:
     /**
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event

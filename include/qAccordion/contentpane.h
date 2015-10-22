@@ -229,14 +229,15 @@ private:
     void initContainerContentFrame();
     void initAnimations();
 
+private slots:
+    void clickableFrameClicked(QPoint pos);
+
+protected:
     /**
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
     void paintEvent(__attribute__((unused)) QPaintEvent *event);
-
-private slots:
-    void clickableFrameClicked(QPoint pos);
 };
 
 #endif // CONTENTPANE_H

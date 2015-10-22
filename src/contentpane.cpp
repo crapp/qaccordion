@@ -114,19 +114,24 @@ void ContentPane::initDefaults(QString header)
 {
     this->open = false;
 
+    this->setStyleSheet("ContentPane {border: 1px solid red;}");
+
+    this->headerFrameStyle = QFrame::Shape::StyledPanel | QFrame::Shadow::Raised;
+    this->contentPaneFrameStyle =
+        QFrame::Shape::StyledPanel | QFrame::Shadow::Plain;
+
     this->setLayout(new QVBoxLayout());
+
+    this->layout()->setSpacing(0);
+    this->layout()->setMargin(0);
+
     this->initHeaderFrame(std::move(header));
 
     this->containerAnimationMaxHeight = 220;
 
     this->initContainerContentFrame();
 
-    this->headerFrameStyle = QFrame::Shape::StyledPanel | QFrame::Shadow::Raised;
-    this->contentPaneFrameStyle =
-        QFrame::Shape::StyledPanel | QFrame::Shadow::Plain;
-
     this->initAnimations();
-    this->setStyleSheet("ContentPane {border: 2px solid red;}");
 }
 
 void ContentPane::initHeaderFrame(QString header)

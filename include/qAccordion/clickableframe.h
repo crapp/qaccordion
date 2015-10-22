@@ -7,6 +7,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QGraphicsView>
+#include <QStyleOption>
+#include <QPainter>
 
 namespace ClickableFrame_constants
 {
@@ -52,7 +54,14 @@ private:
 
     void initFrame();
 
+protected:
     // interface
+//    /**
+//     * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
+//     * @param event
+//     */
+//    void paintEvent(__attribute__((unused)) QPaintEvent *event);
+
     void mousePressEvent(QMouseEvent *event);
 
     void enterEvent(QEvent *event);
