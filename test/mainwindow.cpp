@@ -21,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // this->setMinimumSize(QSize(640, 480));
-    this->setWindowIcon(QPixmap(":/icons/accordion_cc_grey.svg"));
 
     // create a network access manager object to get some lorem ipsum :)
     this->networkManager =
@@ -58,6 +56,7 @@ void MainWindow::networkRequestFinished(QNetworkReply *reply)
     this->labelIpsumQueue.pop();
     ipsumLabel->setTextFormat(Qt::TextFormat::RichText);
     ipsumLabel->setWordWrap(true);
+    // use local ipsum if networkrequest failed
     if (reply->error() == QNetworkReply::NetworkError::NoError) {
         QByteArray data = reply->readAll();
         ipsumLabel->setText(QString(data));
@@ -186,7 +185,7 @@ void MainWindow::contentPaneRemove(QAccordion *topAccordion)
                                                                topAccordion,
                                                                this]() {
         if (headerName->text() != "") {
-            bool status = topAccordion->removeContentPane(headerName->text());
+            bool status = topAccordion->removeContentPane(true, headerName->text());
             if (status) {
                 this->statusBar()->showMessage(
                     "Content Pane \"" + headerName->text() + "\" removed", 3000);

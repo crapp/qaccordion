@@ -97,24 +97,25 @@ bool QAccordion::swapContentPane(uint index, ContentPane *cpane)
     return true;
 }
 
-bool QAccordion::removeContentPane(uint index)
+bool QAccordion::removeContentPane(bool deleteObject, uint index)
 {
-    return this->internalRemoveContentPane(index);
+    return this->internalRemoveContentPane(deleteObject, index);
 }
 
-bool QAccordion::removeContentPane(QString header)
+bool QAccordion::removeContentPane(bool deleteObject, QString header)
 {
-    return this->internalRemoveContentPane(-1, header);
+    return this->internalRemoveContentPane(deleteObject, -1, header);
 }
 
-bool QAccordion::removeContentPane(QFrame *contentframe)
+bool QAccordion::removeContentPane(bool deleteObject, QFrame *contentframe)
 {
-    return this->internalRemoveContentPane(-1, "", contentframe);
+    return this->internalRemoveContentPane(deleteObject, -1, "", contentframe);
 }
 
-bool QAccordion::removeContentPane(ContentPane *contentPane)
+bool QAccordion::removeContentPane(bool deleteObject, ContentPane *contentPane)
 {
-    return this->internalRemoveContentPane(-1, "", nullptr, contentPane);
+    return this->internalRemoveContentPane(deleteObject, -1, "", nullptr,
+                                           contentPane);
 }
 
 bool QAccordion::moveContentPane(uint currentIndex, uint newIndex)
@@ -155,17 +156,19 @@ ContentPane *QAccordion::getContentPane(uint index)
     }
 }
 
+int QAccordion::getContentPaneIndex(QString header)
+{
+    return this->findContentPaneIndex(header);
+}
+
+int QAccordion::getContentPaneIndex(QFrame *contentFrame)
+{
+    return this->findContentPaneIndex("", contentFrame);
+}
+
 int QAccordion::getContentPaneIndex(ContentPane *contentPane)
 {
-    int index = -1;
-    auto result = std::find(this->contentPanes.begin(), this->contentPanes.end(),
-                            contentPane);
-    if (result != std::end(this->contentPanes)) {
-        index = static_cast<int>(result - this->contentPanes.begin());
-    } else {
-        qDebug() << Q_FUNC_INFO << "Can not find Content Pane";
-    }
-    return index;
+    return this->findContentPaneIndex("", nullptr, contentPane);
 }
 
 int QAccordion::getNumberOfContentPanes() { return this->contentPanes.size(); }
@@ -278,8 +281,8 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
     return true;
 }
 
-bool QAccordion::internalRemoveContentPane(int index, QString name,
-                                           QFrame *contentFrame,
+bool QAccordion::internalRemoveContentPane(bool deleteOject, int index,
+                                           QString name, QFrame *contentFrame,
                                            ContentPane *cpane)
 {
     if (index != -1 &&
@@ -301,8 +304,11 @@ bool QAccordion::internalRemoveContentPane(int index, QString name,
     dynamic_cast<QVBoxLayout *>(this->layout())
         ->removeWidget(this->contentPanes.at(index));
 
-    delete this->contentPanes.at(index);
-    this->contentPanes.at(index) = nullptr;
+    // only delete the object if user wants to.
+    if (deleteOject) {
+        delete this->contentPanes.at(index);
+        this->contentPanes.at(index) = nullptr;
+    }
 
     this->contentPanes.erase(this->contentPanes.begin() + index);
 

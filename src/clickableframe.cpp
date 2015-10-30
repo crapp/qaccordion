@@ -77,7 +77,7 @@ void ClickableFrame::initFrame()
     this->setLayout(new QHBoxLayout());
 
     this->caretLabel = new QLabel();
-    this->caretLabel->setPixmap(QPixmap(":/icons/caret-right.png"));
+    this->caretLabel->setPixmap(QPixmap(":/qAccordionIcons/caret-right.png"));
     this->layout()->addWidget(this->caretLabel);
 
     this->nameLabel = new QLabel();

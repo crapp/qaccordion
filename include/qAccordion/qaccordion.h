@@ -168,42 +168,48 @@ public:
 
     /**
      * @brief Remove a content pane
+     * @param deleteObject Delete the object and free memory
      * @param index Index of the content pane
      * @return bool
      *
      * @details
-     * Remove a content pane at \p index.
+     * Remove a content pane at \p index. If \p deleteObject is \p true the
+     * object will be deleted. Otherwise it is up to the user to
+     * free the allocated memory.
      *
-     * Returns true if the pane was deleted and false otherwise.
+     * Returns true if the pane was removed and false otherwise.
      */
-    bool removeContentPane(uint index);
+    bool removeContentPane(bool deleteObject, uint index);
     /**
      * @brief Remove a content pane
+     * @param deleteObject Delete the object and free memory
      * @param header Header of the content pane
      * @return bool
      *
      * @details
-     * This is an overloaded method of removeContentPane(uint).
+     * This is an overloaded method of removeContentPane(bool, uint).
      */
-    bool removeContentPane(QString header);
+    bool removeContentPane(bool deleteObject, QString header);
     /**
      * @brief Remove a content pane
+     * @param deleteObject Delete the object and free memory
      * @param contentframe Content frame of the content pane
      * @return bool
      *
      * @details
-     * This is an overloaded method of removeContentPane(uint).
+     * This is an overloaded method of removeContentPane(bool, uint).
      */
-    bool removeContentPane(QFrame *contentframe);
+    bool removeContentPane(bool deleteObject, QFrame *contentframe);
     /**
      * @brief Remove a content pane
+     * @param deleteObject Delete the object and free memory
      * @param contentPane The content pane to remove
      * @return bool
      *
      * @details
-     * This is an overloaded method of removeContentPane(uint).
+     * This is an overloaded method of removeContentPane(bool, uint).
      */
-    bool removeContentPane(ContentPane *contentPane);
+    bool removeContentPane(bool deleteObject, ContentPane *contentPane);
 
     /**
      * @brief Move content pane
@@ -227,16 +233,36 @@ public:
      * __nullptr__ if the content pane does not exist.
      */
     ContentPane *getContentPane(uint index);
+
+    /**
+     * @brief Get the index of a content pane
+     * @param header Header of the Content Pane
+     * @return Index of the content pane
+     *
+     * @details
+     * Get the index of a ContentPane with \p header. This method will return
+     * <b>-1</b> if a ContentPane with this header does not exist.
+     */
+    int getContentPaneIndex(QString header);
+    /**
+     * @brief Get the index of a content pane
+     * @param contentFrame Content Frame
+     * @return Index of the content pane
+     *
+     * @details
+     * This is an overloaded function of getContentPaneIndex(QString)
+     */
+    int getContentPaneIndex(QFrame *contentFrame);
     /**
      * @brief Get the index of a content pane
      * @param contentPane ContentPane*
      * @return Index of the content pane
      *
      * @details
-     * Get the index of a provided content pane (ContentPane*) this method will return
-     * <b>-1</b> if the content pane does not exist.
+     * This is an overloaded function of getContentPaneIndex(QString)
      */
     int getContentPaneIndex(ContentPane *contentPane);
+
     /**
      * @brief Get the number of content panes
      * @return Number of content panes
@@ -277,7 +303,8 @@ private:
     bool internalInsertContentPane(uint index, QString header,
                                    QFrame *contentFrame = nullptr,
                                    ContentPane *cpane = nullptr);
-    bool internalRemoveContentPane(int index = -1, QString name = "",
+    bool internalRemoveContentPane(bool deleteOject, int index = -1,
+                                   QString name = "",
                                    QFrame *contentFrame = nullptr,
                                    ContentPane *cpane = nullptr);
     int findContentPaneIndex(QString name = "", QFrame *cframe = nullptr,

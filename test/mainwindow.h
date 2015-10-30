@@ -21,6 +21,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
+#include <QGroupBox>
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -59,6 +60,7 @@ private:
         "</pre>";
 
     Ui::MainWindow *ui;
+    // Keep pointers to our contetn frames
     QFrame *addCF;
     QFrame *insertCF;
     QFrame *removeCF;
