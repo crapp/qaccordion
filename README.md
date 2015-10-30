@@ -18,7 +18,6 @@ qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-**Table of Contents**  
 ## Setting up qAccordion
 
 qAccordion is based on Qt5 and c++11. Make sure your development environment meets this requirements. 
