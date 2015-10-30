@@ -84,6 +84,7 @@ Have a look at the source code of the demo application if you are searching for 
 ## FAQ ##
 
 **Why does it not have feature X?**
+
 Feel free to fork the project and do a pull request!
 
 ## License
