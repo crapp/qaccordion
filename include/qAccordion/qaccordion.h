@@ -42,6 +42,25 @@
  * This class is the basis of the qAccordion widget. If you want to add a
  * accordion widget to your gui then you have to create an object of this class.
  *
+ * Managing content panes is simpel:
+ * * You can either add (addContentPane()) or insert (insertContentPane()) new ContentPanes.
+ * * Use removeContentPane() to remove existing ContentPanes.
+ * * moveContentPane() allows you to change the order of the ContentPanes.
+ * * To change a ContentPane in place use swapContentPane()
+ *
+ * @note
+ * Many of the mentioned functions are overloaded, provided for convenience.
+ *
+ * @details
+ * The signal numberOfContentPanesChanged() is emitted whenever the number of
+ * content panes changed.
+ *
+ * In case of an error you may get a more detailed error description with
+ * getError().
+ *
+ * @warning
+ * Currently Headers have to be unique
+ *
  */
 class QAccordion : public QWidget
 {
@@ -134,12 +153,12 @@ public:
     /**
      * @brief Swap the content pane
      * @param index Index of the content pane to swap
-     * @param newContentPane New content pane
+     * @param cpane New content pane
      * @return bool True if swap was successfull
      *
      * @details
      * With this method you can replace an existing content pane at \p index with
-     * a new one \p contentPane.
+     * a new one \p cpane.
      *
      * Returns true if the swap was successfull.
      *

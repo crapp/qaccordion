@@ -31,13 +31,50 @@
 #include "clickableframe.h"
 
 /**
- * @brief The ContentPane class
+ * @brief Content Pane class
+ *
+ * @details
+ * Content Panes are part of a QAccordion object. They represent a clickable
+ * Header and can be expanded or retracted.
+ *
+ * When a ContentPane is created you have to provide a Header (ContentPane(QString, QWidget*))
+ * and, if you want, a QFrame* (ContentPane(QString, QFrame*, QWidget*)) with the
+ * content that should be displayed when the ContentPane is expanded.
+ *
+ * Managing the content is pretty straight forward use getContentFrame() and setContentFrame()
+ * to manage the content. You are absolutely free to do anything what you like with
+ * this QFrame. Just keep in mind there is a maximumHeight for the container in which
+ * the content frame is placed (currently 150). If your content exceeds this height
+ * you have to either increase it with setMaximumHeight() or add a [QScrollArea](http://doc.qt.io/qt-5/qscrollarea.html)
+ * to the content frame. You may use setContainerFrameStyle() to change the frame
+ * style of the container.
+ *
+ * The Header can be changed after the creation of the ContentPane with setHeader().
+ * Additionally you can set a tooltip, a standard stylesheet and a mouseover
+ * stylesheet, and the frame style.
+ * @sa
+ * setHeaderTooltip(), setHeaderStylesheet(), setHeaderHoverStylesheet(),
+ * setHeaderFrameStyle()
+ *
+ * @details
+ * The animation speed is influenceable setAnimationDuration().
  */
 class ContentPane : public QWidget
 {
     Q_OBJECT
 public:
+    /**
+     * @brief ContentPane constructor
+     * @param header The Header of the content pane
+     * @param parent Parent widget or 0
+     */
     explicit ContentPane(QString header, QWidget *parent = 0);
+    /**
+     * @brief ContentPane constructor
+     * @param header The Header of the content pane
+     * @param content Content to display when expanded
+     * @param parent Parent widget or 0
+     */
     explicit ContentPane(QString header, QFrame *content, QWidget *parent = 0);
 
     /**
