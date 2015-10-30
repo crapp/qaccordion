@@ -5,7 +5,7 @@ var searchData=
   ['getcontainerframestyle',['getContainerFrameStyle',['../class_content_pane.html#ac2c7416840b4698e17238a5c936ef5ae',1,'ContentPane']]],
   ['getcontentframe',['getContentFrame',['../class_content_pane.html#a59c5788b6b7ec245663ed20d287f49ce',1,'ContentPane']]],
   ['getcontentpane',['getContentPane',['../class_q_accordion.html#a1d162a9badd460446dced7a556e9e111',1,'QAccordion']]],
-  ['getcontentpaneindex',['getContentPaneIndex',['../class_q_accordion.html#a096ebdebeb8a7dad986a37e6f29a6427',1,'QAccordion']]],
+  ['getcontentpaneindex',['getContentPaneIndex',['../class_q_accordion.html#a9408508af2dd637a776a54a4cd188b2e',1,'QAccordion::getContentPaneIndex(QString header)'],['../class_q_accordion.html#a445e4115b1bf03744e48b72a5231218f',1,'QAccordion::getContentPaneIndex(QFrame *contentFrame)'],['../class_q_accordion.html#a096ebdebeb8a7dad986a37e6f29a6427',1,'QAccordion::getContentPaneIndex(ContentPane *contentPane)']]],
   ['geterror',['getError',['../class_q_accordion.html#a6c9393d9f6066607783bea7f1ec97953',1,'QAccordion']]],
   ['getheader',['getHeader',['../class_clickable_frame.html#a943de6c84889c392887dca6261eb6a91',1,'ClickableFrame::getHeader()'],['../class_content_pane.html#a4ec06de4679a0432dc5fdc99efe3fe93',1,'ContentPane::getHeader()']]],
   ['getheaderframestyle',['getHeaderFrameStyle',['../class_content_pane.html#ae9bc0d45f37f30f8ada5c27458e31512',1,'ContentPane']]],
