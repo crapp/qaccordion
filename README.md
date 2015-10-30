@@ -2,6 +2,23 @@
 
 qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired by the [jQuery UI accordion control](https://jqueryui.com/accordion/).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents** *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Setting up qAccordion](#setting-up-qaccordion)
+- [Usage](#usage)
+  - [A minimum code example](#a-minimum-code-example)
+  - [Memory management](#memory-management)
+  - [API Documentation](#api-documentation)
+  - [Demo Application](#demo-application)
+- [ToDo](#todo)
+- [FAQ](#faq)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+**Table of Contents**  
 ## Setting up qAccordion
 
 qAccordion is based on Qt5 and c++11. Make sure your development environment meets this requirements. 
