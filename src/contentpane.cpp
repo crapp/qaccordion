@@ -1,3 +1,19 @@
+// This file is part of qAccordion. An Accordion widget for Qt
+// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "qAccordion/contentpane.h"
 
 namespace clickcon = ClickableFrame_constants;
@@ -114,23 +130,21 @@ void ContentPane::initDefaults(QString header)
 {
     this->open = false;
 
-    this->setStyleSheet("ContentPane {border: 1px solid red;}");
-
     this->headerFrameStyle = QFrame::Shape::StyledPanel | QFrame::Shadow::Raised;
     this->contentPaneFrameStyle =
         QFrame::Shape::StyledPanel | QFrame::Shadow::Plain;
+    this->containerAnimationMaxHeight = 150;
+    // TODO: Why do I need to set the vertial policy to Maximum? from the api
+    // documentation Minimum would make more sens :/
+    this->setSizePolicy(QSizePolicy::Policy::Preferred,
+                        QSizePolicy::Policy::Maximum);
 
     this->setLayout(new QVBoxLayout());
-
-    this->layout()->setSpacing(0);
-    this->layout()->setMargin(0);
+    this->layout()->setSpacing(1);
+    this->layout()->setContentsMargins(QMargins());
 
     this->initHeaderFrame(std::move(header));
-
-    this->containerAnimationMaxHeight = 220;
-
     this->initContainerContentFrame();
-
     this->initAnimations();
 }
 
@@ -150,7 +164,7 @@ void ContentPane::initContainerContentFrame()
     this->container->setLayout(new QVBoxLayout());
     this->container->setFrameStyle(this->contentPaneFrameStyle);
     this->container->setMaximumHeight(0);
-    this->container->setSizePolicy(QSizePolicy::Policy::Maximum,
+    this->container->setSizePolicy(QSizePolicy::Policy::Preferred,
                                    QSizePolicy::Policy::Preferred);
     this->layout()->addWidget(this->container);
 
@@ -159,7 +173,8 @@ void ContentPane::initContainerContentFrame()
     }
 
     this->container->layout()->addWidget(this->content);
-    //dynamic_cast<QVBoxLayout*>(this->container->layout())->addStretch();
+    this->container->layout()->setSpacing(0);
+    this->container->layout()->setContentsMargins(QMargins());
 }
 
 void ContentPane::initAnimations()
@@ -168,6 +183,10 @@ void ContentPane::initAnimations()
         std::unique_ptr<QPropertyAnimation>(new QPropertyAnimation());
     this->closeAnimation =
         std::unique_ptr<QPropertyAnimation>(new QPropertyAnimation());
+    // TODO: Currently these animations only animate maximumHeight. This leads to
+    // different behaviour depending on whether the Accordion Widget is placed
+    // inside a QScollWidget or not. Maybe we also need to animate minimumHeight
+    // as well to get the same effect.
     this->openAnimation->setTargetObject(this->container);
     this->openAnimation->setPropertyName("maximumHeight");
     this->closeAnimation->setTargetObject(this->container);
@@ -185,7 +204,7 @@ void ContentPane::initAnimations()
         QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::clickableFrameClicked(QPoint pos) { emit this->clicked(); }
+void ContentPane::clickableFrameClicked(__attribute__((unused)) QPoint pos) { emit this->clicked(); }
 
 void ContentPane::paintEvent(__attribute__((unused)) QPaintEvent *event)
 {

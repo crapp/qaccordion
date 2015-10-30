@@ -20,13 +20,18 @@ namespace clickcon = ClickableFrame_constants;
 
 QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
 {
+    // make sure our resource file gets initialized
+    Q_INIT_RESOURCE(qaccordionicons);
+
+    // set our basic layout
     this->setLayout(new QVBoxLayout());
 
+    // add a stretch to the end so all content panes are at the top
     dynamic_cast<QVBoxLayout *>(this->layout())->addStretch();
-    this->layout()->setSpacing(0);
-    this->layout()->setMargin(0);
+    this->layout()->setSpacing(1);
+    this->layout()->setContentsMargins(QMargins());
+    // TODO: Do we need to keep a pointer to the spacer?
     this->spacer = dynamic_cast<QSpacerItem *>(this->layout()->itemAt(0));
-
 }
 
 int QAccordion::numberOfContentPanes() { return this->contentPanes.size(); }
@@ -64,9 +69,10 @@ bool QAccordion::insertContentPane(uint index, ContentPane *cpane)
 
 bool QAccordion::swapContentPane(uint index, ContentPane *cpane)
 {
-    if (this->checkIndexError(index, "Can not swap content pane at index " +
-                                         QString::number(index) +
-                                         ". Index out of range.")) {
+    if (this->checkIndexError(index, false,
+                              "Can not swap content pane at index " +
+                                  QString::number(index) +
+                                  ". Index out of range.")) {
         return false;
     }
 
@@ -113,48 +119,29 @@ bool QAccordion::removeContentPane(ContentPane *contentPane)
 
 bool QAccordion::moveContentPane(uint currentIndex, uint newIndex)
 {
-    if (this->checkIndexError(currentIndex, "Can not move from " +
-                                                QString::number(currentIndex) +
-                                                ". Index out of range.") ||
-        this->checkIndexError(newIndex, "Can not move to " +
-                                            QString::number(newIndex) +
-                                            ". Index out of range.")) {
+    if (this->checkIndexError(currentIndex, false,
+                              "Can not move from " +
+                                  QString::number(currentIndex) +
+                                  ". Index out of range.") ||
+        this->checkIndexError(newIndex, false, "Can not move to " +
+                                                   QString::number(newIndex) +
+                                                   ". Index out of range.")) {
         return false;
     }
 
     QVBoxLayout *layout = dynamic_cast<QVBoxLayout *>(this->layout());
+    // get the pane we want to move
     ContentPane *movePane = this->contentPanes.at(currentIndex);
 
-    int newIndexCalc = newIndex;
-
-    if (newIndex > currentIndex) {
-        newIndexCalc--;
-    }
-
+    // remove the widget from the layout and insert it at the new position
     layout->removeWidget(movePane);
-    layout->insertWidget(newIndexCalc, movePane);
+    layout->insertWidget(newIndex, movePane);
 
+    // keep our vector synchronized
     this->contentPanes.erase(this->contentPanes.begin() + currentIndex);
-    this->contentPanes.insert(this->contentPanes.begin() + newIndexCalc,
-                              movePane);
+    this->contentPanes.insert(this->contentPanes.begin() + newIndex, movePane);
 
     return true;
-}
-
-bool QAccordion::setDisabledContentPane(uint index, bool disable)
-{
-    return this->internalEnableDisableContentPane(disable, index);
-}
-
-bool QAccordion::setDisabledContentPane(QString header, bool disable)
-{
-    return this->internalEnableDisableContentPane(disable, -1,
-                                                  std::move(header));
-}
-
-bool QAccordion::setDisabledContentPane(QFrame *contentPane, bool disable)
-{
-    return this->internalEnableDisableContentPane(disable, -1, "", contentPane);
 }
 
 ContentPane *QAccordion::getContentPane(uint index)
@@ -163,6 +150,7 @@ ContentPane *QAccordion::getContentPane(uint index)
         return this->contentPanes.at(index);
     } catch (const std::out_of_range &ex) {
         qDebug() << Q_FUNC_INFO << "Can not return Content Pane: " << ex.what();
+        this->errorString = "Can not return Content Pane: " + QString(ex.what());
         return nullptr;
     }
 }
@@ -170,8 +158,8 @@ ContentPane *QAccordion::getContentPane(uint index)
 int QAccordion::getContentPaneIndex(ContentPane *contentPane)
 {
     int index = -1;
-    auto result = std::find(this->contentPanes.begin(),
-                            this->contentPanes.end(), contentPane);
+    auto result = std::find(this->contentPanes.begin(), this->contentPanes.end(),
+                            contentPane);
     if (result != std::end(this->contentPanes)) {
         index = static_cast<int>(result - this->contentPanes.begin());
     } else {
@@ -180,32 +168,9 @@ int QAccordion::getContentPaneIndex(ContentPane *contentPane)
     return index;
 }
 
-int QAccordion::getNumberOfContentPanes()
-{
-    return this->contentPanes.size();
-}
-
-
+int QAccordion::getNumberOfContentPanes() { return this->contentPanes.size(); }
 
 QString QAccordion::getError() { return this->errorString; }
-
-void QAccordion::openContentPane(uint index)
-{
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not open Content Pane at index " << index
-                 << ". Index out of range";
-        return;
-    }
-}
-
-void QAccordion::closeContentPane(uint index)
-{
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << "Can not close Content Pane at index "
-                 << index << ". Index out of range";
-        return;
-    }
-}
 
 int QAccordion::internalAddContentPane(QString header, QFrame *cframe,
                                        ContentPane *cpane)
@@ -226,23 +191,31 @@ int QAccordion::internalAddContentPane(QString header, QFrame *cframe,
         ->insertWidget(this->layout()->count() - 1, cpane);
     this->contentPanes.push_back(cpane);
 
+    // manage the clicked signal in a lambda expression
     QObject::connect(cpane, &ContentPane::clicked, [this, cpane]() {
+        // if the clicked content pane is open we simply close it and return
         if (cpane->getOpen()) {
             cpane->closeContentPane();
             return;
         }
+        // if it is not open we will open it and search our vector for other
+        // panes that are already open.
+        // TODO: Is it really necessary to search for more than one open cpane?
         if (!cpane->getOpen()) {
-            auto result = std::find_if(
-                this->contentPanes.begin(), this->contentPanes.end(),
-                [](ContentPane *cpane) { return cpane->getOpen(); });
-            if (result != std::end(this->contentPanes)) {
-                (*result)->closeContentPane();
+            std::vector<ContentPane *>::const_iterator it =
+                this->contentPanes.begin();
+            while (it != this->contentPanes.end()) {
+                it = std::find_if(
+                    this->contentPanes.begin(), this->contentPanes.end(),
+                    [](ContentPane *cpane) { return cpane->getOpen(); });
+                if (it != this->contentPanes.end()) {
+                    (*it)->closeContentPane();
+                }
             }
             cpane->openContentPane();
         }
     });
 
-    // this->determineHighestHeight();
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
     return this->contentPanes.size() - 1;
@@ -252,9 +225,9 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
                                            QFrame *contentFrame,
                                            ContentPane *cpane)
 {
-    if (this->checkIndexError(index, "Can not insert Content Pane at index " +
-                                         QString::number(index) +
-                                         ". Index out of range")) {
+    if (this->checkIndexError(
+            index, true, "Can not insert Content Pane at index " +
+                             QString::number(index) + ". Index out of range")) {
         return false;
     }
 
@@ -274,6 +247,32 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
 
     this->contentPanes.insert(this->contentPanes.begin() + index, cpane);
 
+    // TODO: This code has to be merged with internalAddContentPane.
+    // manage the clicked signal in a lambda expression
+    QObject::connect(cpane, &ContentPane::clicked, [this, cpane]() {
+        // if the clicked content pane is open we simply close it and return
+        if (cpane->getOpen()) {
+            cpane->closeContentPane();
+            return;
+        }
+        // if it is not open we will open it and search our vector for other
+        // panes that are already open.
+        // TODO: Is it really necessary to search for more than one open cpane?
+        if (!cpane->getOpen()) {
+            std::vector<ContentPane *>::const_iterator it =
+                this->contentPanes.begin();
+            while (it != this->contentPanes.end()) {
+                it = std::find_if(
+                    this->contentPanes.begin(), this->contentPanes.end(),
+                    [](ContentPane *cpane) { return cpane->getOpen(); });
+                if (it != this->contentPanes.end()) {
+                    (*it)->closeContentPane();
+                }
+            }
+            cpane->openContentPane();
+        }
+    });
+
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
     return true;
@@ -283,9 +282,10 @@ bool QAccordion::internalRemoveContentPane(int index, QString name,
                                            QFrame *contentFrame,
                                            ContentPane *cpane)
 {
-    if (this->checkIndexError(index, "Can not remove content pane at index " +
-                                         QString::number(index) +
-                                         ". Index out of range")) {
+    if (index != -1 &&
+        this->checkIndexError(
+            index, false, "Can not remove content pane at index " +
+                              QString::number(index) + ". Index out of range")) {
         return false;
     }
 
@@ -311,33 +311,11 @@ bool QAccordion::internalRemoveContentPane(int index, QString name,
     return true;
 }
 
-bool QAccordion::internalEnableDisableContentPane(bool disable, int index,
-                                                  QString header,
-                                                  QFrame *contentPane)
-{
-    if (this->checkIndexError(index, "Can not disable content pane at index " +
-                                         QString::number(index) +
-                                         ". Index out of range")) {
-        return false;
-    }
-
-    if (index == -1) {
-        index = this->findContentPaneIndex(std::move(header), contentPane);
-        if (index == -1) {
-            this->errorString = "Can not enable/disable content pane as it is "
-                                "not part of the accordion widget";
-            return false;
-        }
-    }
-
-    this->contentPanes.at(index)->setDisabled(disable);
-
-    return true;
-}
-
 int QAccordion::findContentPaneIndex(QString name, QFrame *cframe,
                                      ContentPane *cpane)
 {
+    // simple method that finds the index of a content by Header, content frame
+    // or content pane.
     int index = -1;
     if (name != "") {
         auto result = std::find_if(
@@ -370,12 +348,28 @@ int QAccordion::findContentPaneIndex(QString name, QFrame *cframe,
     return index;
 }
 
-bool QAccordion::checkIndexError(uint index, const QString &errMessage)
+bool QAccordion::checkIndexError(uint index, bool sizeIndexAllowed,
+                                 const QString &errMessage)
 {
-    if (index >= this->contentPanes.size()) {
-        qDebug() << Q_FUNC_INFO << errMessage;
-        this->errorString = errMessage;
-        return true;
+    // sizeIndexAllowed is only used by inserting. If there is one pane you will
+    // be able to insert a new one before and after.
+    // FIXME: Actually there seem to be some bugs hidden here. User may now for
+    // example delete index 0 even if there isn't any content pane. I think we
+    // excluded checking 0 because of inserting.
+    // Update, I removed the 0 exclusion in the second if statement. Really a
+    // fix??
+    if (sizeIndexAllowed) {
+        if (index != 0 && index > this->contentPanes.size()) {
+            qDebug() << Q_FUNC_INFO << errMessage;
+            this->errorString = errMessage;
+            return true;
+        }
+    } else {
+        if (index >= this->contentPanes.size()) {
+            qDebug() << Q_FUNC_INFO << errMessage;
+            this->errorString = errMessage;
+            return true;
+        }
     }
     return false;
 }

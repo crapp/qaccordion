@@ -1,3 +1,19 @@
+// This file is part of qAccordion. An Accordion widget for Qt
+// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #ifndef CLICKABLEFRAME_H
 #define CLICKABLEFRAME_H
 
@@ -7,13 +23,11 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QGraphicsView>
-#include <QStyleOption>
-#include <QPainter>
 
 namespace ClickableFrame_constants
 {
-const char *const CARRET_ICON_CLOSED = ":/icons/caret-right.png";
-const char *const CARRET_ICON_OPENED = ":/icons/caret-bottom.png";
+const char *const CARRET_ICON_CLOSED = ":/qAccordionIcons/caret-right.png";
+const char *const CARRET_ICON_OPENED = ":/qAccordionIcons/caret-bottom.png";
 }
 
 class ClickableFrame : public QFrame
@@ -55,12 +69,6 @@ private:
     void initFrame();
 
 protected:
-    // interface
-//    /**
-//     * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
-//     * @param event
-//     */
-//    void paintEvent(__attribute__((unused)) QPaintEvent *event);
 
     void mousePressEvent(QMouseEvent *event);
 

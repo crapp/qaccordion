@@ -18,7 +18,6 @@
 #define QACCORDION_H
 
 #include <QWidget>
-#include <QFrame>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -26,26 +25,32 @@
 #include <QStyleOption>
 #include <QSpacerItem>
 #include <QString>
-#include <QPropertyAnimation>
 #include <QDebug>
 
 #include <vector>
-#include <map>
 #include <memory>
 #include <algorithm>
+#include <iterator>
 
+#include "config.h"
 #include "contentpane.h"
 
 /**
- * @brief The QAccordion class
+ * @brief QAccordion base class
  *
- *
+ * @details
+ * This class is the basis of the qAccordion widget. If you want to add a
+ * accordion widget to your gui then you have to create an object of this class.
  *
  */
 class QAccordion : public QWidget
 {
     Q_OBJECT
 public:
+    /**
+     * @brief QAccordion constructor
+     * @param parent Optionally provide a parent widget
+     */
     explicit QAccordion(QWidget *parent = 0);
 
     /**
@@ -194,45 +199,6 @@ public:
     bool moveContentPane(uint currentIndex, uint newIndex);
 
     /**
-     * @brief Enable or disable content pane
-     * @param index Index of the content pane
-     * @param disable
-     * @return bool
-     *
-     * @details
-     * Enable or disable a content pane at \p index. The status can be set with
-     * \p  disable. This disables the header as well and it can longer be clicked.
-     *
-     * Method returns true if the content pane was disabled (enabled), false
-     * otherwise.
-     *
-     * To disable all content panes use [QAccordion::setDisabled(bool)](http://doc.qt.io/qt-5.5/qwidget.html#setDisabled).
-     */
-    bool setDisabledContentPane(uint index, bool disable);
-    /**
-     * @brief Enable or disable content pane
-     * @param header Content pane header
-     * @param disable
-     * @return bool
-     *
-     * @details
-     * This is an overloaded function of moveContentPane(uint, uint). Instead of
-     * an index you can provide the Header.
-     */
-    bool setDisabledContentPane(QString header, bool disable);
-    /**
-     * @brief Enable or disable content pane
-     * @param contentPane Content pane
-     * @param disable
-     * @return bool
-     *
-     * @details
-     * This is an overloaded function of moveContentPane(uint, uint). Instead of
-     * an index you can provide a content pane.
-     */
-    bool setDisabledContentPane(QFrame *contentPane, bool disable);
-
-    /**
      * @brief Get content pane
      * @param index Index of the content pane
      * @return QFrame* or nullptr
@@ -263,7 +229,7 @@ public:
      * @return Error string
      *
      * @details
-     * Call this method after a function call returned false for a detailed error
+     * Call this method after a function call failed for a detailed error
      * description.
      */
     QString getError();
@@ -278,28 +244,9 @@ signals:
      */
     void numberOfContentPanesChanged(int number);
 
-
 public slots:
 
-    /**
-     * @brief Open content pane
-     * @param index Index of the content pane
-     *
-     * Open the content pane at index. If the content pane is already open
-     * nothing will haben.
-     */
-    void openContentPane(uint index);
-    /**
-     * @brief Close content pane
-     * @param index Index of the content pane
-     *
-     * Close the content pane at \p index. If the content pane is already closed
-     * nothing will haben.
-     */
-    void closeContentPane(uint index);
-
 private:
-
     std::vector<ContentPane *> contentPanes;
 
     QSpacerItem *spacer;
@@ -314,14 +261,11 @@ private:
     bool internalRemoveContentPane(int index = -1, QString name = "",
                                    QFrame *contentFrame = nullptr,
                                    ContentPane *cpane = nullptr);
-    bool internalEnableDisableContentPane(bool disable, int index = -1,
-                                          QString header = "",
-                                          QFrame *contentPane = nullptr);
-
     int findContentPaneIndex(QString name = "", QFrame *cframe = nullptr,
                              ContentPane *cpane = nullptr);
 
-    bool checkIndexError(uint index, const QString &errMessage);
+    bool checkIndexError(uint index, bool sizeIndexAllowed,
+                         const QString &errMessage);
 
 protected:
     /**

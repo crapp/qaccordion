@@ -1,3 +1,19 @@
+// This file is part of qAccordion. An Accordion widget for Qt
+// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "qAccordion/clickableframe.h"
 
 ClickableFrame::ClickableFrame(QString header, QWidget *parent,
@@ -72,14 +88,6 @@ void ClickableFrame::initFrame()
 
     this->setStyleSheet(this->normalStylesheet);
 }
-
-//void ClickableFrame::paintEvent(__attribute__((unused)) QPaintEvent *event)
-//{
-//    QStyleOption o;
-//    o.initFrom(this);
-//    QPainter p(this);
-//    style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
-//}
 
 void ClickableFrame::mousePressEvent(QMouseEvent *event)
 {

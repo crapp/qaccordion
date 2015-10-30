@@ -46,7 +46,7 @@ set (SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/qaccordion.cpp
 )
 
-set(ICON_RESOURCE ${PROJECT_SOURCE_DIR}/icons/icons.qrc)
+set(ICON_RESOURCE ${PROJECT_SOURCE_DIR}/icons/qaccordionicons.qrc)
 # add resource files so they can be compiled into the binary
 qt5_add_resources(ICON_RESOURCE_ADDED ${ICON_RESOURCE})
 
@@ -60,3 +60,9 @@ if (BUILD_TESTER)
     add_executable(accordion_tester ${TEST_HEADER} ${TEST_SOURCE} ${accordion_tester_FORMS})
     target_link_libraries(accordion_tester qAccordion Qt5::Widgets Qt5::Network)
 endif()
+
+install(TARGETS qAccordion DESTINATION lib)
+install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION include/qAccordion)

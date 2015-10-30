@@ -19,10 +19,11 @@
 
 #include <QMainWindow>
 #include <QLineEdit>
+#include <QComboBox>
 #include <QPushButton>
+
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
 #include <QNetworkAccessManager>
 
 #include <memory>
@@ -44,22 +45,38 @@ public:
     ~MainWindow();
 
 private:
-    const char* const ipsumApi = "http://loripsum.net/api/1/short/code";
-    const char* const offlineIpsum = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed plane dicit quod intellegit. Aufert enim sensus actionemque tollit omnem. Itaque ab his ordiamur. Restatis igitur vos; </p>"
-            "<pre>"
-            "Quod enim vituperabile est per se ipsum, id eo ipso vitium"
-            "nominatum puto, vel etiam a vitio dictum vituperari."
-            "Qui autem esse poteris, nisi te amor ipse ceperit?"
-            "</pre>";
+    // lorem ipsum api url
+    const char *const ipsumApi = "http://loripsum.net/api/1/short/code";
+    // a random offline ipsum in case there is no network connection
+    const char *const offlineIpsum =
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed plane "
+        "dicit quod intellegit. Aufert enim sensus actionemque tollit omnem. "
+        "Itaque ab his ordiamur. Restatis igitur vos; </p>"
+        "<pre>"
+        "Quod enim vituperabile est per se ipsum, id eo ipso vitium"
+        "nominatum puto, vel etiam a vitio dictum vituperari."
+        "Qui autem esse poteris, nisi te amor ipse ceperit?"
+        "</pre>";
+
     Ui::MainWindow *ui;
+    QFrame *addCF;
+    QFrame *insertCF;
+    QFrame *removeCF;
+    QFrame *moveCF;
 
-    std::unique_ptr<QNetworkAccessManager> networkManager;
-
+    std::unique_ptr<QNetworkAccessManager> networkManager; /**< Network manager
+                                                              for ipsum api
+                                                              requests.*/
     std::queue<QLabel *> labelIpsumQueue;
 
-    
     void networkRequestFinished(QNetworkReply *reply);
-    void networkRequestError(QNetworkReply::NetworkError code);
+
+    void contentPaneAdd(QAccordion *topAccordion);
+    void contentPaneInsert(QAccordion *topAccordion);
+    void contentPaneRemove(QAccordion *topAccordion);
+    void contentPaneMove(QAccordion *topAccordion);
+
+    void createIpsumLabel(QFrame *frame);
 };
 
 #endif // MAINWINDOW_H
