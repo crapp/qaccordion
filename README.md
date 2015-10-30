@@ -16,17 +16,19 @@ To make use of this Qt Widget in your Project you have two choices.
 Using this widget is quite easy. You can add this to your application either programmatically or by using Qt Designer. The widget does __not__ support configuration via the Designer. 
 
 A minimum code example
-	
-	QAccordion *myAccordion = new QAccordion();
-	// add the Accordion to your layout
-	this->layout()->addWidget(myAccordion);
-	// add a content pane with a header
-	int firstPaneIndex = myAccordion->addContentPane("My first content pane");
-	// make sure our content pane was added
-	QFrame *contentFrame = nullptr;
-	if (firstPaneIndex != -1) {
-		// get a QFrame* from the Content Pane. This is where we place our content
-		contentFrame = myAccordion->getContentPane(firstPaneIndex)->getContentFrame();
-	}
+
+```c++
+QAccordion *myAccordion = new QAccordion();
+// add the Accordion to your layout
+this->layout()->addWidget(myAccordion);
+// add a content pane with a header
+int firstPaneIndex = myAccordion->addContentPane("My first content pane");
+// make sure our content pane was added
+QFrame *contentFrame = nullptr;
+if (firstPaneIndex != -1) {
+	// get a QFrame* from the Content Pane. This is where we place our content
+	contentFrame = myAccordion->getContentPane(firstPaneIndex)->getContentFrame();
+}
+```
 	
 qAccordion makes use of Qt memory management. This means all objects will be freed by Qt when the program is finished. Be aware when you use QAccordion::removeContentPane() you can tell qAccordion only to remove the Pane from the layout (and the internal vector). In this case it is up to the user to delete the object. 
