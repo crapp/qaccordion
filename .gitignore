@@ -90,3 +90,4 @@ install_manifest.txt
 build
 CMakeLists.txt.user
 doc/html
+package

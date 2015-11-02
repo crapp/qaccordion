@@ -2,7 +2,9 @@
 
 qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired by the [jQuery UI accordion control](https://jqueryui.com/accordion/).
 
-__Please note this library is still in an early development stage.__
+Watch a screencast made with the [Demo Application](#demo-application) to see what qAccordion is.
+
+[![qAccordion Demo Screencast](http://i.imgur.com/vLz2dYk.png)](https://www.youtube.com/watch?v=czhRcNdSHw4 "qAccordion Demo Screencast")
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -22,12 +24,35 @@ __Please note this library is still in an early development stage.__
 
 ## Setting up qAccordion
 
-qAccordion is based on Qt5 and c++11. Make sure your development environment meets this requirements. 
+qAccordion is based on Qt5 and c++11. Make sure your development environment meets this requirements.
 
 To make use of this Qt Widget in your Project you have two choices.
 
 1. Use the included CMake project files to compile a shared library which you link to your application.
 2. Add the source code of the library to your project and compile it. Make sure to include the icons qrc file
+
+## Installation 
+
+Obtain the source from the [github repository](https://github.com/crapp/qaccordion). Either download the latest release or check out the latest commit.
+
+Run the following commands to compile a shared library on Linux.
+
+```shell
+# create a build directory
+mkdir build
+cd build
+# run cmake to create make files
+cmake -DCMAKE_BUILD_TYPE=Release ../
+# now compile the source code and create the shared library. you can speed up compilation with the j option.
+make 
+# install the shared library
+sudo make install
+
+```
+
+There are ready to use packages for the following Linux distributions:
+
+* Archlinux (AUR)
 
 ## Usage
 
@@ -85,6 +110,7 @@ Have a look at the source code of the demo application if you are searching for 
 If you find a Bug or have a feature request head over to github and open a new [issue](https://github.com/crapp/qaccordion/issues). 
 
 ## ToDo ##
+* Drag and Drop support. The API already supports moving Content Panes but only programmatically. 
 * Maybe much, maybe nothing. So far it covers all my use cases ;)
 
 ## FAQ ##
