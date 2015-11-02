@@ -52,7 +52,7 @@ sudo make install
 
 There are ready to use packages for the following Linux distributions:
 
-* Archlinux (AUR)
+* [Archlinux (AUR)](https://aur.archlinux.org/packages/qaccordion/)
 
 ## Usage
 
