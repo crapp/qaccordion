@@ -2,6 +2,8 @@
 
 qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired by the [jQuery UI accordion control](https://jqueryui.com/accordion/).
 
+__Please note this library is still in an early development stage.__
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Contents** *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -77,6 +79,10 @@ make
 ```
 
 Have a look at the source code of the demo application if you are searching for a more advanced example on how to use this Qt Widget. I have recorded a short video that shows how qAccordion works.
+
+## Bugs and Feature requests
+
+If you find a Bug or have a feature request head over to github and open a new [issue](https://github.com/crapp/qaccordion/issues). 
 
 ## ToDo ##
 * Maybe much, maybe nothing. So far it covers all my use cases ;)
