@@ -27,33 +27,42 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets 5.2 REQUIRED)
 message(STATUS "Found Qt version ${Qt5Widgets_VERSION_STRING}")
 
+if (QACCORDION_EXTERNAL)
+    set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
+else ()
+    set(base_path ${CMAKE_SOURCE_DIR})
+endif()
+
+message(STATUS "base path: ${base_path}")
+
+
 # include this directories so all moc headers and wrapped ui files are found
 include_directories(
     ${PROJECT_BINARY_DIR}
-    ${CMAKE_SOURCE_DIR}/include
+    ${base_path}/include
 )
-
+  
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-    ${CMAKE_SOURCE_DIR}/include/qAccordion/config.h.in
+    ${base_path}/include/qAccordion/config.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
-set (SOURCE
+set (QACCORDION_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/clickableframe.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/contentpane.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/qaccordion.cpp
 )
 
-set(ICON_RESOURCE ${PROJECT_SOURCE_DIR}/icons/qaccordionicons.qrc)
+set(QACCORDION_ICON_RESOURCE "${base_path}/icons/qaccordionicons.qrc")
 # add resource files so they can be compiled into the binary
-qt5_add_resources(ICON_RESOURCE_ADDED ${ICON_RESOURCE})
+qt5_add_resources(ICON_RESOURCE_ADDED ${QACCORDION_ICON_RESOURCE})
 
-add_library (qAccordion SHARED ${HEADER} ${SOURCE} ${ICON_RESOURCE_ADDED})
+add_library (qAccordion SHARED ${QACCORDION_HEADER} ${QACCORDION_SOURCE} ${ICON_RESOURCE_ADDED})
 target_link_libraries(qAccordion Qt5::Widgets)
 
-if (BUILD_TESTER)
+if (QACCORDION_BUILD_TESTER)
     # generate ui_*.h files
     qt5_wrap_ui(accordion_tester_FORMS ${TEST_UI})
     find_package(Qt5Network REQUIRED)
@@ -62,7 +71,7 @@ if (BUILD_TESTER)
 endif()
 
 install(TARGETS qAccordion DESTINATION lib)
-install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_SOURCE_DIR}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
+install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
+install(FILES ${base_path}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
+install(FILES ${base_path}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION include/qAccordion)

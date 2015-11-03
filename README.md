@@ -41,9 +41,11 @@ Run the following commands to compile a shared library on Linux.
 # create a build directory
 mkdir build
 cd build
-# run cmake to create make files
+# run cmake to create make files. use -DQACCORDION_EXTERNAL=ON if you make use of
+# git submodules
 cmake -DCMAKE_BUILD_TYPE=Release ../
-# now compile the source code and create the shared library. you can speed up compilation with the j option.
+# now compile the source code and create the shared library. you can speed up 
+# compilation with the j option.
 make 
 # install the shared library
 sudo make install
@@ -99,7 +101,7 @@ You must use the CMake option `BUILD_TESTER` so it gets compiled.
 
 ```shell
 cd build
-cmake -DBUILD_TESTER=ON ../
+cmake -DQACCORDION_BUILD_TESTER=ON ../
 make
 ```
 
