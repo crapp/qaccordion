@@ -303,10 +303,20 @@ public:
     bool getMultiActive();
 
     /**
-     * @brief setCollapsible
+     * @brief If collapsible is true you can close all ContentPanes
      * @param status
+     *
+     * @details
+     * With the collapsible option you can control if one content pane has to be
+     * open and can't be closed.
      */
     void setCollapsible(bool status);
+    /**
+     * @brief Get collapsible status
+     * @return bool
+     * @sa
+     * setCollapsible()
+     */
     bool getCollapsible();
 
     /**

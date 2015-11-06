@@ -43,15 +43,13 @@ mkdir build
 cd build
 # run cmake to create make files. use -DQACCORDION_EXTERNAL=ON if you make use of
 # git submodules
-cmake -DCMAKE_BUILD_TYPE=Release ../
+cmake -DCMAKE_BUILD_TYPE=RELEASE ../
 # now compile the source code and create the shared library. you can speed up 
 # compilation with the j option.
 make 
 # install the shared library
 sudo make install
-
 ```
-
 There are ready to use packages for the following Linux distributions:
 
 * [Archlinux (AUR)](https://aur.archlinux.org/packages/qaccordion/)
@@ -96,7 +94,7 @@ doxygen qAccordionDoxyfile
 
 ### Demo Application
 
-In the `test` folder you can find a demo application that you can build with library.
+In the `test` folder you can find a demo application that you can build with the library.
 You must use the CMake option `BUILD_TESTER` so it gets compiled. 
 
 ```shell
@@ -113,6 +111,8 @@ If you find a Bug or have a feature request head over to github and open a new [
 
 ## ToDo ##
 * Drag and Drop support. The API already supports moving Content Panes but only programmatically. 
+* User defined Icons and Icon position.
+* Changable Animation Type
 * Maybe much, maybe nothing. So far it covers all my use cases ;)
 
 ## FAQ ##
@@ -137,4 +137,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
+`````
