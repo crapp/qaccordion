@@ -35,6 +35,8 @@
 #include "config.h"
 #include "contentpane.h"
 
+class ContentPane;
+
 /**
  * @brief QAccordion base class
  *
@@ -365,6 +367,7 @@ private:
 
     bool checkIndexError(uint index, bool sizeIndexAllowed,
                          const QString &errMessage);
+    void handleClickedSignal(ContentPane *cpane);
 
 private slots:
     void numberOfPanesChanged(int number);

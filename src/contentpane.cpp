@@ -31,7 +31,7 @@ ContentPane::ContentPane(QString header, QFrame *content, QWidget *parent)
     this->initDefaults(std::move(header));
 }
 
-bool ContentPane::getOpen() { return this->open; }
+bool ContentPane::getActive() { return this->active; }
 
 QFrame *ContentPane::getContentFrame() { return this->content; }
 
@@ -51,7 +51,7 @@ void ContentPane::setMaximumHeight(int maxHeight)
 {
     this->containerAnimationMaxHeight = maxHeight;
 
-    if (this->open)
+    if (this->getActive())
         this->container->setMaximumHeight(this->containerAnimationMaxHeight);
     this->openAnimation->setEndValue(this->containerAnimationMaxHeight);
     this->closeAnimation->setStartValue(this->containerAnimationMaxHeight);
@@ -110,25 +110,25 @@ int ContentPane::getContainerFrameStyle()
 
 void ContentPane::openContentPane()
 {
-    if (this->open)
+    if (this->getActive())
         return;
     this->openAnimation->start();
     this->header->setCaretPixmap(clickcon::CARRET_ICON_OPENED);
-    this->open = true;
+    this->active = true;
 }
 
 void ContentPane::closeContentPane()
 {
-    if (!this->open)
+    if (!this->getActive())
         return;
     this->closeAnimation->start();
     this->header->setCaretPixmap(clickcon::CARRET_ICON_CLOSED);
-    this->open = false;
+    this->active = false;
 }
 
 void ContentPane::initDefaults(QString header)
 {
-    this->open = false;
+    this->active = false;
 
     this->headerFrameStyle = QFrame::Shape::StyledPanel | QFrame::Shadow::Raised;
     this->contentPaneFrameStyle =
@@ -155,7 +155,7 @@ void ContentPane::initHeaderFrame(QString header)
     this->layout()->addWidget(this->header);
 
     QObject::connect(this->header, &ClickableFrame::singleClick, this,
-                     &ContentPane::clickableFrameClicked);
+                     &ContentPane::headerClicked);
 }
 
 void ContentPane::initContainerContentFrame()
@@ -201,10 +201,12 @@ void ContentPane::initAnimations()
     this->openAnimation->setEasingCurve(
         QEasingCurve(QEasingCurve::Type::Linear));
     this->closeAnimation->setEasingCurve(
-        QEasingCurve(QEasingCurve::Type::Linear));
+                QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::clickableFrameClicked(__attribute__((unused)) QPoint pos) { emit this->clicked(); }
+void ContentPane::headerClicked(__attribute__((unused)) QPoint pos) {
+    emit this->clicked();
+}
 
 void ContentPane::paintEvent(__attribute__((unused)) QPaintEvent *event)
 {

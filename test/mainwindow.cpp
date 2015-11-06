@@ -72,6 +72,9 @@ void MainWindow::networkRequestFinished(QNetworkReply *reply)
 
 void MainWindow::contentPaneAdd(QAccordion *topAccordion)
 {
+    ui->widgetControlAccordion->setCollapsible(false);
+    // good pratice is to check the return value of addContentPane. see the API
+    // Reference for more details
     int indexAddPane = ui->widgetControlAccordion->addContentPane("Add Pane");
 
     // Get the content frame
@@ -187,7 +190,8 @@ void MainWindow::contentPaneRemove(QAccordion *topAccordion)
                                                                topAccordion,
                                                                this]() {
         if (headerName->text() != "") {
-            bool status = topAccordion->removeContentPane(true, headerName->text());
+            bool status =
+                topAccordion->removeContentPane(true, headerName->text());
             if (status) {
                 this->statusBar()->showMessage(
                     "Content Pane \"" + headerName->text() + "\" removed", 3000);

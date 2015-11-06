@@ -112,8 +112,8 @@ If you find a Bug or have a feature request head over to github and open a new [
 ## ToDo ##
 * Drag and Drop support. The API already supports moving Content Panes but only programmatically. 
 * User defined Icons and Icon position.
-* Changable Animation Type
-* Maybe much, maybe nothing. So far it covers all my use cases ;)
+* Definable animation type.
+* Trigger open / close not only on single mouse click (e.g. double click, mouse over).
 
 ## FAQ ##
 

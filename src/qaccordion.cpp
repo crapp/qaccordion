@@ -184,7 +184,7 @@ void QAccordion::getActiveContentPaneIndex(std::vector<int> &indexVector)
     indexVector.clear();
     std::for_each(this->contentPanes.begin(), this->contentPanes.end(),
                   [&indexVector, this](ContentPane *pane) {
-                      if (pane->getOpen()) {
+                      if (pane->getActive()) {
                           indexVector.push_back(
                               this->findContentPaneIndex("", nullptr, pane));
                       }
@@ -223,27 +223,8 @@ int QAccordion::internalAddContentPane(QString header, QFrame *cframe,
     this->contentPanes.push_back(cpane);
 
     // manage the clicked signal in a lambda expression
-    QObject::connect(cpane, &ContentPane::clicked, [this, cpane]() {
-        // if the clicked content pane is open we simply close it and return
-        if (cpane->getOpen()) {
-            cpane->closeContentPane();
-            return;
-        }
-        // if it is not open we will open it and search our vector for other
-        // panes that are already open.
-        // TODO: Is it really necessary to search for more than one open cpane?
-        if (!cpane->getOpen()) {
-            // check if multiActive is allowed
-            if (!this->getMultiActive()) {
-                std::for_each(this->contentPanes.begin(),
-                              this->contentPanes.end(), [](ContentPane *pane) {
-                                  if (pane->getOpen())
-                                      pane->closeContentPane();
-                              });
-            }
-            cpane->openContentPane();
-        }
-    });
+    QObject::connect(cpane, &ContentPane::clicked,
+                     [this, cpane]() { this->handleClickedSignal(cpane); });
 
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
@@ -276,29 +257,9 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
 
     this->contentPanes.insert(this->contentPanes.begin() + index, cpane);
 
-    // TODO: This code has to be merged with internalAddContentPane.
     // manage the clicked signal in a lambda expression
-    QObject::connect(cpane, &ContentPane::clicked, [this, cpane]() {
-        // if the clicked content pane is open we simply close it and return
-        if (cpane->getOpen()) {
-            cpane->closeContentPane();
-            return;
-        }
-        // if it is not open we will open it and search our vector for other
-        // panes that are already open.
-        // TODO: Is it really necessary to search for more than one open cpane?
-        if (!cpane->getOpen()) {
-            // check if multiActive is allowed
-            if (!this->getMultiActive()) {
-                std::for_each(this->contentPanes.begin(),
-                              this->contentPanes.end(), [](ContentPane *pane) {
-                                  if (pane->getOpen())
-                                      pane->closeContentPane();
-                              });
-            }
-            cpane->openContentPane();
-        }
-    });
+    QObject::connect(cpane, &ContentPane::clicked,
+                     [this, cpane]() { this->handleClickedSignal(cpane); });
 
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
@@ -402,6 +363,42 @@ bool QAccordion::checkIndexError(uint index, bool sizeIndexAllowed,
         }
     }
     return false;
+}
+
+void QAccordion::handleClickedSignal(ContentPane *cpane)
+{
+    // if the clicked content pane is open we simply close it and return
+    if (cpane->getActive()) {
+        // if collapsible and multiActive are false we are not allowed to close
+        // this pane
+        if (!this->collapsible && !this->multiActive) {
+            return;
+        }
+        // when multiActive is true we have to check if there is any other open
+        // cpane. if so we can close this one
+        std::vector<int> activePanes;
+        if (!this->collapsible) {
+            this->getActiveContentPaneIndex(activePanes);
+            if (activePanes.size() == 1)
+                return; // only one active --> good bye :)
+        }
+        cpane->closeContentPane();
+        return;
+    }
+    // if it is not open we will open it and search our vector for other
+    // panes that are already open.
+    // TODO: Is it really necessary to search for more than one open cpane?
+    if (!cpane->getActive()) {
+        // check if multiActive is allowed
+        if (!this->getMultiActive()) {
+            std::for_each(this->contentPanes.begin(), this->contentPanes.end(),
+                          [](ContentPane *pane) {
+                              if (pane->getActive())
+                                  pane->closeContentPane();
+                          });
+        }
+        cpane->openContentPane();
+    }
 }
 
 void QAccordion::numberOfPanesChanged(int number)

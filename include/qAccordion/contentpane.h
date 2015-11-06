@@ -29,6 +29,7 @@
 #include <memory>
 
 #include "clickableframe.h"
+#include "qaccordion.h"
 
 /**
  * @brief Content Pane class
@@ -78,10 +79,10 @@ public:
     explicit ContentPane(QString header, QFrame *content, QWidget *parent = 0);
 
     /**
-     * @brief Check if this Content pane is open
-     * @return boolean True if open
+     * @brief Check if this Content pane is active
+     * @return boolean True if active
      */
-    bool getOpen();
+    bool getActive();
 
     /**
      * @brief Get the content frame of the content pane
@@ -233,6 +234,7 @@ public:
     uint getAnimationDuration();
 
 signals:
+
     /**
      * @brief Clicked signal is emitted when the header is clicked
      */
@@ -240,13 +242,40 @@ signals:
     /**
      * @brief Signal will be emitted after the open animation finished
      */
-    void contentPaneOpened();
+    void isActive();
     /**
      * @brief Signal will be emitted after the close animation finished
      */
-    void contentPaneClosed();
+    void isInactive();
 
 public slots:
+
+    void headerClicked(QPoint pos);
+
+private:
+    // yeah we are friends. this is important to keep openContentPane and
+    // closeContentPane private
+    friend class QAccordion;
+
+    ClickableFrame *header;
+    QFrame *container;
+    QFrame *content;
+
+    int headerFrameStyle;
+    int contentPaneFrameStyle;
+    int containerAnimationMaxHeight;
+
+    bool active;
+
+    std::unique_ptr<QPropertyAnimation> openAnimation;
+    std::unique_ptr<QPropertyAnimation> closeAnimation;
+
+    void initDefaults(QString header);
+    void initHeaderFrame(QString header);
+    void initContainerContentFrame();
+    void initAnimations();
+
+private slots:
 
     /**
      * @brief Open the content pane
@@ -266,28 +295,6 @@ public slots:
      * This will close the content pane if it is currently open.
      */
     void closeContentPane();
-
-private:
-    ClickableFrame *header;
-    QFrame *container;
-    QFrame *content;
-
-    int headerFrameStyle;
-    int contentPaneFrameStyle;
-    int containerAnimationMaxHeight;
-
-    bool open;
-
-    std::unique_ptr<QPropertyAnimation> openAnimation;
-    std::unique_ptr<QPropertyAnimation> closeAnimation;
-
-    void initDefaults(QString header);
-    void initHeaderFrame(QString header);
-    void initContainerContentFrame();
-    void initAnimations();
-
-private slots:
-    void clickableFrameClicked(QPoint pos);
 
 protected:
     /**
