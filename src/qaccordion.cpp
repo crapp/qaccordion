@@ -23,6 +23,9 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
     // make sure our resource file gets initialized
     Q_INIT_RESOURCE(qaccordionicons);
 
+    this->multiActive = false;
+    this->collapsible = true;
+
     // set our basic layout
     this->setLayout(new QVBoxLayout());
 
@@ -32,6 +35,10 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
     this->layout()->setContentsMargins(QMargins());
     // TODO: Do we need to keep a pointer to the spacer?
     this->spacer = dynamic_cast<QSpacerItem *>(this->layout()->itemAt(0));
+
+    // seome things we want to do if the number of panes change
+    QObject::connect(this, &QAccordion::numberOfContentPanesChanged, this,
+                     &QAccordion::numberOfPanesChanged);
 }
 
 int QAccordion::numberOfContentPanes() { return this->contentPanes.size(); }
@@ -171,7 +178,32 @@ int QAccordion::getContentPaneIndex(ContentPane *contentPane)
     return this->findContentPaneIndex("", nullptr, contentPane);
 }
 
+void QAccordion::getActiveContentPaneIndex(std::vector<int> &indexVector)
+{
+    // first of all make sure it is empty
+    indexVector.clear();
+    std::vector<ContentPane *>::const_iterator it = this->contentPanes.begin();
+    while (it != this->contentPanes.end()) {
+        it = std::find_if(this->contentPanes.begin(), this->contentPanes.end(),
+                          [this, &indexVector](ContentPane *cpane) {
+                              return cpane->getOpen();
+                          });
+        if (it != this->contentPanes.end()) {
+            indexVector.push_back(
+                this->findContentPaneIndex("", nullptr, (*it)));
+        }
+    }
+}
+
 int QAccordion::getNumberOfContentPanes() { return this->contentPanes.size(); }
+
+void QAccordion::setMultiActive(bool status) { this->multiActive = status; }
+
+bool QAccordion::getMultiActive() { return this->multiActive; }
+
+void QAccordion::setCollapsible(bool status) { this->collapsible = status; }
+
+bool QAccordion::getCollapsible() { return this->collapsible; }
 
 QString QAccordion::getError() { return this->errorString; }
 
@@ -205,14 +237,17 @@ int QAccordion::internalAddContentPane(QString header, QFrame *cframe,
         // panes that are already open.
         // TODO: Is it really necessary to search for more than one open cpane?
         if (!cpane->getOpen()) {
-            std::vector<ContentPane *>::const_iterator it =
-                this->contentPanes.begin();
-            while (it != this->contentPanes.end()) {
-                it = std::find_if(
-                    this->contentPanes.begin(), this->contentPanes.end(),
-                    [](ContentPane *cpane) { return cpane->getOpen(); });
-                if (it != this->contentPanes.end()) {
-                    (*it)->closeContentPane();
+            // check if multiple open is allowed
+            if (!this->getMultiActive()) {
+                std::vector<ContentPane *>::const_iterator it =
+                    this->contentPanes.begin();
+                while (it != this->contentPanes.end()) {
+                    it = std::find_if(
+                        this->contentPanes.begin(), this->contentPanes.end(),
+                        [](ContentPane *cpane) { return cpane->getOpen(); });
+                    if (it != this->contentPanes.end()) {
+                        (*it)->closeContentPane();
+                    }
                 }
             }
             cpane->openContentPane();
@@ -262,14 +297,17 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
         // panes that are already open.
         // TODO: Is it really necessary to search for more than one open cpane?
         if (!cpane->getOpen()) {
-            std::vector<ContentPane *>::const_iterator it =
-                this->contentPanes.begin();
-            while (it != this->contentPanes.end()) {
-                it = std::find_if(
-                    this->contentPanes.begin(), this->contentPanes.end(),
-                    [](ContentPane *cpane) { return cpane->getOpen(); });
-                if (it != this->contentPanes.end()) {
-                    (*it)->closeContentPane();
+            // check if multiple open is allowed
+            if (!this->getMultiActive()) {
+                std::vector<ContentPane *>::const_iterator it =
+                    this->contentPanes.begin();
+                while (it != this->contentPanes.end()) {
+                    it = std::find_if(
+                        this->contentPanes.begin(), this->contentPanes.end(),
+                        [](ContentPane *cpane) { return cpane->getOpen(); });
+                    if (it != this->contentPanes.end()) {
+                        (*it)->closeContentPane();
+                    }
                 }
             }
             cpane->openContentPane();
@@ -378,6 +416,15 @@ bool QAccordion::checkIndexError(uint index, bool sizeIndexAllowed,
         }
     }
     return false;
+}
+
+void QAccordion::numberOfPanesChanged(int number)
+{
+    // automatically open contentpane if we have only one and collapsible is
+    // false
+    if (number == 1 && this->collapsible == false) {
+        this->contentPanes.at(0)->openContentPane();
+    }
 }
 
 void QAccordion::paintEvent(__attribute__((unused)) QPaintEvent *event)

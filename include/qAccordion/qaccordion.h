@@ -98,6 +98,8 @@ public:
      * @details
      * This is an overloaded method of addContentPane(QString), that
      * allows you to provide your own content frame.
+     * @warning
+     * Headers have to be unique
      */
     int addContentPane(QString header, QFrame *contentFrame);
     /**
@@ -135,6 +137,8 @@ public:
      * This is an overloaded method of insertContentPane(uint, QString).
      * Use this method when you already created a content frame that you want to
      * insert.
+     * @warning
+     * Headers have to be unique
      */
     bool insertContentPane(uint index, QString header, QFrame *contentFrame);
     /**
@@ -264,10 +268,46 @@ public:
     int getContentPaneIndex(ContentPane *contentPane);
 
     /**
+     * @brief Get the index of the active ContentPane
+     * @return Vector with indexes of all active ContentPanes
+     *
+     * @details
+     * This method will fill a vector with the index of all active ContentPanes.
+     * The vector will be empty if no ContentPane is active
+     */
+    void getActiveContentPaneIndex(std::vector<int> &indexVector);
+
+    /**
      * @brief Get the number of content panes
      * @return Number of content panes
      */
     int getNumberOfContentPanes();
+
+    /**
+     * @brief Allow multiple ContentPane to be open
+     * @param status
+     *
+     * @details
+     * This option allows you to open several ContentPane at the same time.
+     * @note
+     * Default value for this option is \p false.
+     */
+    void setMultiActive(bool status);
+    /**
+     * @brief Check status of multiActive
+     * @return bool
+     *
+     * @sa
+     * setMultiActive()
+     */
+    bool getMultiActive();
+
+    /**
+     * @brief setCollapsible
+     * @param status
+     */
+    void setCollapsible(bool status);
+    bool getCollapsible();
 
     /**
      * @brief Get error string
@@ -298,6 +338,9 @@ private:
 
     QString errorString;
 
+    bool multiActive;
+    bool collapsible;
+
     int internalAddContentPane(QString header, QFrame *cframe = nullptr,
                                ContentPane *cpane = nullptr);
     bool internalInsertContentPane(uint index, QString header,
@@ -312,6 +355,9 @@ private:
 
     bool checkIndexError(uint index, bool sizeIndexAllowed,
                          const QString &errMessage);
+
+private slots:
+    void numberOfPanesChanged(int number);
 
 protected:
     /**
