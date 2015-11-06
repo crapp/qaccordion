@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     groupboxDemo->layout()->addWidget(scrollAreaTop);
     QAccordion *topAccordion = new QAccordion();
     scrollAreaTop->setWidget(topAccordion);
+    // if you are using a QScrollArea you have to tell it that the qaccrdion
+    // widget is resizable
     scrollAreaTop->setWidgetResizable(true);
 
     // the control accordion. The Accordion was added with the Qt Designer
