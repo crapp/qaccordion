@@ -250,6 +250,18 @@ signals:
 
 public slots:
 
+    /**
+     * @brief Slot that is called when the header has been triggered
+     * @param pos Currently unused
+     *
+     * @details
+     * This slot is used to notify the ContentPane widget that the header
+     * has been triggered. You can use this slot yourself to open or close the
+     * ContentPane. Check the state of the pane before with getActive() as this
+     * slot might not do what you intended to do (for example you want to close
+     * the ContentPane. If it is already inactive and you call this slot without
+     * checking the state it will be opened).
+     */
     void headerClicked(QPoint pos);
 
 private:
