@@ -88,6 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_content_pane-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ContentPane Class Reference</div>  </div>
@@ -109,12 +110,9 @@ Inheritance diagram for ContentPane:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
-<tr class="memitem:a7b96607a27ed7ece58068dc7b9918a3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a7b96607a27ed7ece58068dc7b9918a3d">openContentPane</a> ()</td></tr>
-<tr class="memdesc:a7b96607a27ed7ece58068dc7b9918a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open the content pane.  <a href="#a7b96607a27ed7ece58068dc7b9918a3d">More...</a><br /></td></tr>
-<tr class="separator:a7b96607a27ed7ece58068dc7b9918a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31a02026c842f4e329ba87c7fba97ff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a31a02026c842f4e329ba87c7fba97ff5">closeContentPane</a> ()</td></tr>
-<tr class="memdesc:a31a02026c842f4e329ba87c7fba97ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the content pane.  <a href="#a31a02026c842f4e329ba87c7fba97ff5">More...</a><br /></td></tr>
-<tr class="separator:a31a02026c842f4e329ba87c7fba97ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623c4571fd625e54fa678472313a0596"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a623c4571fd625e54fa678472313a0596">headerClicked</a> (QPoint pos)</td></tr>
+<tr class="memdesc:a623c4571fd625e54fa678472313a0596"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slot that is called when the header has been triggered.  <a href="#a623c4571fd625e54fa678472313a0596">More...</a><br /></td></tr>
+<tr class="separator:a623c4571fd625e54fa678472313a0596"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
@@ -122,14 +120,14 @@ Signals</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a07c1b658d39511c563470b780760f4a8">clicked</a> ()</td></tr>
 <tr class="memdesc:a07c1b658d39511c563470b780760f4a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clicked signal is emitted when the header is clicked. <br /></td></tr>
 <tr class="separator:a07c1b658d39511c563470b780760f4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c1fdc56bc4379b031b2a69fc22fb78d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c1fdc56bc4379b031b2a69fc22fb78d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a0c1fdc56bc4379b031b2a69fc22fb78d">contentPaneOpened</a> ()</td></tr>
-<tr class="memdesc:a0c1fdc56bc4379b031b2a69fc22fb78d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal will be emitted after the open animation finished. <br /></td></tr>
-<tr class="separator:a0c1fdc56bc4379b031b2a69fc22fb78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dd2707eaf270d56ae73e7b572e75132"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dd2707eaf270d56ae73e7b572e75132"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a5dd2707eaf270d56ae73e7b572e75132">contentPaneClosed</a> ()</td></tr>
-<tr class="memdesc:a5dd2707eaf270d56ae73e7b572e75132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal will be emitted after the close animation finished. <br /></td></tr>
-<tr class="separator:a5dd2707eaf270d56ae73e7b572e75132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a606f9fbca063b1cb354c46ddb920dc6f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a606f9fbca063b1cb354c46ddb920dc6f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a606f9fbca063b1cb354c46ddb920dc6f">isActive</a> ()</td></tr>
+<tr class="memdesc:a606f9fbca063b1cb354c46ddb920dc6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal will be emitted after the open animation finished. <br /></td></tr>
+<tr class="separator:a606f9fbca063b1cb354c46ddb920dc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa116fa263bacddfa9dec0583f063a9cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa116fa263bacddfa9dec0583f063a9cd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#aa116fa263bacddfa9dec0583f063a9cd">isInactive</a> ()</td></tr>
+<tr class="memdesc:aa116fa263bacddfa9dec0583f063a9cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal will be emitted after the close animation finished. <br /></td></tr>
+<tr class="separator:aa116fa263bacddfa9dec0583f063a9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -139,9 +137,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ef0b31423e571bb2fff7bd84bd47cfb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a9ef0b31423e571bb2fff7bd84bd47cfb">ContentPane</a> (QString header, QFrame *content, QWidget *parent=0)</td></tr>
 <tr class="memdesc:a9ef0b31423e571bb2fff7bd84bd47cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a> constructor.  <a href="#a9ef0b31423e571bb2fff7bd84bd47cfb">More...</a><br /></td></tr>
 <tr class="separator:a9ef0b31423e571bb2fff7bd84bd47cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24204934209d1bed54271fc273809192"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a24204934209d1bed54271fc273809192">getOpen</a> ()</td></tr>
-<tr class="memdesc:a24204934209d1bed54271fc273809192"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this Content pane is open.  <a href="#a24204934209d1bed54271fc273809192">More...</a><br /></td></tr>
-<tr class="separator:a24204934209d1bed54271fc273809192"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a845640c00bd65cee50a164660f12e420"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a845640c00bd65cee50a164660f12e420">getActive</a> ()</td></tr>
+<tr class="memdesc:a845640c00bd65cee50a164660f12e420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this Content pane is active.  <a href="#a845640c00bd65cee50a164660f12e420">More...</a><br /></td></tr>
+<tr class="separator:a845640c00bd65cee50a164660f12e420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59c5788b6b7ec245663ed20d287f49ce"><td class="memItemLeft" align="right" valign="top">QFrame *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a59c5788b6b7ec245663ed20d287f49ce">getContentFrame</a> ()</td></tr>
 <tr class="memdesc:a59c5788b6b7ec245663ed20d287f49ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the content frame of the content pane.  <a href="#a59c5788b6b7ec245663ed20d287f49ce">More...</a><br /></td></tr>
 <tr class="separator:a59c5788b6b7ec245663ed20d287f49ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,6 +200,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a18a23a5d65131a88b82f5397b1b7e525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a18a23a5d65131a88b82f5397b1b7e525">paintEvent</a> (__attribute__((unused)) QPaintEvent *event)</td></tr>
 <tr class="memdesc:a18a23a5d65131a88b82f5397b1b7e525"><td class="mdescLeft">&#160;</td><td class="mdescRight">paintEvent Reimplement paintEvent to use stylesheets in derived Widgets  <a href="#a18a23a5d65131a88b82f5397b1b7e525">More...</a><br /></td></tr>
 <tr class="separator:a18a23a5d65131a88b82f5397b1b7e525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a0b65667b5e5c719beefb4b32e6bb8f54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b65667b5e5c719beefb4b32e6bb8f54"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>QAccordion</b></td></tr>
+<tr class="separator:a0b65667b5e5c719beefb4b32e6bb8f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Content Pane class. </p>
@@ -305,29 +309,21 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a31a02026c842f4e329ba87c7fba97ff5"></a>
+<a class="anchor" id="a845640c00bd65cee50a164660f12e420"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ContentPane::closeContentPane </td>
+          <td class="memname">bool ContentPane::getActive </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Close the content pane. </p>
-<p>This will close the content pane if it is currently open. </p>
+<p>Check if this Content pane is active. </p>
+<dl class="section return"><dt>Returns</dt><dd>boolean True if active </dd></dl>
 
 </div>
 </div>
@@ -499,25 +495,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a24204934209d1bed54271fc273809192"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ContentPane::getOpen </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Check if this Content pane is open. </p>
-<dl class="section return"><dt>Returns</dt><dd>boolean True if open </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7b96607a27ed7ece58068dc7b9918a3d"></a>
+<a class="anchor" id="a623c4571fd625e54fa678472313a0596"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -525,9 +503,10 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ContentPane::openContentPane </td>
+          <td class="memname">void ContentPane::headerClicked </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">QPoint&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -538,8 +517,14 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Open the content pane. </p>
-<p>This will open the content pane if it is currently closed. </p><dl class="section warning"><dt>Warning</dt><dd>Currently there is no inbuild mechanism to close an already open Content Pane when you open another one programmatically. Meaning you have to take care of this yourself. </dd></dl>
+<p>Slot that is called when the header has been triggered. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>Currently unused</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This slot is used to notify the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a> widget that the header has been triggered. You can use this slot yourself to open or close the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a>. Check the state of the pane before with <a class="el" href="class_content_pane.html#a845640c00bd65cee50a164660f12e420" title="Check if this Content pane is active. ">getActive()</a> as this slot might not do what you intended to do (for example you want to close the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a>. If it is already inactive and you call this slot without checking the state it will be opened). </p>
 
 </div>
 </div>

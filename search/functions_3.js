@@ -1,7 +1,10 @@
 var searchData=
 [
+  ['getactive',['getActive',['../class_content_pane.html#a845640c00bd65cee50a164660f12e420',1,'ContentPane']]],
+  ['getactivecontentpaneindex',['getActiveContentPaneIndex',['../class_q_accordion.html#a314e92e701cb3de394017a15d8d5a99a',1,'QAccordion']]],
   ['getanimationduration',['getAnimationDuration',['../class_content_pane.html#a3e011af74a99ac8b9721cdd2cc0d2d65',1,'ContentPane']]],
   ['getclickable',['getClickable',['../class_clickable_frame.html#ad63da52326a9ca70fb2f8f6351e402b6',1,'ClickableFrame']]],
+  ['getcollapsible',['getCollapsible',['../class_q_accordion.html#ad0c898c334e24870b279262004123f55',1,'QAccordion']]],
   ['getcontainerframestyle',['getContainerFrameStyle',['../class_content_pane.html#ac2c7416840b4698e17238a5c936ef5ae',1,'ContentPane']]],
   ['getcontentframe',['getContentFrame',['../class_content_pane.html#a59c5788b6b7ec245663ed20d287f49ce',1,'ContentPane']]],
   ['getcontentpane',['getContentPane',['../class_q_accordion.html#a1d162a9badd460446dced7a556e9e111',1,'QAccordion']]],
@@ -14,7 +17,7 @@ var searchData=
   ['getheadertooltip',['getHeaderTooltip',['../class_content_pane.html#a254babeacf381d147c063bd3bb944ec1',1,'ContentPane']]],
   ['gethoverstylesheet',['getHoverStylesheet',['../class_clickable_frame.html#a50fe8e935e148ce037b495fd93699ebc',1,'ClickableFrame']]],
   ['getmaximumheight',['getMaximumHeight',['../class_content_pane.html#a26b77ce9f8a2a56c0aed4dc30a5f559c',1,'ContentPane']]],
+  ['getmultiactive',['getMultiActive',['../class_q_accordion.html#a6c2183f009444d450bfc2aad57927eb9',1,'QAccordion']]],
   ['getnormalstylesheet',['getNormalStylesheet',['../class_clickable_frame.html#abe3f32a73318e9057e6868cc6e0d7a9a',1,'ClickableFrame']]],
-  ['getnumberofcontentpanes',['getNumberOfContentPanes',['../class_q_accordion.html#aabe20e6c008e9d748bb6a6a52d946229',1,'QAccordion']]],
-  ['getopen',['getOpen',['../class_content_pane.html#a24204934209d1bed54271fc273809192',1,'ContentPane']]]
+  ['getnumberofcontentpanes',['getNumberOfContentPanes',['../class_q_accordion.html#aabe20e6c008e9d748bb6a6a52d946229',1,'QAccordion']]]
 ];
