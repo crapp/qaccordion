@@ -204,11 +204,11 @@ void ContentPane::initAnimations()
                 QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::headerClicked(__attribute__((unused)) QPoint pos) {
+void ContentPane::headerClicked(ATTR_UNUSED QPoint pos) {
     emit this->clicked();
 }
 
-void ContentPane::paintEvent(__attribute__((unused)) QPaintEvent *event)
+void ContentPane::paintEvent(ATTR_UNUSED QPaintEvent *event)
 {
     QStyleOption o;
     o.initFrom(this);

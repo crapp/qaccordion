@@ -377,7 +377,7 @@ protected:
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
-    void paintEvent(__attribute__((unused)) QPaintEvent *event);
+    void paintEvent(ATTR_UNUSED QPaintEvent *event);
 };
 
 #endif // QACCORDION_H

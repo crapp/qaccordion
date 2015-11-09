@@ -21,6 +21,10 @@
 #define VERSION_MINOR "@qAccordion_VERSION_MINOR@"
 #define VERSION_PATCH "@qAccordion_VERSION_PATCH@"
 
-//#cmakedefine
+#ifdef __GNUC__
+  #define ATTR_UNUSED __attribute__((unused))
+#else
+  #define ATTR_UNUSED
+#endif
 
 #endif // CONFIG_H_IN

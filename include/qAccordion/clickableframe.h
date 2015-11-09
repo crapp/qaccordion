@@ -24,6 +24,8 @@
 #include <QLabel>
 #include <QGraphicsView>
 
+#include "config.h"
+
 // TODO: No need to use a namespace for our constants as we are using them only
 // in this class
 namespace ClickableFrame_constants

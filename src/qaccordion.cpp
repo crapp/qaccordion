@@ -410,7 +410,7 @@ void QAccordion::numberOfPanesChanged(int number)
     }
 }
 
-void QAccordion::paintEvent(__attribute__((unused)) QPaintEvent *event)
+void QAccordion::paintEvent(ATTR_UNUSED QPaintEvent *event)
 {
     QStyleOption o;
     o.initFrom(this);

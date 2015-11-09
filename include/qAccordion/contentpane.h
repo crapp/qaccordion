@@ -28,6 +28,7 @@
 
 #include <memory>
 
+#include "config.h"
 #include "clickableframe.h"
 #include "qaccordion.h"
 
@@ -301,7 +302,7 @@ protected:
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
-    void paintEvent(__attribute__((unused)) QPaintEvent *event);
+    void paintEvent(ATTR_UNUSED QPaintEvent *event);
 };
 
 #endif // CONTENTPANE_H
