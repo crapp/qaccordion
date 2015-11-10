@@ -125,6 +125,10 @@ public:
      * container or for example by adding a [QScrollArea](http://doc.qt.io/qt-5.5/qscrollarea.html).
      */
     void setMaximumHeight(int maxHeight);
+
+    void setTrigger(ClickableFrame::TRIGGER tr);
+    ClickableFrame::TRIGGER getTrigger();
+
     /**
      * @brief Set the header of the content pane
      * @param header
@@ -135,6 +139,50 @@ public:
      * @return QString
      */
     QString getHeader();
+    /**
+     * @brief Set the header icon that will be displayed when the content pane is active
+     * @param icon Path to image
+     *
+     * @details
+     * Set the header icon for active content pane state. Provide a path to a
+     * supported image file. If the file does not exist or has an unsupported
+     * format the icon will not be changed.
+     * @sa
+     * Supported [image formats](http://doc.qt.io/qt-5/qimagereader.html#supportedImageFormats) by QImageReader.
+     */
+    void setHeaderIconActive(QString icon);
+    /**
+     * @brief Set the header icon that will be displayed when the content pane is active
+     * @param icon QPixmap that should be used
+     *
+     * @details
+     * This is an overloaded method of setHeaderIconActive(QString), which allows
+     * you directly pass a QPixmap object.
+     */
+    void setHeaderIconActive(QPixmap icon);
+    /**
+     * @brief Get the header icon for active state
+     * @return QPixmap
+     */
+    QPixmap getHeaderIconActive();
+    /**
+     * @brief et the header icon that will be displayed when the content pane is inactive
+     * @param icon Path to image
+     *
+     * @details
+     * Set the header icon for inactive content pane state. Provide a path to a
+     * supported image file. If the file does not exist or has an unsupported
+     * format the icon will not be changed.
+     * @sa
+     * Supported [image formats](http://doc.qt.io/qt-5/qimagereader.html#supportedImageFormats) by QImageReader.
+     */
+    void setHeaderIconInActive(QString icon);
+    /**
+     * @brief setHeaderIconInActive
+     * @param icon
+     */
+    void setHeaderIconInActive(QPixmap icon);
+    QPixmap getHeaderIconInActive();
     /**
      * @brief Set header tooltip
      * @param tooltip String to show as tooltip
@@ -229,6 +277,7 @@ public:
      * @details
      * Set the duration of the QPropertyAnimation in milliseconds.
      */
+
     void setAnimationDuration(uint duration);
     /**
      * @brief Get the duration of the open, close animation.
@@ -265,7 +314,7 @@ public slots:
      * the ContentPane. If it is already inactive and you call this slot without
      * checking the state it will be opened).
      */
-    void headerClicked(QPoint pos);
+    void headerTriggered(QPoint pos);
 
 private:
     // yeah we are friends. this is important to keep openContentPane and
@@ -275,6 +324,9 @@ private:
     ClickableFrame *header;
     QFrame *container;
     QFrame *content;
+
+    QPixmap headerIconActive;
+    QPixmap headerIconInActive;
 
     int headerFrameStyle;
     int contentPaneFrameStyle;

@@ -16,8 +16,6 @@
 
 #include "qAccordion/contentpane.h"
 
-namespace clickcon = ClickableFrame_constants;
-
 ContentPane::ContentPane(QString header, QWidget *parent) : QWidget(parent)
 {
     this->content = nullptr;
@@ -57,12 +55,68 @@ void ContentPane::setMaximumHeight(int maxHeight)
     this->closeAnimation->setStartValue(this->containerAnimationMaxHeight);
 }
 
+void ContentPane::setTrigger(ClickableFrame::TRIGGER tr)
+{
+    this->header->setTrigger(tr);
+}
+
+ClickableFrame::TRIGGER ContentPane::getTrigger()
+{
+    return this->header->getTrigger();
+}
+
 void ContentPane::setHeader(QString header)
 {
     this->header->setHeader(std::move(header));
 }
 
 QString ContentPane::getHeader() { return this->header->getHeader(); }
+
+void ContentPane::setHeaderIconActive(QString icon)
+{
+    QPixmap pic(icon);
+    if (!pic.isNull()) {
+        this->headerIconActive = pic;
+        if (this->getActive()) {
+            this->header->setIcon(this->headerIconActive);
+        }
+    }
+}
+
+void ContentPane::setHeaderIconActive(QPixmap icon)
+{
+    if (!icon.isNull()) {
+        this->headerIconActive = icon;
+        if (this->getActive()) {
+            this->header->setIcon(this->headerIconActive);
+        }
+    }
+}
+
+QPixmap ContentPane::getHeaderIconActive() { return this->headerIconActive; }
+
+void ContentPane::setHeaderIconInActive(QString icon)
+{
+    QPixmap pic(icon);
+    if (!pic.isNull()) {
+        this->headerIconInActive = pic;
+        if (!this->getActive()) {
+            this->header->setIcon(this->headerIconInActive);
+        }
+    }
+}
+
+void ContentPane::setHeaderIconInActive(QPixmap icon)
+{
+    if (!icon.isNull()) {
+        this->headerIconInActive = icon;
+        if (!this->getActive()) {
+            this->header->setIcon(this->headerIconInActive);
+        }
+    }
+}
+
+QPixmap ContentPane::getHeaderIconInActive() { return this->headerIconInActive; }
 
 void ContentPane::setHeaderTooltip(QString tooltip)
 {
@@ -113,7 +167,7 @@ void ContentPane::openContentPane()
     if (this->getActive())
         return;
     this->openAnimation->start();
-    this->header->setCaretPixmap(clickcon::CARRET_ICON_OPENED);
+    this->header->setIcon(this->headerIconActive);
     this->active = true;
 }
 
@@ -122,7 +176,7 @@ void ContentPane::closeContentPane()
     if (!this->getActive())
         return;
     this->closeAnimation->start();
-    this->header->setCaretPixmap(clickcon::CARRET_ICON_CLOSED);
+    this->header->setIcon(this->headerIconInActive);
     this->active = false;
 }
 
@@ -154,8 +208,8 @@ void ContentPane::initHeaderFrame(QString header)
     this->header->setFrameStyle(this->headerFrameStyle);
     this->layout()->addWidget(this->header);
 
-    QObject::connect(this->header, &ClickableFrame::singleClick, this,
-                     &ContentPane::headerClicked);
+    QObject::connect(this->header, &ClickableFrame::triggered, this,
+                     &ContentPane::headerTriggered);
 }
 
 void ContentPane::initContainerContentFrame()
@@ -201,10 +255,11 @@ void ContentPane::initAnimations()
     this->openAnimation->setEasingCurve(
         QEasingCurve(QEasingCurve::Type::Linear));
     this->closeAnimation->setEasingCurve(
-                QEasingCurve(QEasingCurve::Type::Linear));
+        QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::headerClicked(ATTR_UNUSED QPoint pos) {
+void ContentPane::headerTriggered(ATTR_UNUSED QPoint pos)
+{
     emit this->clicked();
 }
 

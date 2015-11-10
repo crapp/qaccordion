@@ -21,7 +21,7 @@ ClickableFrame::ClickableFrame(QString header, QWidget *parent,
     : header(header), QFrame(parent, f)
 {
     this->setAttribute(Qt::WA_Hover, true);
-    this->clickable = true;
+    this->headerTrigger = TRIGGER::SINGLECLICK;
     this->setCursor(Qt::PointingHandCursor);
     QColor background = this->palette().color(QPalette::ColorRole::Background);
     QColor lighter = background.lighter(110);
@@ -30,17 +30,17 @@ ClickableFrame::ClickableFrame(QString header, QWidget *parent,
     this->initFrame();
 }
 
-void ClickableFrame::setClickable(bool status)
+void ClickableFrame::setTrigger(ClickableFrame::TRIGGER tr)
 {
-    this->clickable = status;
-    if (status) {
+    this->headerTrigger = tr;
+    if (tr != TRIGGER::NONE) {
         this->setCursor(Qt::PointingHandCursor);
     } else {
         this->setCursor(Qt::ForbiddenCursor);
     }
 }
 
-bool ClickableFrame::getClickable() { return this->clickable; }
+ClickableFrame::TRIGGER ClickableFrame::getTrigger() { return this->headerTrigger; }
 
 void ClickableFrame::setHeader(QString header)
 {
@@ -49,6 +49,11 @@ void ClickableFrame::setHeader(QString header)
 }
 
 QString ClickableFrame::getHeader() { return this->header; }
+
+void ClickableFrame::setIcon(const QPixmap &icon)
+{
+    this->iconLabel->setPixmap(icon);
+}
 
 void ClickableFrame::setNormalStylesheet(QString stylesheet)
 {
@@ -65,20 +70,15 @@ void ClickableFrame::setHoverStylesheet(QString stylesheet)
 
 QString ClickableFrame::getHoverStylesheet() { return this->hoverStylesheet; }
 
-void ClickableFrame::setCaretPixmap(QString pixmapPath)
-{
-    this->caretLabel->setPixmap(QPixmap(pixmapPath));
-}
-
 void ClickableFrame::initFrame()
 {
     this->setSizePolicy(QSizePolicy::Policy::Preferred,
                         QSizePolicy::Policy::Fixed);
     this->setLayout(new QHBoxLayout());
 
-    this->caretLabel = new QLabel();
-    this->caretLabel->setPixmap(QPixmap(":/qAccordionIcons/caret-right.png"));
-    this->layout()->addWidget(this->caretLabel);
+    this->iconLabel = new QLabel();
+    this->iconLabel->setPixmap(QPixmap(":/qAccordionIcons/caret-right.png"));
+    this->layout()->addWidget(this->iconLabel);
 
     this->nameLabel = new QLabel();
     nameLabel->setText(this->header);
@@ -91,24 +91,35 @@ void ClickableFrame::initFrame()
 
 void ClickableFrame::mousePressEvent(QMouseEvent *event)
 {
-    if (this->clickable) {
-        emit this->singleClick(event->pos());
+    if (this->headerTrigger == TRIGGER::SINGLECLICK) {
+        emit this->triggered(event->pos());
         event->accept();
     } else {
         event->ignore();
     }
 }
 
+void ClickableFrame::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if (this->headerTrigger == TRIGGER::DOUBLECLICK) {
+        emit this->triggered(event->pos());
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+// TODO: No Stylesheet change when TRIGGER::NONE?
 void ClickableFrame::enterEvent(ATTR_UNUSED QEvent *event)
 {
-    if (this->clickable) {
+    if (this->headerTrigger != TRIGGER::NONE ) {
         this->setStyleSheet(this->hoverStylesheet);
     }
 }
 
 void ClickableFrame::leaveEvent(ATTR_UNUSED QEvent *event)
 {
-    if (this->clickable) {
+    if (this->headerTrigger != TRIGGER::NONE) {
         this->setStyleSheet(this->normalStylesheet);
     }
 }

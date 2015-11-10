@@ -16,8 +16,6 @@
 
 #include "qAccordion/qaccordion.h"
 
-namespace clickcon = ClickableFrame_constants;
-
 QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
 {
     // make sure our resource file gets initialized
