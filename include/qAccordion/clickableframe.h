@@ -24,6 +24,9 @@
 #include <QLabel>
 #include <QGraphicsView>
 
+#include "config.h"
+#include "qaccordion_export.h"
+
 // TODO: No need to use a namespace for our constants as we are using them only
 // in this class
 namespace ClickableFrame_constants
@@ -38,7 +41,7 @@ const char *const CARRET_ICON_OPENED = ":/qAccordionIcons/caret-bottom.png"; /**
  * This class represents a clickable QFrame. It is used by a ContentPane. The class
  * is used internally.
  */
-class ClickableFrame : public QFrame
+class QACCORDION_EXPORT ClickableFrame : public QFrame
 {
 
     Q_OBJECT

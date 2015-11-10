@@ -99,14 +99,14 @@ void ClickableFrame::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void ClickableFrame::enterEvent(__attribute__ ((unused)) QEvent *event)
+void ClickableFrame::enterEvent(ATTR_UNUSED QEvent *event)
 {
     if (this->clickable) {
         this->setStyleSheet(this->hoverStylesheet);
     }
 }
 
-void ClickableFrame::leaveEvent(__attribute__ ((unused)) QEvent *event)
+void ClickableFrame::leaveEvent(ATTR_UNUSED QEvent *event)
 {
     if (this->clickable) {
         this->setStyleSheet(this->normalStylesheet);

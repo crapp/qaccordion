@@ -33,6 +33,7 @@
 #include <iterator>
 
 #include "config.h"
+#include "qaccordion_export.h"
 #include "contentpane.h"
 
 class ContentPane;
@@ -64,7 +65,7 @@ class ContentPane;
  * Currently Headers have to be unique
  *
  */
-class QAccordion : public QWidget
+class QACCORDION_EXPORT QAccordion : public QWidget
 {
     Q_OBJECT
 public:
@@ -377,7 +378,7 @@ protected:
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
-    void paintEvent(__attribute__((unused)) QPaintEvent *event);
+    void paintEvent(ATTR_UNUSED QPaintEvent *event);
 };
 
 #endif // QACCORDION_H
