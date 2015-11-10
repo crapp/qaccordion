@@ -10,13 +10,13 @@ set(CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 
 # Compiler-specific C++11 activation.
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
     execute_process(
         COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
     if (NOT (GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7))
         message(FATAL_ERROR "${PROJECT_NAME} requires g++ 4.7 or greater.")
     endif ()
-elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+elseif (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
     if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -24,12 +24,12 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
     endif()
 elseif(WIN32)
     # So far only msvc is supported on Windows.
-    if (NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    if (NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     message(
       ERROR
       "qAccordion does not support compiling on Windows with "
       "${CMAKE_CXX_COMPILER_ID}. Please use MSVC.")
-    endif (NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    endif (NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 
     # MSVC 1800 supports C++11; earlier versions don't. So, warn if you try to
     # use anything else.
@@ -47,6 +47,9 @@ else ()
     message(FATAL_ERROR "Your C++ compiler does not support C++11.")
 endif ()
 
+# include GenerateExportHeader module
+include(GenerateExportHeader)
+
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
@@ -62,12 +65,8 @@ else ()
     set(base_path ${CMAKE_SOURCE_DIR})
 endif()
 
-message(STATUS "base path: ${base_path}")
-
-
-# include this directories so all moc headers and wrapped ui files are found
 include_directories(
-    ${PROJECT_BINARY_DIR}
+    ${PROJECT_BINARY_DIR} # include this directory so all moc headers and wrapped ui files are found
     ${base_path}/include
 )
   
@@ -88,8 +87,12 @@ set(QACCORDION_ICON_RESOURCE "${base_path}/icons/qaccordionicons.qrc")
 # add resource files so they can be compiled into the binary
 qt5_add_resources(ICON_RESOURCE_ADDED ${QACCORDION_ICON_RESOURCE})
 
+# we are building a shared library
 add_library (qAccordion SHARED ${QACCORDION_HEADER} ${QACCORDION_SOURCE} ${ICON_RESOURCE_ADDED})
 target_link_libraries(qAccordion Qt5::Widgets)
+
+# generate the export header. this will be used to define a macro that exports functions on windows.
+generate_export_header(qAccordion)
 
 if (QACCORDION_BUILD_TESTER)
     # generate ui_*.h files
@@ -104,3 +107,4 @@ install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION inclu
 install(FILES ${base_path}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
 install(FILES ${base_path}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.h DESTINATION include/qAccordion)

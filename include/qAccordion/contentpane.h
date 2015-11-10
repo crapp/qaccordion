@@ -29,9 +29,11 @@
 #include <memory>
 
 #include "config.h"
+#include "qaccordion_export.h"
 #include "clickableframe.h"
 #include "qaccordion.h"
 
+// TODO: Do i really need to export the ClickableFrame class?
 /**
  * @brief Content Pane class
  *
@@ -61,7 +63,7 @@
  * @details
  * The animation speed is influenceable setAnimationDuration().
  */
-class ContentPane : public QWidget
+class QACCORDION_EXPORT ContentPane : public QWidget
 {
     Q_OBJECT
 public:
