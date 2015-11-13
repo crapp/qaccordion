@@ -24,7 +24,13 @@ Watch a screencast made with the [Demo Application](#demo-application) to see wh
 
 ## Setting up qAccordion
 
-qAccordion is based on Qt5 and c++11. Make sure your development environment meets this requirements.
+qAccordion is based on Qt5 and c++11. Make sure your development environment meets these requirements:
+
+* cmake >= 2.8.12
+* gcc >= 4.7
+* clang >= 3.4
+* MSVC >= 12 (Visual Studio 2013)
+* Qt 5.2 (Qt5Widgets, Qt5Gui, Qt5Core [Qt5Network])
 
 To make use of this Qt Widget in your Project you have two choices.
 
@@ -33,9 +39,10 @@ To make use of this Qt Widget in your Project you have two choices.
 
 ## Installation 
 
-Obtain the source from the [github repository](https://github.com/crapp/qaccordion). Either download the latest release or check out the latest commit.
+Obtain the source code from our [github repository](https://github.com/crapp/qaccordion). Either download the latest release or use git to check out the master branch.
 
-Run the following commands to compile a shared library on Linux.
+### Linux 
+Run the following commands to compile a shared library on Linux after you obtained the source code.
 
 ```shell
 # create a build directory
@@ -54,6 +61,32 @@ There are ready to use packages for the following Linux distributions:
 
 * [Archlinux (AUR)](https://aur.archlinux.org/packages/qaccordion/)
 
+### Windows
+
+Compiling the library on Windows is possible with the Microsoft Visual C++ compiler (MinGW is currently __not__ supported).
+Generate a Visual Studio Solution with the appropriate cmake generator. After that you can compile the library with the Microsoft IDE.
+
+```shell
+#create build directory
+mkdir build
+cd build
+# assuming you are using Visual Studio 2013 on a 64bit windows installation and Qt installed to C:\\Qt
+# Please change these options so they suit your build evironment.
+cmake -G"Visual Studio 12 2013 Win64" -DCMAKE_PREFIX_PATH="C:\\Qt\\5.5\\msvc2013_64" ../
+```
+Open the solution file and compile the library. 
+
+Another possibility is to use the cmake NMake generator. 
+
+```shell
+#create build directory
+mkdir build
+cd build
+# check the prefix path so it matches your Qt installation
+cmake -G"NMake Makefiles" -DCMAKE_PREFIX_PATH="C:\\Qt\\5.5\\msvc2013_64" ../
+# build the library
+nmake
+```
 ## Usage
 
 Using this widget is quite easy. You can add this to your application either programmatically or by using Qt Designer. The widget does __not__ support configuration via the Designer. 
@@ -84,9 +117,9 @@ qAccordion makes use of Qt memory management. This means all objects will be fre
 
 ### API Documentation
 
-The library is documented using doxygen style comments. A static HTML version of the API documentation can be found on [github](https://crapp.github.io/qaccordion/). 
+The library is documented using doxygen style comments. A static HTML version of the API documentation can be found on [github](https://crapp.github.io/qaccordion/). This is the documentation of the latest release. 
 
-The doxygen project file to generate the HTML documents is located in the `doc` folder. run the following command in a shell to generate your own local HTML documentation so you may read it offline (needs doxygen >= 1.8.6).
+The doxygen project file to generate the HTML documents is located in the `doc` folder. Run the following command in a shell to generate your own local HTML documentation so you may read it offline or have an updated documentation for features that are still under development (needs doxygen >= 1.8.6).
 
 ```shell
 doxygen qAccordionDoxyfile
@@ -95,14 +128,15 @@ doxygen qAccordionDoxyfile
 ### Demo Application
 
 In the `test` folder you can find a demo application that you can build with the library.
-You must use the CMake option `BUILD_TESTER` so it gets compiled. 
+You must use the CMake option `BUILD_TESTER` so it gets compiled.
+
+Linux example
 
 ```shell
 cd build
 cmake -DQACCORDION_BUILD_TESTER=ON ../
 make
 ```
-
 Have a look at the source code of the demo application if you are searching for a more advanced example on how to use this Qt Widget. I have recorded a short video that shows how qAccordion works.
 
 ## Bugs and Feature requests
@@ -114,6 +148,53 @@ If you find a Bug or have a feature request head over to github and open a new [
 * User defined Icons and Icon position.
 * Definable animation type.
 * Trigger open / close not only on single mouse click (e.g. double click, mouse over).
+
+## Development
+
+Brief overview over the development process of qAccordion.
+
+### Repositories 
+The github repository of qAccordion has several different branches.
+
+* master: Main development branch. Everything in here is guaranteed to compile and is tested (at least a little bit :)). This is the place for new features and bugfixes. Pull requests welcome. 
+* develop: Test branch. Code is guaranteed to compile on the developers build environment. Nothing more nothing less.
+* release-x.x: Branch for a release. Only bugfixes are allowed here. Pull requests welcome. 
+* gh-pages: Special branch for the static HTML documentation that will be hosted by github.io. Content is generated by doxygen.
+
+### Coding standards
+
+The source code is formatted with clang-format using the following configuration
+
+```
+Language:        Cpp,
+BasedOnStyle:  LLVM,
+AccessModifierOffset: -4,
+AllowShortIfStatementsOnASingleLine: false,
+AlwaysBreakTemplateDeclarations: true,
+ColumnLimit:     81,
+IndentCaseLabels: false,
+Standard:        Cpp11,
+IndentWidth:     4,
+TabWidth:        4,
+BreakBeforeBraces: Linux,
+CommentPragmas:  '(^ IWYU pragma:)|(^.*\[.*\]\(.*\).*$)|(^.*@brief|@param|@return|@throw.*$)|(/\*\*<.*\*/)'
+```
+
+### Versioning
+
+Somehow every developer faces the problem of version numbers. I decided to use [semantic versioning](http://semver.org/) and stick to their rules.
+
+> Given a version number MAJOR.MINOR.PATCH, increment the:
+>
+> 1. MAJOR version when you make incompatible API changes,
+>
+> 2. MINOR version when you add functionality in a backwards-compatible manner, and
+>
+> 3. PATCH version when you make backwards-compatible bug fixes.
+
+We are currently at this stage
+
+> Major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
 
 ## FAQ ##
 
@@ -137,4 +218,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-`````
+```
