@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONFIG_H_IN
-#define CONFIG_H_IN
+#ifndef QACCORDION_CONFIG_H_IN
+#define QACCORDION_CONFIG_H_IN
 
 #define VERSION_MAJOR "@qAccordion_VERSION_MAJOR@"
 #define VERSION_MINOR "@qAccordion_VERSION_MINOR@"
@@ -27,4 +27,4 @@
   #define ATTR_UNUSED
 #endif
 
-#endif // CONFIG_H_IN
+#endif // QACCORDION_CONFIG_H_IN

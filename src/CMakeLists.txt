@@ -41,7 +41,7 @@ elseif(WIN32)
     endif (${MSVC_VERSION} LESS 1800)
 else ()
     message(FATAL_ERROR "Your C++ compiler does not support C++11.")
-endif (WIN32)
+endif ()
 
 # include GenerateExportHeader module
 include(GenerateExportHeader)
@@ -57,12 +57,18 @@ message(STATUS "Found Qt version ${Qt5Widgets_VERSION_STRING}")
 
 if (QACCORDION_EXTERNAL)
     set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
+    message(STATUS "Using qAccordion external config with base path: ${base_path}")
+    # provide the current build path to parent scope. add this to include directories in parent projects
+    set(EXTERNAL_INCLUDE
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        PARENT_SCOPE
+    )
 else ()
     set(base_path ${CMAKE_SOURCE_DIR})
 endif(QACCORDION_EXTERNAL)
 
 include_directories(
-    ${PROJECT_BINARY_DIR} # include this directory so all moc headers and wrapped ui files are found
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${base_path}/include
 )
   
@@ -70,7 +76,7 @@ include_directories(
 # to the source code
 configure_file (
     ${base_path}/include/qAccordion/config.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.h
 )
 
 set (QACCORDION_SOURCE
@@ -102,5 +108,6 @@ install(TARGETS qAccordion DESTINATION lib)
 install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
 install(FILES ${base_path}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
 install(FILES ${base_path}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.h DESTINATION include/qAccordion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.h DESTINATION include/qAccordion)
+

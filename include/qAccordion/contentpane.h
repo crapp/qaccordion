@@ -28,8 +28,8 @@
 
 #include <memory>
 
-#include "config.h"
-#include "qaccordion_export.h"
+#include <qaccordion_config.h>
+#include <qaccordion_export.h>
 #include "clickableframe.h"
 #include "qaccordion.h"
 
