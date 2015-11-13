@@ -11,12 +11,20 @@ Watch a screencast made with the [Demo Application](#demo-application) to see wh
 **Contents** *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Setting up qAccordion](#setting-up-qaccordion)
+- [Installation](#installation)
+  - [Linux](#linux)
+  - [Windows](#windows)
 - [Usage](#usage)
   - [A minimum code example](#a-minimum-code-example)
   - [Memory management](#memory-management)
   - [API Documentation](#api-documentation)
   - [Demo Application](#demo-application)
+- [Bugs and Feature requests](#bugs-and-feature-requests)
 - [ToDo](#todo)
+- [Development](#development)
+  - [Repositories](#repositories)
+  - [Coding standards](#coding-standards)
+  - [Versioning](#versioning)
 - [FAQ](#faq)
 - [License](#license)
 
