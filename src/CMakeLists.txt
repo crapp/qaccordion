@@ -1,13 +1,13 @@
-# Initialize CXXFLAGS.
-set(CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
-set(CMAKE_CXX_FLAGS_DEBUG          "-O0 -g") # No reorder warnings since this pop up frequently if you are using the Q_OBJECT macro
-if (NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-    # these flags really hurt msvc so we add them here
+# Initialize CXXFLAGS for Linux and OS X
+if (NOT WIN32)
+    set(CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
+    set(CMAKE_CXX_FLAGS_DEBUG          "-O0 -g")
+    # No reorder warnings because these pop up frequently if you are using the Q_OBJECT macro
     set(CMAKE_CXX_FLAGS_DEBUG         "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wno-reorder")
-endif(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-set(CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+    set(CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+endif(NOT WIN32)
 
 # Compiler-specific C++11 activation.
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
@@ -39,13 +39,9 @@ elseif(WIN32)
       "qAccordion does not support compiling on MSVC versions earlier than 1800. "
       "Please use MSVC 1800 (included with Visual Studio 2013 or later).")
     endif (${MSVC_VERSION} LESS 1800)
-
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-
 else ()
     message(FATAL_ERROR "Your C++ compiler does not support C++11.")
-endif ()
+endif (WIN32)
 
 # include GenerateExportHeader module
 include(GenerateExportHeader)
@@ -63,7 +59,7 @@ if (QACCORDION_EXTERNAL)
     set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
 else ()
     set(base_path ${CMAKE_SOURCE_DIR})
-endif()
+endif(QACCORDION_EXTERNAL)
 
 include_directories(
     ${PROJECT_BINARY_DIR} # include this directory so all moc headers and wrapped ui files are found
@@ -100,7 +96,7 @@ if (QACCORDION_BUILD_TESTER)
     find_package(Qt5Network REQUIRED)
     add_executable(accordion_tester ${TEST_HEADER} ${TEST_SOURCE} ${accordion_tester_FORMS})
     target_link_libraries(accordion_tester qAccordion Qt5::Widgets Qt5::Network)
-endif()
+endif(QACCORDION_BUILD_TESTER)
 
 install(TARGETS qAccordion DESTINATION lib)
 install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
