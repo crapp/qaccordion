@@ -110,8 +110,8 @@ Inheritance diagram for ContentPane:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
-<tr class="memitem:a623c4571fd625e54fa678472313a0596"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a623c4571fd625e54fa678472313a0596">headerClicked</a> (QPoint pos)</td></tr>
-<tr class="memdesc:a623c4571fd625e54fa678472313a0596"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slot that is called when the header has been triggered.  <a href="#a623c4571fd625e54fa678472313a0596">More...</a><br /></td></tr>
+<tr class="memitem:a623c4571fd625e54fa678472313a0596"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a623c4571fd625e54fa678472313a0596"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>headerClicked</b> (QPoint pos)</td></tr>
 <tr class="separator:a623c4571fd625e54fa678472313a0596"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
@@ -197,9 +197,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a18a23a5d65131a88b82f5397b1b7e525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#a18a23a5d65131a88b82f5397b1b7e525">paintEvent</a> (__attribute__((unused)) QPaintEvent *event)</td></tr>
-<tr class="memdesc:a18a23a5d65131a88b82f5397b1b7e525"><td class="mdescLeft">&#160;</td><td class="mdescRight">paintEvent Reimplement paintEvent to use stylesheets in derived Widgets  <a href="#a18a23a5d65131a88b82f5397b1b7e525">More...</a><br /></td></tr>
-<tr class="separator:a18a23a5d65131a88b82f5397b1b7e525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe909a4c63344a206c307b12ca9dbcd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_content_pane.html#afe909a4c63344a206c307b12ca9dbcd9">paintEvent</a> (ATTR_UNUSED QPaintEvent *event)</td></tr>
+<tr class="memdesc:afe909a4c63344a206c307b12ca9dbcd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">paintEvent Reimplement paintEvent to use stylesheets in derived Widgets  <a href="#afe909a4c63344a206c307b12ca9dbcd9">More...</a><br /></td></tr>
+<tr class="separator:afe909a4c63344a206c307b12ca9dbcd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -495,40 +495,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QAccordion</b></td><
 
 </div>
 </div>
-<a class="anchor" id="a623c4571fd625e54fa678472313a0596"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ContentPane::headerClicked </td>
-          <td>(</td>
-          <td class="paramtype">QPoint&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Slot that is called when the header has been triggered. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>Currently unused</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This slot is used to notify the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a> widget that the header has been triggered. You can use this slot yourself to open or close the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a>. Check the state of the pane before with <a class="el" href="class_content_pane.html#a845640c00bd65cee50a164660f12e420" title="Check if this Content pane is active. ">getActive()</a> as this slot might not do what you intended to do (for example you want to close the <a class="el" href="class_content_pane.html" title="Content Pane class. ">ContentPane</a>. If it is already inactive and you call this slot without checking the state it will be opened). </p>
-
-</div>
-</div>
-<a class="anchor" id="a18a23a5d65131a88b82f5397b1b7e525"></a>
+<a class="anchor" id="afe909a4c63344a206c307b12ca9dbcd9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -538,7 +505,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QAccordion</b></td><
         <tr>
           <td class="memname">void ContentPane::paintEvent </td>
           <td>(</td>
-          <td class="paramtype">__attribute__((unused)) QPaintEvent *&#160;</td>
+          <td class="paramtype">ATTR_UNUSED QPaintEvent *&#160;</td>
           <td class="paramname"><em>event</em></td><td>)</td>
           <td></td>
         </tr>

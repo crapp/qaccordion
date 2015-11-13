@@ -118,109 +118,88 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;clickableframe.h&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;qaccordion.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_content_pane.html">   63</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_content_pane.html">ContentPane</a> : <span class="keyword">public</span> QWidget</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_content_pane.html#a4e2788d473113d97754a7996fa5f0b1c">ContentPane</a>(QString header, QWidget *parent = 0);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_content_pane.html#a4e2788d473113d97754a7996fa5f0b1c">ContentPane</a>(QString header, QFrame *content, QWidget *parent = 0);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_content_pane.html#a845640c00bd65cee50a164660f12e420">getActive</a>();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    QFrame *<a class="code" href="class_content_pane.html#a59c5788b6b7ec245663ed20d287f49ce">getContentFrame</a>();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#ab7de896d5a32e1db96d9b42b376ab449">setContentFrame</a>(QFrame *content);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_content_pane.html#a26b77ce9f8a2a56c0aed4dc30a5f559c">getMaximumHeight</a>();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#ac9d100b1badd0648ad7a9a40e4a95bfc">setMaximumHeight</a>(<span class="keywordtype">int</span> maxHeight);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#ac6290c16e70e5e18734844d74384abba">setHeader</a>(QString header);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    QString <a class="code" href="class_content_pane.html#a4ec06de4679a0432dc5fdc99efe3fe93">getHeader</a>();</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a06a44ba3576fde090515752267ac64b1">setHeaderTooltip</a>(QString tooltip);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    QString <a class="code" href="class_content_pane.html#a254babeacf381d147c063bd3bb944ec1">getHeaderTooltip</a>();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a181ed09781e7d27364d5f96755c2a576">setHeaderStylesheet</a>(QString stylesheet);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    QString <a class="code" href="class_content_pane.html#a0d8080337f0e64e81d52537f011c02ed">getHeaderStylesheet</a>();</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#ad8bbcff957807ddeedf0905b79b3c795">setHeaderHoverStylesheet</a>(QString stylesheet);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    QString <a class="code" href="class_content_pane.html#a9384cf594fc556578fdf0321a5139eb0">getHeaderHoverStylesheet</a>();</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#abdbee94285b10cb13e5ed788c4973d8e">setHeaderFrameStyle</a>(<span class="keywordtype">int</span> style);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_content_pane.html#ae9bc0d45f37f30f8ada5c27458e31512">getHeaderFrameStyle</a>();</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#ae39795b75e52644b1500615290324db6">setContainerFrameStyle</a>(<span class="keywordtype">int</span> style);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_content_pane.html#ac2c7416840b4698e17238a5c936ef5ae">getContainerFrameStyle</a>();</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a705fdf96342dc690610364efbb229d76">setAnimationDuration</a>(uint duration);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    uint <a class="code" href="class_content_pane.html#a3e011af74a99ac8b9721cdd2cc0d2d65">getAnimationDuration</a>();</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;signals:</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a07c1b658d39511c563470b780760f4a8">clicked</a>();</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a606f9fbca063b1cb354c46ddb920dc6f">isActive</a>();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#aa116fa263bacddfa9dec0583f063a9cd">isInactive</a>();</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a623c4571fd625e54fa678472313a0596">headerClicked</a>(QPoint pos);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;config.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;qaccordion_export.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;clickableframe.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;qaccordion.h&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// TODO: Do i really need to export the ClickableFrame class?</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_content_pane.html">   66</a></span>&#160;<span class="comment"></span><span class="keyword">class </span>QACCORDION_EXPORT <a class="code" href="class_content_pane.html">ContentPane</a> : <span class="keyword">public</span> QWidget</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_content_pane.html">ContentPane</a>(QString header, QWidget *parent = 0);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_content_pane.html">ContentPane</a>(QString header, QFrame *content, QWidget *parent = 0);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">bool</span> getActive();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    QFrame *getContentFrame();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">void</span> setContentFrame(QFrame *content);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">int</span> getMaximumHeight();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">void</span> setMaximumHeight(<span class="keywordtype">int</span> maxHeight);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">void</span> setHeader(QString header);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    QString getHeader();</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">void</span> setHeaderTooltip(QString tooltip);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    QString getHeaderTooltip();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">void</span> setHeaderStylesheet(QString stylesheet);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    QString getHeaderStylesheet();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordtype">void</span> setHeaderHoverStylesheet(QString stylesheet);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    QString getHeaderHoverStylesheet();</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordtype">void</span> setHeaderFrameStyle(<span class="keywordtype">int</span> style);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordtype">int</span> getHeaderFrameStyle();</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordtype">void</span> setContainerFrameStyle(<span class="keywordtype">int</span> style);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordtype">int</span> getContainerFrameStyle();</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordtype">void</span> setAnimationDuration(uint duration);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    uint getAnimationDuration();</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;signals:</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordtype">void</span> clicked();</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordtype">void</span> isActive();</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">void</span> isInactive();</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordtype">void</span> headerClicked(QPoint pos);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">// yeah we are friends. this is important to keep openContentPane and</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">// closeContentPane private</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_q_accordion.html">QAccordion</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <a class="code" href="class_clickable_frame.html">ClickableFrame</a> *header;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    QFrame *container;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    QFrame *content;</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="comment">// yeah we are friends. this is important to keep openContentPane and</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="comment">// closeContentPane private</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_q_accordion.html">QAccordion</a>;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="class_clickable_frame.html">ClickableFrame</a> *header;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    QFrame *container;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    QFrame *content;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordtype">int</span> headerFrameStyle;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordtype">int</span> contentPaneFrameStyle;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordtype">int</span> containerAnimationMaxHeight;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keywordtype">bool</span> active;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    std::unique_ptr&lt;QPropertyAnimation&gt; openAnimation;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    std::unique_ptr&lt;QPropertyAnimation&gt; closeAnimation;</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordtype">int</span> headerFrameStyle;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordtype">int</span> contentPaneFrameStyle;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordtype">int</span> containerAnimationMaxHeight;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordtype">bool</span> active;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    std::unique_ptr&lt;QPropertyAnimation&gt; openAnimation;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    std::unique_ptr&lt;QPropertyAnimation&gt; closeAnimation;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordtype">void</span> initDefaults(QString header);</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordtype">void</span> initHeaderFrame(QString header);</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordtype">void</span> initContainerContentFrame();</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordtype">void</span> initAnimations();</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="keywordtype">void</span> openContentPane();</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordtype">void</span> closeContentPane();</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_content_pane.html#a18a23a5d65131a88b82f5397b1b7e525">paintEvent</a>(__attribute__((unused)) QPaintEvent *event);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;};</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">#endif // CONTENTPANE_H</span></div>
-<div class="ttc" id="class_q_accordion_html"><div class="ttname"><a href="class_q_accordion.html">QAccordion</a></div><div class="ttdoc">QAccordion base class. </div><div class="ttdef"><b>Definition:</b> qaccordion.h:67</div></div>
-<div class="ttc" id="class_content_pane_html_ac9d100b1badd0648ad7a9a40e4a95bfc"><div class="ttname"><a href="class_content_pane.html#ac9d100b1badd0648ad7a9a40e4a95bfc">ContentPane::setMaximumHeight</a></div><div class="ttdeci">void setMaximumHeight(int maxHeight)</div><div class="ttdoc">Set the maximum height of the content pane container. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:50</div></div>
-<div class="ttc" id="class_content_pane_html_a9384cf594fc556578fdf0321a5139eb0"><div class="ttname"><a href="class_content_pane.html#a9384cf594fc556578fdf0321a5139eb0">ContentPane::getHeaderHoverStylesheet</a></div><div class="ttdeci">QString getHeaderHoverStylesheet()</div><div class="ttdoc">Get the mouse over header style sheet. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:89</div></div>
-<div class="ttc" id="class_content_pane_html_a606f9fbca063b1cb354c46ddb920dc6f"><div class="ttname"><a href="class_content_pane.html#a606f9fbca063b1cb354c46ddb920dc6f">ContentPane::isActive</a></div><div class="ttdeci">void isActive()</div><div class="ttdoc">Signal will be emitted after the open animation finished. </div></div>
-<div class="ttc" id="class_content_pane_html_a3e011af74a99ac8b9721cdd2cc0d2d65"><div class="ttname"><a href="class_content_pane.html#a3e011af74a99ac8b9721cdd2cc0d2d65">ContentPane::getAnimationDuration</a></div><div class="ttdeci">uint getAnimationDuration()</div><div class="ttdoc">Get the duration of the open, close animation. </div></div>
-<div class="ttc" id="class_content_pane_html_a07c1b658d39511c563470b780760f4a8"><div class="ttname"><a href="class_content_pane.html#a07c1b658d39511c563470b780760f4a8">ContentPane::clicked</a></div><div class="ttdeci">void clicked()</div><div class="ttdoc">Clicked signal is emitted when the header is clicked. </div></div>
-<div class="ttc" id="class_content_pane_html_ad8bbcff957807ddeedf0905b79b3c795"><div class="ttname"><a href="class_content_pane.html#ad8bbcff957807ddeedf0905b79b3c795">ContentPane::setHeaderHoverStylesheet</a></div><div class="ttdeci">void setHeaderHoverStylesheet(QString stylesheet)</div><div class="ttdoc">Set a stylesheet for the header frame when the mouse hovers over it. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:84</div></div>
-<div class="ttc" id="class_content_pane_html_ae9bc0d45f37f30f8ada5c27458e31512"><div class="ttname"><a href="class_content_pane.html#ae9bc0d45f37f30f8ada5c27458e31512">ContentPane::getHeaderFrameStyle</a></div><div class="ttdeci">int getHeaderFrameStyle()</div><div class="ttdoc">Get the header frame style. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:99</div></div>
-<div class="ttc" id="class_content_pane_html_aa116fa263bacddfa9dec0583f063a9cd"><div class="ttname"><a href="class_content_pane.html#aa116fa263bacddfa9dec0583f063a9cd">ContentPane::isInactive</a></div><div class="ttdeci">void isInactive()</div><div class="ttdoc">Signal will be emitted after the close animation finished. </div></div>
-<div class="ttc" id="class_content_pane_html_a845640c00bd65cee50a164660f12e420"><div class="ttname"><a href="class_content_pane.html#a845640c00bd65cee50a164660f12e420">ContentPane::getActive</a></div><div class="ttdeci">bool getActive()</div><div class="ttdoc">Check if this Content pane is active. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:34</div></div>
-<div class="ttc" id="class_content_pane_html_a623c4571fd625e54fa678472313a0596"><div class="ttname"><a href="class_content_pane.html#a623c4571fd625e54fa678472313a0596">ContentPane::headerClicked</a></div><div class="ttdeci">void headerClicked(QPoint pos)</div><div class="ttdoc">Slot that is called when the header has been triggered. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:207</div></div>
-<div class="ttc" id="class_content_pane_html"><div class="ttname"><a href="class_content_pane.html">ContentPane</a></div><div class="ttdoc">Content Pane class. </div><div class="ttdef"><b>Definition:</b> contentpane.h:63</div></div>
-<div class="ttc" id="class_content_pane_html_ac6290c16e70e5e18734844d74384abba"><div class="ttname"><a href="class_content_pane.html#ac6290c16e70e5e18734844d74384abba">ContentPane::setHeader</a></div><div class="ttdeci">void setHeader(QString header)</div><div class="ttdoc">Set the header of the content pane. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:60</div></div>
-<div class="ttc" id="class_content_pane_html_a181ed09781e7d27364d5f96755c2a576"><div class="ttname"><a href="class_content_pane.html#a181ed09781e7d27364d5f96755c2a576">ContentPane::setHeaderStylesheet</a></div><div class="ttdeci">void setHeaderStylesheet(QString stylesheet)</div><div class="ttdoc">Set a stylesheet for the header frame. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:74</div></div>
-<div class="ttc" id="class_content_pane_html_ac2c7416840b4698e17238a5c936ef5ae"><div class="ttname"><a href="class_content_pane.html#ac2c7416840b4698e17238a5c936ef5ae">ContentPane::getContainerFrameStyle</a></div><div class="ttdeci">int getContainerFrameStyle()</div><div class="ttdoc">Get the container frame style. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:106</div></div>
-<div class="ttc" id="class_content_pane_html_a4e2788d473113d97754a7996fa5f0b1c"><div class="ttname"><a href="class_content_pane.html#a4e2788d473113d97754a7996fa5f0b1c">ContentPane::ContentPane</a></div><div class="ttdeci">ContentPane(QString header, QWidget *parent=0)</div><div class="ttdoc">ContentPane constructor. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:21</div></div>
-<div class="ttc" id="class_content_pane_html_a59c5788b6b7ec245663ed20d287f49ce"><div class="ttname"><a href="class_content_pane.html#a59c5788b6b7ec245663ed20d287f49ce">ContentPane::getContentFrame</a></div><div class="ttdeci">QFrame * getContentFrame()</div><div class="ttdoc">Get the content frame of the content pane. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:36</div></div>
-<div class="ttc" id="class_content_pane_html_abdbee94285b10cb13e5ed788c4973d8e"><div class="ttname"><a href="class_content_pane.html#abdbee94285b10cb13e5ed788c4973d8e">ContentPane::setHeaderFrameStyle</a></div><div class="ttdeci">void setHeaderFrameStyle(int style)</div><div class="ttdoc">Set the header frame style. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:94</div></div>
-<div class="ttc" id="class_content_pane_html_ae39795b75e52644b1500615290324db6"><div class="ttname"><a href="class_content_pane.html#ae39795b75e52644b1500615290324db6">ContentPane::setContainerFrameStyle</a></div><div class="ttdeci">void setContainerFrameStyle(int style)</div><div class="ttdoc">Set the container frame style. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:101</div></div>
-<div class="ttc" id="class_content_pane_html_a4ec06de4679a0432dc5fdc99efe3fe93"><div class="ttname"><a href="class_content_pane.html#a4ec06de4679a0432dc5fdc99efe3fe93">ContentPane::getHeader</a></div><div class="ttdeci">QString getHeader()</div><div class="ttdoc">Return the header of the content pane. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:65</div></div>
-<div class="ttc" id="class_content_pane_html_a705fdf96342dc690610364efbb229d76"><div class="ttname"><a href="class_content_pane.html#a705fdf96342dc690610364efbb229d76">ContentPane::setAnimationDuration</a></div><div class="ttdeci">void setAnimationDuration(uint duration)</div><div class="ttdoc">Set the duration for the open and close animation. </div></div>
-<div class="ttc" id="class_content_pane_html_a06a44ba3576fde090515752267ac64b1"><div class="ttname"><a href="class_content_pane.html#a06a44ba3576fde090515752267ac64b1">ContentPane::setHeaderTooltip</a></div><div class="ttdeci">void setHeaderTooltip(QString tooltip)</div><div class="ttdoc">Set header tooltip. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:67</div></div>
-<div class="ttc" id="class_content_pane_html_a26b77ce9f8a2a56c0aed4dc30a5f559c"><div class="ttname"><a href="class_content_pane.html#a26b77ce9f8a2a56c0aed4dc30a5f559c">ContentPane::getMaximumHeight</a></div><div class="ttdeci">int getMaximumHeight()</div><div class="ttdoc">Get the maximum height of the content pane container frame. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:48</div></div>
-<div class="ttc" id="class_content_pane_html_a0d8080337f0e64e81d52537f011c02ed"><div class="ttname"><a href="class_content_pane.html#a0d8080337f0e64e81d52537f011c02ed">ContentPane::getHeaderStylesheet</a></div><div class="ttdeci">QString getHeaderStylesheet()</div><div class="ttdoc">Get the current header style sheet. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:79</div></div>
-<div class="ttc" id="class_content_pane_html_a254babeacf381d147c063bd3bb944ec1"><div class="ttname"><a href="class_content_pane.html#a254babeacf381d147c063bd3bb944ec1">ContentPane::getHeaderTooltip</a></div><div class="ttdeci">QString getHeaderTooltip()</div><div class="ttdoc">Get the header tooltip. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:72</div></div>
-<div class="ttc" id="class_content_pane_html_ab7de896d5a32e1db96d9b42b376ab449"><div class="ttname"><a href="class_content_pane.html#ab7de896d5a32e1db96d9b42b376ab449">ContentPane::setContentFrame</a></div><div class="ttdeci">void setContentFrame(QFrame *content)</div><div class="ttdoc">Set the content frame. </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:38</div></div>
-<div class="ttc" id="class_clickable_frame_html"><div class="ttname"><a href="class_clickable_frame.html">ClickableFrame</a></div><div class="ttdoc">The ClickableFrame class. </div><div class="ttdef"><b>Definition:</b> clickableframe.h:41</div></div>
-<div class="ttc" id="class_content_pane_html_a18a23a5d65131a88b82f5397b1b7e525"><div class="ttname"><a href="class_content_pane.html#a18a23a5d65131a88b82f5397b1b7e525">ContentPane::paintEvent</a></div><div class="ttdeci">void paintEvent(__attribute__((unused)) QPaintEvent *event)</div><div class="ttdoc">paintEvent Reimplement paintEvent to use stylesheets in derived Widgets </div><div class="ttdef"><b>Definition:</b> contentpane.cpp:211</div></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordtype">void</span> initDefaults(QString header);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordtype">void</span> initHeaderFrame(QString header);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordtype">void</span> initContainerContentFrame();</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordtype">void</span> initAnimations();</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordtype">void</span> openContentPane();</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordtype">void</span> closeContentPane();</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_q_accordion.html#a59fa2ba9b3f59bbcc666785533bacf0a">paintEvent</a>(ATTR_UNUSED QPaintEvent *event);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;};</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="preprocessor">#endif // CONTENTPANE_H</span></div>
+<div class="ttc" id="class_q_accordion_html"><div class="ttname"><a href="class_q_accordion.html">QAccordion</a></div><div class="ttdoc">QAccordion base class. </div><div class="ttdef"><b>Definition:</b> qaccordion.h:68</div></div>
+<div class="ttc" id="class_content_pane_html"><div class="ttname"><a href="class_content_pane.html">ContentPane</a></div><div class="ttdoc">Content Pane class. </div><div class="ttdef"><b>Definition:</b> contentpane.h:66</div></div>
+<div class="ttc" id="class_q_accordion_html_a59fa2ba9b3f59bbcc666785533bacf0a"><div class="ttname"><a href="class_q_accordion.html#a59fa2ba9b3f59bbcc666785533bacf0a">QAccordion::paintEvent</a></div><div class="ttdeci">void paintEvent(ATTR_UNUSED QPaintEvent *event)</div><div class="ttdoc">paintEvent Reimplement paintEvent to use stylesheets in derived Widgets </div><div class="ttdef"><b>Definition:</b> qaccordion.cpp:413</div></div>
+<div class="ttc" id="class_clickable_frame_html"><div class="ttname"><a href="class_clickable_frame.html">ClickableFrame</a></div><div class="ttdoc">The ClickableFrame class. </div><div class="ttdef"><b>Definition:</b> clickableframe.h:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
