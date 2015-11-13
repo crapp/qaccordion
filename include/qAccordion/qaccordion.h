@@ -32,8 +32,8 @@
 #include <algorithm>
 #include <iterator>
 
-#include "config.h"
-#include "qaccordion_export.h"
+#include <qaccordion_config.h>
+#include <qaccordion_export.h>
 #include "contentpane.h"
 
 class ContentPane;

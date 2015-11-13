@@ -24,8 +24,8 @@
 #include <QLabel>
 #include <QGraphicsView>
 
-#include "config.h"
-#include "qaccordion_export.h"
+#include <qaccordion_config.h>
+#include <qaccordion_export.h>
 
 // TODO: No need to use a namespace for our constants as we are using them only
 // in this class

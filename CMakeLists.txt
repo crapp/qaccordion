@@ -12,3 +12,7 @@ add_subdirectory(test)
 add_subdirectory(include/qAccordion)
 add_subdirectory(src)
 
+# use ext_include in parent projects with include directrories. makes sure the generated headers are found
+if (QACCORDION_EXTERNAL)
+    set (EXT_INCLUDE ${EXTERNAL_INCLUDE} PARENT_SCOPE)
+endif(QACCORDION_EXTERNAL)
