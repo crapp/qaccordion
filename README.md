@@ -1,4 +1,4 @@
-#qAccordion
+# qAccordion
 
 qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired by the [jQuery UI accordion control](https://jqueryui.com/accordion/).
 
