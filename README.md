@@ -34,7 +34,7 @@ Watch a screencast made with the [Demo Application](#demo-application) to see wh
 
 qAccordion is based on Qt5 and c++11. Make sure your development environment meets these requirements:
 
-* cmake >= 2.8.12
+* cmake >= 3.5
 * gcc >= 4.7
 * clang >= 3.4
 * MSVC >= 12 (Visual Studio 2013)
