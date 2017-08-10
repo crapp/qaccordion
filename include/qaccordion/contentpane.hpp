@@ -33,7 +33,6 @@
 #include "clickableframe.hpp"
 #include "qaccordion.hpp"
 
-// TODO: Do i really need to export the ClickableFrame class?
 /**
  * @brief Content Pane class
  *

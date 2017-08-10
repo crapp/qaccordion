@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CLICKABLEFRAME_H
-#define CLICKABLEFRAME_H
+#ifndef CLICKABLEFRAME_HPP
+#define CLICKABLEFRAME_HPP
 
 #include <QFrame>
 #include <QGraphicsView>
@@ -152,4 +152,4 @@ protected:
     void leaveEvent(QEvent *event);
 };
 
-#endif  // CLICKABLEFRAME_H
+#endif  // CLICKABLEFRAME_HPP

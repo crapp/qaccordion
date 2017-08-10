@@ -3,7 +3,6 @@ if (NOT WIN32)
     set(CMAKE_CXX_FLAGS       "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wno-reorder")
 endif(NOT WIN32)
-
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
@@ -15,9 +14,15 @@ message(STATUS "Found Qt version ${Qt5Widgets_VERSION_STRING}")
 
 if (QACCORDION_EXTERNAL)
     set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
+    message(STATUS "Using qAccordion external config with base path: ${base_path}")
+    # provide the current build path to parent scope. add this to include directories in parent projects
+    set(EXTERNAL_INCLUDE
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        PARENT_SCOPE
+    )
 else ()
     set(base_path ${CMAKE_SOURCE_DIR})
-endif()
+endif(QACCORDION_EXTERNAL)
 
 # configure a header file to pass some of the CMake settings
 # to the source code
@@ -66,5 +71,6 @@ install(TARGETS qAccordion DESTINATION lib)
 install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
 install(FILES ${base_path}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
 install(FILES ${base_path}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION include/qAccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.h DESTINATION include/qAccordion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.h DESTINATION include/qAccordion)
+
