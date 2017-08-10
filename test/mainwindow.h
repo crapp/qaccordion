@@ -17,20 +17,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QLineEdit>
 #include <QComboBox>
-#include <QPushButton>
 #include <QGroupBox>
+#include <QLineEdit>
+#include <QMainWindow>
+#include <QPushButton>
 
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 #include <memory>
 #include <queue>
 
-#include "qAccordion/qaccordion.h"
+#include "qaccordion/qaccordion.hpp"
 
 namespace Ui
 {
@@ -81,4 +81,4 @@ private:
     void createIpsumLabel(QFrame *frame);
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

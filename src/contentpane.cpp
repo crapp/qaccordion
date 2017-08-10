@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "qAccordion/contentpane.h"
+#include "qaccordion/contentpane.hpp"
 
 ContentPane::ContentPane(QString header, QWidget *parent) : QWidget(parent)
 {
@@ -258,10 +258,7 @@ void ContentPane::initAnimations()
         QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::headerTriggered(ATTR_UNUSED QPoint pos)
-{
-    emit this->clicked();
-}
+void ContentPane::headerClicked(ATTR_UNUSED QPoint pos) { emit this->clicked(); }
 
 void ContentPane::paintEvent(ATTR_UNUSED QPaintEvent *event)
 {

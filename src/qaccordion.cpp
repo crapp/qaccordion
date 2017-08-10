@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "qAccordion/qaccordion.h"
+#include "qaccordion/qaccordion.hpp"
 
 QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
 {
@@ -82,8 +82,9 @@ bool QAccordion::swapContentPane(uint index, ContentPane *cpane)
     }
 
     if (this->findContentPaneIndex("", nullptr, cpane) != -1) {
-        this->errorString = "Can not swap content pane as new pane is already "
-                            "managed by accordion widget";
+        this->errorString =
+            "Can not swap content pane as new pane is already "
+            "managed by accordion widget";
         return false;
     }
 
@@ -129,9 +130,9 @@ bool QAccordion::moveContentPane(uint currentIndex, uint newIndex)
                               "Can not move from " +
                                   QString::number(currentIndex) +
                                   ". Index out of range.") ||
-        this->checkIndexError(newIndex, false, "Can not move to " +
-                                                   QString::number(newIndex) +
-                                                   ". Index out of range.")) {
+        this->checkIndexError(newIndex, false,
+                              "Can not move to " + QString::number(newIndex) +
+                                  ". Index out of range.")) {
         return false;
     }
 
@@ -233,9 +234,10 @@ bool QAccordion::internalInsertContentPane(uint index, QString header,
                                            QFrame *contentFrame,
                                            ContentPane *cpane)
 {
-    if (this->checkIndexError(
-            index, true, "Can not insert Content Pane at index " +
-                             QString::number(index) + ". Index out of range")) {
+    if (this->checkIndexError(index, true,
+                              "Can not insert Content Pane at index " +
+                                  QString::number(index) +
+                                  ". Index out of range")) {
         return false;
     }
 
@@ -269,17 +271,19 @@ bool QAccordion::internalRemoveContentPane(bool deleteOject, int index,
                                            ContentPane *cpane)
 {
     if (index != -1 &&
-        this->checkIndexError(
-            index, false, "Can not remove content pane at index " +
-                              QString::number(index) + ". Index out of range")) {
+        this->checkIndexError(index, false,
+                              "Can not remove content pane at index " +
+                                  QString::number(index) +
+                                  ". Index out of range")) {
         return false;
     }
 
     if (index == -1) {
         index = this->findContentPaneIndex(std::move(name), contentFrame, cpane);
         if (index == -1) {
-            this->errorString = "Can not remove content pane as it is not part "
-                                "of the accordion widget";
+            this->errorString =
+                "Can not remove content pane as it is not part "
+                "of the accordion widget";
             return false;
         }
     }
@@ -378,7 +382,7 @@ void QAccordion::handleClickedSignal(ContentPane *cpane)
         if (!this->collapsible) {
             this->getActiveContentPaneIndex(activePanes);
             if (activePanes.size() == 1)
-                return; // only one active --> good bye :)
+                return;  // only one active --> good bye :)
         }
         cpane->closeContentPane();
         return;

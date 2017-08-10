@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,27 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef QACCORDION_H
-#define QACCORDION_H
+#ifndef QACCORDION_HPP
+#define QACCORDION_HPP
 
-#include <QWidget>
+#include <QDebug>
 #include <QGridLayout>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QPainter>
-#include <QStyleOption>
 #include <QSpacerItem>
 #include <QString>
-#include <QDebug>
+#include <QStyleOption>
+#include <QVBoxLayout>
+#include <QWidget>
 
-#include <vector>
-#include <memory>
 #include <algorithm>
 #include <iterator>
+#include <memory>
+#include <vector>
 
-#include "config.h"
-#include "qaccordion_export.h"
-#include "contentpane.h"
+#include "qaccordion_config.hpp"
+
+#include "contentpane.hpp"
 
 class ContentPane;
 
@@ -65,7 +65,7 @@ class ContentPane;
  * Currently Headers have to be unique
  *
  */
-class QACCORDION_EXPORT QAccordion : public QWidget
+class QAccordion : public QWidget
 {
     Q_OBJECT
 public:
@@ -381,4 +381,4 @@ protected:
     void paintEvent(ATTR_UNUSED QPaintEvent *event);
 };
 
-#endif // QACCORDION_H
+#endif  // QACCORDION_HPP

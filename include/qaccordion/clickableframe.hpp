@@ -18,35 +18,34 @@
 #define CLICKABLEFRAME_H
 
 #include <QFrame>
-#include <QMouseEvent>
-#include <QString>
+#include <QGraphicsView>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QGraphicsView>
-#include <QPixmap>
-#include <QDebug>
+#include <QMouseEvent>
+#include <QString>
 
-#include "config.h"
-#include "qaccordion_export.h"
+#include "qaccordion_config.hpp"
+
+// TODO: No need to use a namespace for our constants as we are using them only
+// in this class
+namespace ClickableFrame_constants
+{
+const char *const CARRET_ICON_CLOSED =
+    ":/qAccordionIcons/caret-right.png"; /**< Qt qrc "path" for the closed icon */
+const char *const CARRET_ICON_OPENED =
+    ":/qAccordionIcons/caret-bottom.png"; /**< Qt qrc "path" for the opened icon */
+}
 
 /**
  * @brief The ClickableFrame class
  *
- * This class represents a clickable QFrame. It is used by a ContentPane. The
- * class is used internally.
+ * This class represents a clickable QFrame. It is used by a ContentPane. The class
+ * is used internally.
  */
-class QACCORDION_EXPORT ClickableFrame : public QFrame
+class ClickableFrame : public QFrame
 {
-
     Q_OBJECT
 public:
-
-    enum ICON_POSITION {LEFT, RIGHT};
-    enum TRIGGER {NONE, SINGLECLICK, DOUBLECLICK, MOUSEOVER};
-
-    const char *const CARRET_ICON_CLOSED = ":/qAccordionIcons/caret-right.png"; /**< Qt qrc "path" for the closed icon */
-    const char *const CARRET_ICON_OPENED = ":/qAccordionIcons/caret-bottom.png"; /**< Qt qrc "path" for the opened icon */
-
     /**
      * @brief ClickableFrame constructor
      * @param header Header of the frame
@@ -56,23 +55,20 @@ public:
     explicit ClickableFrame(QString header, QWidget *parent = 0,
                             Qt::WindowFlags f = 0);
 
+    // TODO: Expose this function to the ContentPane api
     /**
-     * @brief Change header trigger
-     * @param tr
+     * @brief Change clickable status
+     * @param status
      *
-     * @details
-     * Set the trigger for the header. You may choose between single or double
-     * mouseclick and mouse enter event. Or ClickableFrame::TRIGGER::NONE if you
-     * want no interaction at all (you may still trigger the header
-     * programmatically though).
+     * @warning
+     * This function is currently not exposed by the qAccordion api.
      */
-    void setTrigger(TRIGGER tr);
+    void setClickable(bool status);
     /**
-     * @brief Get the the trigger of the header
-     * @return ClickableFrame::TRIGGER
+     * @brief Check if the frame is clickable
+     * @return bool
      */
-    TRIGGER getTrigger();
-
+    bool getClickable();
     /**
      * @brief Set the header string
      * @param header
@@ -83,7 +79,6 @@ public:
      * @return QString
      */
     QString getHeader();
-
     /**
      * @brief Set the default stylesheet
      * @param stylesheet
@@ -107,31 +102,25 @@ public:
 
 signals:
     /**
-     * @brief Signal that is emitted when the header is triggered
-     * @param pos Currently unused
+     * @brief Signal that is emitted upon a singleclick
+     * @param pos
      */
-    void triggered(QPoint pos);
+    void singleClick(QPoint pos);
 
 public slots:
 
     /**
-     * @brief Set the header icon
-     * @param icon
+     * @brief Set the caret pixmap
+     * @param pixmapPath
      *
      * @details
-     * ContentPane will set a icon depending on its state (active or not).
+     * Set the carret pixmap according to the state (expanded, retracted) of the
+     * ContentPane that this ClickableFrame belongs to.
      */
-    void setIcon(const QPixmap &icon);
-
-    /**
-     * @brief Set
-     * @param pos
-     */
-    void setIconPosition(ClickableFrame::ICON_POSITION pos);
+    void setCaretPixmap(QString pixmapPath);
 
 private:
-
-    QLabel *iconLabel;
+    QLabel *caretLabel;
     QLabel *nameLabel;
 
     QString hoverStylesheet;
@@ -140,18 +129,16 @@ private:
     QString header;
     QString tooltip;
 
-    TRIGGER headerTrigger;
+    bool clickable;
 
     void initFrame();
 
 protected:
-
     /**
      * @brief Reimplemented function to QMouseEvents
      * @param event
      */
     void mousePressEvent(QMouseEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *event);
 
     /**
      * @brief Enter event for mouse over effects.
@@ -165,4 +152,4 @@ protected:
     void leaveEvent(QEvent *event);
 };
 
-#endif // CLICKABLEFRAME_H
+#endif  // CLICKABLEFRAME_H
