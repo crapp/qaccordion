@@ -136,7 +136,7 @@ doxygen qAccordionDoxyfile
 ### Demo Application
 
 In the `test` folder you can find a demo application that you can build with the library.
-You must use the CMake option `BUILD_TESTER` so it gets compiled.
+You must use the CMake option `QACCORDION_BUILD_TESTER` so it gets compiled.
 
 Linux example
 
