@@ -42,17 +42,17 @@ set(QACCORDION_ICON_RESOURCE "${base_path}/icons/qaccordionicons.qrc")
 qt5_add_resources(ICON_RESOURCE_ADDED ${QACCORDION_ICON_RESOURCE})
 
 # we are building a shared library
-add_library (qAccordion SHARED
+add_library (qaccordion SHARED
     ${QACCORDION_HEADER}
     ${QACCORDION_SOURCE}
     ${ICON_RESOURCE_ADDED})
 
-target_link_libraries(qAccordion Qt5::Widgets)
+target_link_libraries(qaccordion Qt5::Widgets)
 
-set_property(TARGET qAccordion PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET qAccordion PROPERTY CXX_STANDARD 11)
+set_property(TARGET qaccordion PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET qaccordion PROPERTY CXX_STANDARD 11)
 
-target_include_directories(qAccordion
+target_include_directories(qaccordion
     PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
     PUBLIC ${base_path}/include
 )
@@ -62,15 +62,15 @@ if (QACCORDION_BUILD_TESTER)
     qt5_wrap_ui(accordion_tester_FORMS ${TEST_UI})
     find_package(Qt5Network REQUIRED)
     add_executable(accordion_tester ${TEST_HEADER} ${TEST_SOURCE} ${accordion_tester_FORMS})
-    target_link_libraries(accordion_tester qAccordion Qt5::Widgets Qt5::Network)
+    target_link_libraries(accordion_tester qaccordion Qt5::Widgets Qt5::Network)
     set_property(TARGET accordion_tester PROPERTY CXX_STANDARD_REQUIRED ON)
     set_property(TARGET accordion_tester PROPERTY CXX_STANDARD 11)
 endif(QACCORDION_BUILD_TESTER)
 
-install(TARGETS qAccordion DESTINATION lib)
-install(FILES ${base_path}/include/qAccordion/clickableframe.h DESTINATION include/qAccordion)
-install(FILES ${base_path}/include/qAccordion/contentpane.h DESTINATION include/qAccordion)
-install(FILES ${base_path}/include/qAccordion/qaccordion.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.h DESTINATION include/qAccordion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.h DESTINATION include/qAccordion)
+install(TARGETS qaccordion DESTINATION lib)
+install(FILES ${base_path}/include/qaccordion/clickableframe.hpp DESTINATION include/qaccordion)
+install(FILES ${base_path}/include/qaccordion/contentpane.hpp DESTINATION include/qaccordion)
+install(FILES ${base_path}/include/qaccordion/qaccordion.hpp DESTINATION include/qaccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.hpp DESTINATION include/qaccordion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.hpp DESTINATION include/qaccordion)
 

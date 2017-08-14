@@ -258,7 +258,7 @@ void ContentPane::initAnimations()
         QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::headerClicked(ATTR_UNUSED QPoint pos) { emit this->clicked(); }
+void ContentPane::headerTriggered(ATTR_UNUSED QPoint pos) { emit this->clicked(); }
 
 void ContentPane::paintEvent(ATTR_UNUSED QPaintEvent *event)
 {
