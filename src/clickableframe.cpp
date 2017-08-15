@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,10 @@ void ClickableFrame::setTrigger(ClickableFrame::TRIGGER tr)
     }
 }
 
-ClickableFrame::TRIGGER ClickableFrame::getTrigger() { return this->headerTrigger; }
+ClickableFrame::TRIGGER ClickableFrame::getTrigger()
+{
+    return this->headerTrigger;
+}
 
 void ClickableFrame::setHeader(QString header)
 {
@@ -55,10 +58,7 @@ void ClickableFrame::setIcon(const QPixmap &icon)
     this->iconLabel->setPixmap(icon);
 }
 
-void ClickableFrame::setIconPosition(ClickableFrame::ICON_POSITION pos)
-{
-
-}
+void ClickableFrame::setIconPosition(ClickableFrame::ICON_POSITION pos) {}
 
 void ClickableFrame::setNormalStylesheet(QString stylesheet)
 {
@@ -82,7 +82,7 @@ void ClickableFrame::initFrame()
     this->setLayout(new QHBoxLayout());
 
     this->iconLabel = new QLabel();
-    this->iconLabel->setPixmap(QPixmap(":/qAccordionIcons/caret-right.png"));
+    this->iconLabel->setPixmap(QPixmap(this->CARRET_ICON_CLOSED));
     this->layout()->addWidget(this->iconLabel);
 
     this->nameLabel = new QLabel();
@@ -117,7 +117,7 @@ void ClickableFrame::mouseDoubleClickEvent(QMouseEvent *event)
 // TODO: No Stylesheet change when TRIGGER::NONE?
 void ClickableFrame::enterEvent(ATTR_UNUSED QEvent *event)
 {
-    if (this->headerTrigger != TRIGGER::NONE ) {
+    if (this->headerTrigger != TRIGGER::NONE) {
         this->setStyleSheet(this->hoverStylesheet);
     }
 }

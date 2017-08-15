@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -206,6 +206,9 @@ void ContentPane::initHeaderFrame(QString header)
 {
     this->header = new ClickableFrame(std::move(header));
     this->header->setFrameStyle(this->headerFrameStyle);
+    // init the icons
+    this->setHeaderIconActive(this->header->CARRET_ICON_OPENED);
+    this->setHeaderIconInActive(this->header->CARRET_ICON_CLOSED);
     this->layout()->addWidget(this->header);
 
     QObject::connect(this->header, &ClickableFrame::triggered, this,
@@ -241,6 +244,7 @@ void ContentPane::initAnimations()
     // different behaviour depending on whether the Accordion Widget is placed
     // inside a QScollWidget or not. Maybe we also need to animate minimumHeight
     // as well to get the same effect.
+    // TODO: Lots of boilerplate code here
     this->openAnimation->setTargetObject(this->container);
     this->openAnimation->setPropertyName("maximumHeight");
     this->closeAnimation->setTargetObject(this->container);
@@ -258,7 +262,10 @@ void ContentPane::initAnimations()
         QEasingCurve(QEasingCurve::Type::Linear));
 }
 
-void ContentPane::headerTriggered(ATTR_UNUSED QPoint pos) { emit this->clicked(); }
+void ContentPane::headerTriggered(ATTR_UNUSED QPoint pos)
+{
+    emit this->clicked();
+}
 
 void ContentPane::paintEvent(ATTR_UNUSED QPaintEvent *event)
 {
