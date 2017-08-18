@@ -381,8 +381,9 @@ void QAccordion::handleClickedSignal(ContentPane *cpane)
         std::vector<int> activePanes;
         if (!this->collapsible) {
             this->getActiveContentPaneIndex(activePanes);
-            if (activePanes.size() == 1)
+            if (activePanes.size() == 1) {
                 return;  // only one active --> good bye :)
+            }
         }
         cpane->closeContentPane();
         return;
@@ -395,8 +396,9 @@ void QAccordion::handleClickedSignal(ContentPane *cpane)
         if (!this->getMultiActive()) {
             std::for_each(this->contentPanes.begin(), this->contentPanes.end(),
                           [](ContentPane *pane) {
-                              if (pane->getActive())
+                              if (pane->getActive()) {
                                   pane->closeContentPane();
+                              }
                           });
         }
         cpane->openContentPane();
@@ -407,7 +409,7 @@ void QAccordion::numberOfPanesChanged(int number)
 {
     // automatically open contentpane if we have only one and collapsible is
     // false
-    if (number == 1 && this->collapsible == false) {
+    if (number == 1 && !this->collapsible) {
         this->contentPanes.at(0)->openContentPane();
     }
 }

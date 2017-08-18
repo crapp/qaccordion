@@ -36,8 +36,9 @@ QFrame *ContentPane::getContentFrame() { return this->content; }
 void ContentPane::setContentFrame(QFrame *content)
 {
     this->container->layout()->removeWidget(this->content);
-    if (this->content != nullptr)
+    if (this->content != nullptr) {
         delete (this->content);
+    }
     this->content = content;
     dynamic_cast<QVBoxLayout *>(this->container->layout())
         ->insertWidget(0, this->content);
@@ -49,8 +50,9 @@ void ContentPane::setMaximumHeight(int maxHeight)
 {
     this->containerAnimationMaxHeight = maxHeight;
 
-    if (this->getActive())
+    if (this->getActive()) {
         this->container->setMaximumHeight(this->containerAnimationMaxHeight);
+    }
     this->openAnimation->setEndValue(this->containerAnimationMaxHeight);
     this->closeAnimation->setStartValue(this->containerAnimationMaxHeight);
 }
@@ -164,8 +166,9 @@ int ContentPane::getContainerFrameStyle()
 
 void ContentPane::openContentPane()
 {
-    if (this->getActive())
+    if (this->getActive()) {
         return;
+    }
     this->openAnimation->start();
     this->header->setIcon(this->headerIconActive);
     this->active = true;
@@ -173,8 +176,9 @@ void ContentPane::openContentPane()
 
 void ContentPane::closeContentPane()
 {
-    if (!this->getActive())
+    if (!this->getActive()) {
         return;
+    }
     this->closeAnimation->start();
     this->header->setIcon(this->headerIconInActive);
     this->active = false;

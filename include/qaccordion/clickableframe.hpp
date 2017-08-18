@@ -36,12 +36,13 @@ class ClickableFrame : public QFrame
 {
     Q_OBJECT
 public:
+    enum class ICON_POSITION { LEFT, RIGHT };
+    enum class TRIGGER { NONE, SINGLECLICK, DOUBLECLICK, MOUSEOVER };
 
-    enum class ICON_POSITION {LEFT, RIGHT};
-    enum class TRIGGER {NONE, SINGLECLICK, DOUBLECLICK, MOUSEOVER};
-
-    const char* const CARRET_ICON_CLOSED = ":/qAccordionIcons/caret-right.png"; /**< Qt qrc "path" for the closed icon */
-    const char* const CARRET_ICON_OPENED = ":/qAccordionIcons/caret-bottom.png"; /**< Qt qrc "path" for the opened icon */
+    const char *const CARRET_ICON_CLOSED =
+        ":/qAccordionIcons/caret-right.png"; /**< Qt qrc "path" for the closed icon */
+    const char *const CARRET_ICON_OPENED =
+        ":/qAccordionIcons/caret-bottom.png"; /**< Qt qrc "path" for the opened icon */
 
     /**
      * @brief ClickableFrame constructor
@@ -115,18 +116,17 @@ public slots:
      * @param icon
      *
      * @details
-     * ContentPane will set a icon depending on its state (active or not).
+     * ContentPane will set an icon depending on its state (active or not).
      */
     void setIcon(const QPixmap &icon);
 
     /**
-     * @brief Set
+     * @brief Set icon position
      * @param pos
      */
     void setIconPosition(ClickableFrame::ICON_POSITION pos);
 
 private:
-
     QLabel *iconLabel;
     QLabel *nameLabel;
 
