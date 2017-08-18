@@ -18,7 +18,10 @@
 
 ClickableFrame::ClickableFrame(QString header, QWidget *parent,
                                Qt::WindowFlags f)
-    : header(header), QFrame(parent, f)
+    : iconLabel(nullptr),
+      nameLabel(nullptr),
+      header(std::move(header)),
+      QFrame(parent, f)
 {
     this->setAttribute(Qt::WA_Hover, true);
     this->headerTrigger = TRIGGER::SINGLECLICK;
@@ -47,7 +50,7 @@ ClickableFrame::TRIGGER ClickableFrame::getTrigger()
 
 void ClickableFrame::setHeader(QString header)
 {
-    this->header = header;
+    this->header = std::move(header);
     this->nameLabel->setText(this->header);
 }
 
@@ -62,7 +65,7 @@ void ClickableFrame::setIconPosition(ClickableFrame::ICON_POSITION pos) {}
 
 void ClickableFrame::setNormalStylesheet(QString stylesheet)
 {
-    this->normalStylesheet = stylesheet;
+    this->normalStylesheet = std::move(stylesheet);
     this->setStyleSheet(this->normalStylesheet);
 }
 
@@ -70,7 +73,7 @@ QString ClickableFrame::getNormalStylesheet() { return this->normalStylesheet; }
 
 void ClickableFrame::setHoverStylesheet(QString stylesheet)
 {
-    this->hoverStylesheet = stylesheet;
+    this->hoverStylesheet = std::move(stylesheet);
 }
 
 QString ClickableFrame::getHoverStylesheet() { return this->hoverStylesheet; }
