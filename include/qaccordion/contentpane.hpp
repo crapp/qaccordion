@@ -149,7 +149,7 @@ public:
      * @sa
      * Supported [image formats](http://doc.qt.io/qt-5/qimagereader.html#supportedImageFormats) by QImageReader.
      */
-    void setHeaderIconActive(QString icon);
+    void setHeaderIconActive(const QString &icon);
     /**
      * @brief Set the header icon that will be displayed when the content pane is active
      * @param icon QPixmap that should be used
@@ -158,7 +158,7 @@ public:
      * This is an overloaded method of setHeaderIconActive(QString), which allows
      * you directly pass a QPixmap object.
      */
-    void setHeaderIconActive(QPixmap icon);
+    void setHeaderIconActive(const QPixmap &icon);
     /**
      * @brief Get the header icon for active state
      * @return QPixmap
@@ -175,12 +175,17 @@ public:
      * @sa
      * Supported [image formats](http://doc.qt.io/qt-5/qimagereader.html#supportedImageFormats) by QImageReader.
      */
-    void setHeaderIconInActive(QString icon);
+    void setHeaderIconInActive(const QString &icon);
     /**
      * @brief setHeaderIconInActive
      * @param icon
+     * @sa setHeaderIconInActive(QString)
      */
-    void setHeaderIconInActive(QPixmap icon);
+    void setHeaderIconInActive(const QPixmap &icon);
+    /**
+     * @brief Get the header for inactive state
+     * @return QPixmap
+     */
     QPixmap getHeaderIconInActive();
     /**
      * @brief Set header tooltip
@@ -190,7 +195,7 @@ public:
      * Set a string as header tooltip that will be shown when the mouse hovers
      * over the header area.
      */
-    void setHeaderTooltip(QString tooltip);
+    void setHeaderTooltip(const QString &tooltip);
     /**
      * @brief Get the header tooltip
      * @return Tooltip as QString

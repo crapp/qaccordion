@@ -50,7 +50,7 @@ add_library (qaccordion SHARED
 target_link_libraries(qaccordion Qt5::Widgets)
 
 set_property(TARGET qaccordion PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET qaccordion PROPERTY CXX_STANDARD 11)
+set_property(TARGET qaccordion PROPERTY CXX_STANDARD 14)
 
 target_include_directories(qaccordion
     PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
@@ -64,7 +64,7 @@ if (QACCORDION_BUILD_TESTER)
     add_executable(accordion_tester ${TEST_HEADER} ${TEST_SOURCE} ${accordion_tester_FORMS})
     target_link_libraries(accordion_tester qaccordion Qt5::Widgets Qt5::Network)
     set_property(TARGET accordion_tester PROPERTY CXX_STANDARD_REQUIRED ON)
-    set_property(TARGET accordion_tester PROPERTY CXX_STANDARD 11)
+    set_property(TARGET accordion_tester PROPERTY CXX_STANDARD 14)
 endif(QACCORDION_BUILD_TESTER)
 
 install(TARGETS qaccordion DESTINATION lib)

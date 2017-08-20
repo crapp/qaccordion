@@ -7,7 +7,7 @@ set(TEST_HEADER
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.h
     PARENT_SCOPE
 )
-set(TEST_SOURCE 
+set(TEST_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.cpp
     PARENT_SCOPE

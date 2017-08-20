@@ -74,7 +74,7 @@ void ContentPane::setHeader(QString header)
 
 QString ContentPane::getHeader() { return this->header->getHeader(); }
 
-void ContentPane::setHeaderIconActive(QString icon)
+void ContentPane::setHeaderIconActive(const QString &icon)
 {
     QPixmap pic(icon);
     if (!pic.isNull()) {
@@ -85,7 +85,7 @@ void ContentPane::setHeaderIconActive(QString icon)
     }
 }
 
-void ContentPane::setHeaderIconActive(QPixmap icon)
+void ContentPane::setHeaderIconActive(const QPixmap &icon)
 {
     if (!icon.isNull()) {
         this->headerIconActive = icon;
@@ -97,7 +97,7 @@ void ContentPane::setHeaderIconActive(QPixmap icon)
 
 QPixmap ContentPane::getHeaderIconActive() { return this->headerIconActive; }
 
-void ContentPane::setHeaderIconInActive(QString icon)
+void ContentPane::setHeaderIconInActive(const QString &icon)
 {
     QPixmap pic(icon);
     if (!pic.isNull()) {
@@ -108,7 +108,7 @@ void ContentPane::setHeaderIconInActive(QString icon)
     }
 }
 
-void ContentPane::setHeaderIconInActive(QPixmap icon)
+void ContentPane::setHeaderIconInActive(const QPixmap &icon)
 {
     if (!icon.isNull()) {
         this->headerIconInActive = icon;
@@ -120,7 +120,7 @@ void ContentPane::setHeaderIconInActive(QPixmap icon)
 
 QPixmap ContentPane::getHeaderIconInActive() { return this->headerIconInActive; }
 
-void ContentPane::setHeaderTooltip(QString tooltip)
+void ContentPane::setHeaderTooltip(const QString &tooltip)
 {
     this->header->setToolTip(tooltip);
 }
@@ -240,10 +240,8 @@ void ContentPane::initContainerContentFrame()
 
 void ContentPane::initAnimations()
 {
-    this->openAnimation =
-        std::unique_ptr<QPropertyAnimation>(new QPropertyAnimation());
-    this->closeAnimation =
-        std::unique_ptr<QPropertyAnimation>(new QPropertyAnimation());
+    this->openAnimation = std::make_unique<QPropertyAnimation>();
+    this->closeAnimation = std::make_unique<QPropertyAnimation>();
     // TODO: Currently these animations only animate maximumHeight. This leads to
     // different behaviour depending on whether the Accordion Widget is placed
     // inside a QScollWidget or not. Maybe we also need to animate minimumHeight
