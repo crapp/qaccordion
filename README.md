@@ -1,5 +1,9 @@
 # qAccordion
 
+[![Build Status](https://travis-ci.org/crapp/qaccordion.svg?branch=master)](https://travis-ci.org/crapp/qaccordion)
+[![qAccordion license GPL](https://img.shields.io/github/license/crapp/qaccordion.svg)](#license)
+[![Latest release](https://img.shields.io/github/release/crapp/qaccordion.svg)](https://github.com/crapp/qaccordion/releases/latest)
+
 qAccordion provides an accordion widget for Qt 5. The widget is heavily inspired by the [jQuery UI accordion control](https://jqueryui.com/accordion/).
 
 Watch a screencast made with the [Demo Application](#demo-application) to see what qAccordion is.
