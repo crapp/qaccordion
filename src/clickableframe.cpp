@@ -61,7 +61,7 @@ void ClickableFrame::setIcon(const QPixmap &icon)
     this->iconLabel->setPixmap(icon);
 }
 
-void ClickableFrame::setIconPosition(ClickableFrame::ICON_POSITION pos) {}
+//void ClickableFrame::setIconPosition(ClickableFrame::ICON_POSITION pos) {}
 
 void ClickableFrame::setNormalStylesheet(QString stylesheet)
 {
