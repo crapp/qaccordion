@@ -124,7 +124,7 @@ public slots:
      * @brief Set icon position
      * @param pos
      */
-    void setIconPosition(ClickableFrame::ICON_POSITION pos);
+    //void setIconPosition(ClickableFrame::ICON_POSITION pos);
 
 private:
     QLabel *iconLabel;
