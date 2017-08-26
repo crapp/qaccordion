@@ -53,6 +53,9 @@ matrix:
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      sudo apt-add-repository ppa:beineri/opt-qt521-trusty -y
+      sudo apt-get install mesa-common-dev qt52base qt52connectivity -y
+      export PRE_PATH=/opt/qt52
       CMAKE_URL="https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh"
       CMAKE_INSTALLER="cmake-3.6.3-Linux-x86_64.sh"
       wget --no-check-certificate --quiet -O ${CMAKE_INSTALLER} - ${CMAKE_URL}
@@ -61,6 +64,8 @@ install:
       brew update
       brew uninstall --force cmake
       brew install cmake
+      brew install qt5
+      export PRE_PATH=$(brew --prefix qt5)
     fi
 
 script:
@@ -68,7 +73,7 @@ script:
     cd ${TRAVIS_BUILD_DIR} && pwd
     mkdir build
     cd build && pwd
-    cmake -DBUILD_QACCORDION_DEMO=ON -DCMAKE_CXX_COMPILER=$COMPILER ../ && make
+    cmake -DBUILD_QACCORDION_DEMO=ON -DCMAKE_CXX_COMPILER=$COMPILER -DCMAKE_PREFIX_PATH=${PRE_PATH} ../ && make
 
 # blacklist
 branches:
