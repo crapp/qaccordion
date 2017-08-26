@@ -58,13 +58,14 @@ int QAccordion::addContentPane(ContentPane *cpane)
 
 bool QAccordion::insertContentPane(uint index, QString header)
 {
-    return this->internalInsertContentPane(index, header);
+    return this->internalInsertContentPane(index, std::move(header));
 }
 
 bool QAccordion::insertContentPane(uint index, QString header,
                                    QFrame *contentFrame)
 {
-    return this->internalInsertContentPane(index, header, contentFrame);
+    return this->internalInsertContentPane(index, std::move(header),
+                                           contentFrame);
 }
 
 bool QAccordion::insertContentPane(uint index, ContentPane *cpane)
@@ -110,7 +111,7 @@ bool QAccordion::removeContentPane(bool deleteObject, uint index)
 
 bool QAccordion::removeContentPane(bool deleteObject, QString header)
 {
-    return this->internalRemoveContentPane(deleteObject, -1, header);
+    return this->internalRemoveContentPane(deleteObject, -1, std::move(header));
 }
 
 bool QAccordion::removeContentPane(bool deleteObject, QFrame *contentframe)
@@ -136,7 +137,7 @@ bool QAccordion::moveContentPane(uint currentIndex, uint newIndex)
         return false;
     }
 
-    QVBoxLayout *layout = dynamic_cast<QVBoxLayout *>(this->layout());
+    auto *layout = dynamic_cast<QVBoxLayout *>(this->layout());
     // get the pane we want to move
     ContentPane *movePane = this->contentPanes.at(currentIndex);
 
@@ -164,7 +165,7 @@ ContentPane *QAccordion::getContentPane(uint index)
 
 int QAccordion::getContentPaneIndex(QString header)
 {
-    return this->findContentPaneIndex(header);
+    return this->findContentPaneIndex(std::move(header));
 }
 
 int QAccordion::getContentPaneIndex(QFrame *contentFrame)

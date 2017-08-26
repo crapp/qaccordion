@@ -23,20 +23,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // create a network access manager object to get some lorem ipsum :)
-    this->networkManager =
-        std::unique_ptr<QNetworkAccessManager>(new QNetworkAccessManager());
+    this->networkManager = std::make_unique<QNetworkAccessManager>();
     QObject::connect(this->networkManager.get(),
                      &QNetworkAccessManager::finished, this,
                      &MainWindow::networkRequestFinished);
 
     // the demo qccordion. The Accordion will be added programmatically
-    QGroupBox *groupboxDemo = new QGroupBox();
+    auto *groupboxDemo = new QGroupBox();
     groupboxDemo->setTitle("Demo Accordion");
     groupboxDemo->setLayout(new QVBoxLayout());
     ui->verticalLayout->insertWidget(0, groupboxDemo);
-    QScrollArea *scrollAreaTop = new QScrollArea();
+    auto *scrollAreaTop = new QScrollArea();
     groupboxDemo->layout()->addWidget(scrollAreaTop);
-    QAccordion *topAccordion = new QAccordion();
+    auto *topAccordion = new QAccordion();
     scrollAreaTop->setWidget(topAccordion);
     // if you are using a QScrollArea you have to tell it that the qaccrdion
     // widget is resizable
@@ -84,7 +83,7 @@ void MainWindow::contentPaneAdd(QAccordion *topAccordion)
     this->addCF->setLayout(new QVBoxLayout());
     this->addCF->layout()->addWidget(
         new QLabel("Add a new Content Pane with the provided Header"));
-    QLineEdit *headerName = new QLineEdit();
+    auto *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
     this->addCF->layout()->addWidget(headerName);
     QPushButton *addPaneButton = new QPushButton("Add Content Pane");
@@ -124,13 +123,13 @@ void MainWindow::contentPaneInsert(QAccordion *topAccordion)
     this->insertCF->layout()->addWidget(new QLabel(
         "Insert a new content pane by providing a Header and a Position"));
 
-    QHBoxLayout *headerPosition = new QHBoxLayout();
+    auto *headerPosition = new QHBoxLayout();
     dynamic_cast<QVBoxLayout *>(this->insertCF->layout())
         ->addLayout(headerPosition);
-    QLineEdit *headerName = new QLineEdit();
+    auto *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
     headerPosition->addWidget(headerName);
-    QComboBox *position = new QComboBox();
+    auto *position = new QComboBox();
     // inserting at 0 is always possible.
     position->addItem("Position 0", QVariant(0));
     QObject::connect(topAccordion, &QAccordion::numberOfContentPanesChanged,
@@ -143,7 +142,7 @@ void MainWindow::contentPaneInsert(QAccordion *topAccordion)
                      });
     headerPosition->layout()->addWidget(position);
 
-    QPushButton *insertPaneButton = new QPushButton("Insert Content Pane");
+    auto *insertPaneButton = new QPushButton("Insert Content Pane");
     this->insertCF->layout()->addWidget(insertPaneButton);
     QObject::connect(
         insertPaneButton, &QPushButton::clicked,
@@ -181,7 +180,7 @@ void MainWindow::contentPaneRemove(QAccordion *topAccordion)
     this->removeCF->setLayout(new QVBoxLayout());
     this->removeCF->layout()->addWidget(
         new QLabel("Remove a content pane by providing the Header"));
-    QLineEdit *headerName = new QLineEdit();
+    auto *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
     this->removeCF->layout()->addWidget(headerName);
     QPushButton *removePaneButton = new QPushButton("Remove Content Pane");
@@ -214,10 +213,10 @@ void MainWindow::contentPaneMove(QAccordion *topAccordion)
     this->moveCF->setLayout(new QVBoxLayout());
     this->moveCF->layout()->addWidget(
         new QLabel("Move a content pane to another position"));
-    QHBoxLayout *fromToCombos = new QHBoxLayout();
+    auto *fromToCombos = new QHBoxLayout();
     dynamic_cast<QVBoxLayout *>(this->moveCF->layout())->addLayout(fromToCombos);
-    QComboBox *fromBox = new QComboBox();
-    QComboBox *toBox = new QComboBox();
+    auto *fromBox = new QComboBox();
+    auto *toBox = new QComboBox();
     fromToCombos->addWidget(fromBox);
     fromToCombos->addWidget(toBox);
 
