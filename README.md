@@ -206,7 +206,7 @@ configure clang-tidy and enable specific checks.
 
 This is the configuration that is used during qAccordion development
 
-`CMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,clang-analyzer-*,readability-*,misc-*,modernize-*,performance-*"`
+`CMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,clang-analyzer-*,readability-*,misc-*,modernize-*,-modernize-raw-string-literal,performance-*"`
 
 ### Versioning
 
