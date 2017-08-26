@@ -21,13 +21,13 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication qAccordionTester(argc, argv);
+    QApplication qAccordionDemo(argc, argv);
     QCoreApplication::setOrganizationName("crappbytes");
     QCoreApplication::setOrganizationDomain("crappbytes.org");
-    QCoreApplication::setApplicationName("qAccordionTester");
+    QCoreApplication::setApplicationName("qAccordion Demo");
 
     MainWindow mw;
     mw.show();
 
-    return qAccordionTester.exec();
+    return qAccordionDemo.exec();
 }
