@@ -140,14 +140,14 @@ doxygen qAccordionDoxyfile
 
 ### Demo Application
 
-In the `test` folder you can find a demo application that you can build with the library.
-You must use the CMake option `QACCORDION_BUILD_TESTER` so it gets compiled.
+In the `demo` folder you can find a demo application that you can build with the library.
+You must use the CMake option `QACCORDION_BUILD_DEMO` so it gets compiled.
 
 Linux example
 
 ```shell
 cd build
-cmake -DQACCORDION_BUILD_TESTER=ON ../
+cmake -DQACCORDION_BUILD_DEMO=ON ../
 make
 ```
 Have a look at the source code of the demo application if you are searching for a more advanced example on how to use this Qt Widget. I have recorded a short video that shows how qAccordion works.

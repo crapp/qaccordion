@@ -7,7 +7,7 @@ option(QACCORDION_EXTERNAL OFF)
 # let cmake handle all the export business on windows
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_subdirectory(test)
+add_subdirectory(demo)
 add_subdirectory(include/qaccordion)
 add_subdirectory(src)
 

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>qAccordion Tester</string>
+   <string>qAccordion Demo</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../icons/qaccordionicons.qrc">
