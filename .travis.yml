@@ -54,6 +54,7 @@ install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       sudo apt-add-repository ppa:beineri/opt-qt521-trusty -y
+      sudo apt-get update -qq
       sudo apt-get install mesa-common-dev qt52base qt52connectivity -y
       export PRE_PATH=/opt/qt52
       CMAKE_URL="https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh"
