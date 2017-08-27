@@ -1,20 +1,4 @@
 var searchData=
 [
-  ['setanimationduration',['setAnimationDuration',['../class_content_pane.html#a705fdf96342dc690610364efbb229d76',1,'ContentPane']]],
-  ['setcaretpixmap',['setCaretPixmap',['../class_clickable_frame.html#ad1e9d940f7815cceab2aee99071194bc',1,'ClickableFrame']]],
-  ['setclickable',['setClickable',['../class_clickable_frame.html#a1ed85806f2bdaf81a68ee83f08db6988',1,'ClickableFrame']]],
-  ['setcollapsible',['setCollapsible',['../class_q_accordion.html#afa708e80500dd5201baa252c7c3df819',1,'QAccordion']]],
-  ['setcontainerframestyle',['setContainerFrameStyle',['../class_content_pane.html#ae39795b75e52644b1500615290324db6',1,'ContentPane']]],
-  ['setcontentframe',['setContentFrame',['../class_content_pane.html#ab7de896d5a32e1db96d9b42b376ab449',1,'ContentPane']]],
-  ['setheader',['setHeader',['../class_clickable_frame.html#a54e86ac1a61adf035d59a78f559be2a2',1,'ClickableFrame::setHeader()'],['../class_content_pane.html#ac6290c16e70e5e18734844d74384abba',1,'ContentPane::setHeader()']]],
-  ['setheaderframestyle',['setHeaderFrameStyle',['../class_content_pane.html#abdbee94285b10cb13e5ed788c4973d8e',1,'ContentPane']]],
-  ['setheaderhoverstylesheet',['setHeaderHoverStylesheet',['../class_content_pane.html#ad8bbcff957807ddeedf0905b79b3c795',1,'ContentPane']]],
-  ['setheaderstylesheet',['setHeaderStylesheet',['../class_content_pane.html#a181ed09781e7d27364d5f96755c2a576',1,'ContentPane']]],
-  ['setheadertooltip',['setHeaderTooltip',['../class_content_pane.html#a06a44ba3576fde090515752267ac64b1',1,'ContentPane']]],
-  ['sethoverstylesheet',['setHoverStylesheet',['../class_clickable_frame.html#a9310bafdc22c358292b8fc274f963cde',1,'ClickableFrame']]],
-  ['setmaximumheight',['setMaximumHeight',['../class_content_pane.html#ac9d100b1badd0648ad7a9a40e4a95bfc',1,'ContentPane']]],
-  ['setmultiactive',['setMultiActive',['../class_q_accordion.html#aededb7ef14802df8d5ac6d73383a1b34',1,'QAccordion']]],
-  ['setnormalstylesheet',['setNormalStylesheet',['../class_clickable_frame.html#a2b5eeb6466dc70e2b846ced2bc6a5224',1,'ClickableFrame']]],
-  ['singleclick',['singleClick',['../class_clickable_frame.html#a96211da5c70805f65fb769eacdb9f9b3',1,'ClickableFrame']]],
-  ['swapcontentpane',['swapContentPane',['../class_q_accordion.html#a8053fc39eb8a0e9584600ab607c32889',1,'QAccordion']]]
+  ['removecontentpane',['removeContentPane',['../class_q_accordion.html#ae3b850ae56f4589895c1c78ae9d81456',1,'QAccordion::removeContentPane(bool deleteObject, uint index)'],['../class_q_accordion.html#ad1089eebf832221da515d817d2f9e9b1',1,'QAccordion::removeContentPane(bool deleteObject, QString header)'],['../class_q_accordion.html#a5e816dcdf0c1004730addcf1954995e1',1,'QAccordion::removeContentPane(bool deleteObject, QFrame *contentframe)'],['../class_q_accordion.html#a0a5ac75b85ae0d495dfd0b7194558a0a',1,'QAccordion::removeContentPane(bool deleteObject, ContentPane *contentPane)']]]
 ];
