@@ -101,7 +101,7 @@ Using this widget is quite easy. You can add this to your application either pro
 ### A minimum code example
 
 ```c++
-QAccordion *myAccordion = new QAccordion();
+auto *myAccordion = new QAccordion();
 // add the Accordion to your layout
 this->layout()->addWidget(myAccordion);
 // add a content pane with a header
