@@ -79,7 +79,7 @@ script:
 # blacklist
 branches:
   except:
-    #    - develop
+    - develop
     - gh-pages
 
 #notifications:
