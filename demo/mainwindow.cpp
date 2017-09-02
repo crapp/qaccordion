@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
                      &QNetworkAccessManager::finished, this,
                      &MainWindow::networkRequestFinished);
 
-    // the demo qccordion. The Accordion will be added programmatically
+    // the demo qaccordion. The Accordion will be added programmatically
     auto *groupboxDemo = new QGroupBox();
     groupboxDemo->setTitle("Demo Accordion");
     groupboxDemo->setLayout(new QVBoxLayout());
@@ -62,7 +62,7 @@ void MainWindow::networkRequestFinished(QNetworkReply *reply)
         QByteArray data = reply->readAll();
         ipsumLabel->setText(QString(data));
     } else {
-        qDebug() << Q_FUNC_INFO << "Netowrk error: " << reply->error() << "\n"
+        qDebug() << Q_FUNC_INFO << "Network error: " << reply->error() << "\n"
                  << reply->errorString();
         ipsumLabel->setText(this->offlineIpsum);
     }
@@ -274,5 +274,7 @@ void MainWindow::createIpsumLabel(QFrame *frame)
     // make the network request
     QNetworkRequest rquest;
     rquest.setUrl(QUrl(this->ipsumApi));
+    rquest.setRawHeader("Accept", "text/html");
+    rquest.setRawHeader("Connection", "Keep-Alive");
     this->networkManager->get(rquest);
 }

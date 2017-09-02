@@ -47,7 +47,7 @@ public:
 
 private:
     // lorem ipsum api url
-    const char *const ipsumApi = "http://loripsum.net/api/1/short/code";
+    const char *const ipsumApi = "https://loripsum.net/api/1/short/code";
     // a random offline ipsum in case there is no network connection
     const char *const offlineIpsum =
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed plane "
