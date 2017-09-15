@@ -13,7 +13,7 @@ find_package(Qt5Widgets 5.2 REQUIRED)
 message(STATUS "Found Qt version ${Qt5Widgets_VERSION_STRING}")
 
 if(QACCORDION_EXTERNAL)
-    set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
+    set(base_path ${PROJECT_SOURCE_DIR}/external/qaccordion/)
     message(STATUS
         "Using qAccordion external config with base path: ${base_path}")
     # provide the current build path to parent scope. add this to include
@@ -23,7 +23,7 @@ if(QACCORDION_EXTERNAL)
         PARENT_SCOPE
     )
 else()
-    set(base_path ${CMAKE_SOURCE_DIR})
+    set(base_path ${PROJECT_SOURCE_DIR})
 endif()
 
 # configure a header file to pass some of the CMake settings
