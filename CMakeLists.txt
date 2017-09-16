@@ -1,11 +1,17 @@
-cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(qAccordion VERSION 0.2.2)
 
 option(QACCORDION_BUILD_TESTER OFF)
 option(QACCORDION_EXTERNAL OFF)
 
-# let cmake handle all the export business on windows
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+if(WIN32)
+    if(${CMAKE_VERSION} VERSION_LESS 3.4.3)
+        message(FATAL_ERROR "Windows builds require CMake 3.4.3 or greator")
+    else(${CMAKE_VERSION} VERSION_LESS 3.4.3)
+        # let cmake handle all the export business on windows
+        set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    endif(${CMAKE_VERSION} VERSION_LESS 3.4.3)
+endif(WIN32)
 
 add_subdirectory(demo)
 add_subdirectory(include/qaccordion)
