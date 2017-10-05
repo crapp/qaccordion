@@ -84,6 +84,6 @@ install(FILES ${base_path}/include/qaccordion/qaccordion.hpp
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.hpp
     DESTINATION include/qaccordion)
 if(WIN32)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.hpp
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_exports.hpp
         DESTINATION include/qaccordion)
 endif(WIN32)
