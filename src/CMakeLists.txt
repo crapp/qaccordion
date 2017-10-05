@@ -74,7 +74,10 @@ if(QACCORDION_BUILD_DEMO)
     set_property(TARGET accordion_demo PROPERTY CXX_STANDARD 14)
 endif()
 
-install(TARGETS qaccordion DESTINATION lib)
+install(TARGETS qaccordion
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib)
 install(FILES ${base_path}/include/qaccordion/clickableframe.hpp
     DESTINATION include/qaccordion)
 install(FILES ${base_path}/include/qaccordion/contentpane.hpp
