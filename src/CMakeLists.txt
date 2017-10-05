@@ -49,6 +49,10 @@ add_library(qaccordion SHARED
     ${QACCORDION_SOURCE}
     ${ICON_RESOURCE_ADDED})
 
+set (CMAKE_INCLUDE_CURRENT_DIR ON)
+include(GenerateExportHeader)
+generate_export_header(qaccordion EXPORT_FILE_NAME "qaccordion_exports.hpp")
+
 target_link_libraries(qaccordion Qt5::Widgets)
 
 set_property(TARGET qaccordion PROPERTY CXX_STANDARD_REQUIRED ON)
