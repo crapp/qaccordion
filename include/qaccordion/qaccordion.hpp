@@ -34,6 +34,14 @@
 
 #include "qaccordion_config.hpp"
 
+#ifdef _WIN32
+#include "qaccordion_exports.hpp"
+#endif
+
+#ifndef QACCORDION_EXPORT
+#define QACCORDION_EXPORT
+#endif
+
 #include "contentpane.hpp"
 
 class ContentPane;
@@ -65,7 +73,7 @@ class ContentPane;
  * Currently Headers have to be unique
  *
  */
-class QAccordion : public QWidget
+class QACCORDION_EXPORT QAccordion : public QWidget
 {
     Q_OBJECT
 public:
