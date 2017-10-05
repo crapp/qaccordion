@@ -13,7 +13,7 @@ find_package(Qt5Widgets 5.2 REQUIRED)
 message(STATUS "Found Qt version ${Qt5Widgets_VERSION_STRING}")
 
 if(QACCORDION_EXTERNAL)
-    set(base_path ${CMAKE_SOURCE_DIR}/external/qaccordion/)
+    set(base_path ${PROJECT_SOURCE_DIR}/external/qaccordion/)
     message(STATUS
         "Using qAccordion external config with base path: ${base_path}")
     # provide the current build path to parent scope. add this to include
@@ -23,7 +23,7 @@ if(QACCORDION_EXTERNAL)
         PARENT_SCOPE
     )
 else()
-    set(base_path ${CMAKE_SOURCE_DIR})
+    set(base_path ${PROJECT_SOURCE_DIR})
 endif()
 
 # configure a header file to pass some of the CMake settings
@@ -49,6 +49,10 @@ add_library(qaccordion SHARED
     ${QACCORDION_SOURCE}
     ${ICON_RESOURCE_ADDED})
 
+set (CMAKE_INCLUDE_CURRENT_DIR ON)
+include(GenerateExportHeader)
+generate_export_header(qaccordion EXPORT_FILE_NAME "qaccordion_exports.hpp")
+
 target_link_libraries(qaccordion Qt5::Widgets)
 
 set_property(TARGET qaccordion PROPERTY CXX_STANDARD_REQUIRED ON)
@@ -70,7 +74,10 @@ if(QACCORDION_BUILD_DEMO)
     set_property(TARGET accordion_demo PROPERTY CXX_STANDARD 14)
 endif()
 
-install(TARGETS qaccordion DESTINATION lib)
+install(TARGETS qaccordion
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib)
 install(FILES ${base_path}/include/qaccordion/clickableframe.hpp
     DESTINATION include/qaccordion)
 install(FILES ${base_path}/include/qaccordion/contentpane.hpp
@@ -79,6 +86,7 @@ install(FILES ${base_path}/include/qaccordion/qaccordion.hpp
     DESTINATION include/qaccordion)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_config.hpp
     DESTINATION include/qaccordion)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_export.hpp
-    DESTINATION include/qaccordion)
-
+if(WIN32)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qaccordion_exports.hpp
+        DESTINATION include/qaccordion)
+endif(WIN32)
