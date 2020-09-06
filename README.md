@@ -109,7 +109,7 @@ int firstPaneIndex = myAccordion->addContentPane("My first content pane");
 // make sure our content pane was added
 if (firstPaneIndex != -1) {
 	// get a QFrame* from the Content Pane. This is where we place our content
-	QFrame *contentFrame = myAccordion->getContentPane(firstPaneIndex)->getContentFrame();
+	auto *contentFrame = myAccordion->getContentPane(firstPaneIndex)->getContentFrame();
 	// give the QFrame a QLayout
 	contentFrame->setLayout(new QVBoxLayout());
 	// add a simpel QLabel to the frame
@@ -195,12 +195,13 @@ errors, like style violations, interface misuse, or bugs that can be deduced via
 static analysis. I am using `clang-tidy` to check the source code. This is done
 by `cmake` during compilation.
 
+This is the configuration that is used during qAccordion development
+`clang-tidy --checks="-*,performance-*,modernize-*,-modernize-use-trailing-return-type,bugprone-*,clang-analyzer-*,misc-*,readability-*,-readability-static-accessed-through-instance,-readability-convert-member-functions-to-static" --dump-config > .clang-tidy`
+
 cmake >= 3.6 offers the option `CMAKE_CXX_CLANG_TIDY`. With this option one can
 configure clang-tidy and enable specific checks.
 
-This is the configuration that is used during qAccordion development
-
-`CMAKE_CXX_CLANG_TIDY:STRING="clang-tidy;-checks=-*,clang-analyzer-*,readability-*,misc-*,modernize-*,-modernize-raw-string-literal,performance-*"`
+`CMAKE_CXX_CLANG_TIDY:STRING="clang-tidy"`
 
 ### Versioning
 
@@ -227,7 +228,7 @@ Feel free to fork the project and do a pull request!
 
 ## License
 ```
-Copyright (C) 2015, 2017 Christian Rapp
+Copyright (C) 2015, 2017, 2020 Christian Rapp
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
