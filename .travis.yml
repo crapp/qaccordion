@@ -19,17 +19,19 @@ matrix:
 #  - sudo apt-get update -qq
 #  - sudo apt-get install -y sfml
 
-install:
-  - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      sudo apt-get install mesa-common-dev qtbase5-dev qtconnectivity5-dev -y
-    else
-      brew update
-      brew uninstall --force cmake
-      brew install cmake
-      brew install qt5
-      export PRE_PATH=$(brew --prefix qt5)
-    fi
+before_install:
+  # - |
+  #   if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+  #     sudo apt-get install mesa-common-dev qtbase5-dev qtconnectivity5-dev -y
+  #   else
+  #     brew update
+  #     brew uninstall --force cmake
+  #     brew install cmake
+  #     brew install qt5
+  #     export PRE_PATH=$(brew --prefix qt5)
+  #   fi
+  - sudo apt-get install mesa-common-dev qtbase5-dev qtconnectivity5-dev -y
+
 
 script:
   - |
