@@ -4,41 +4,10 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=g++-5
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env: COMPILER=g++-6
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env: COMPILER=g++-7
+      env: COMPILER=g++
     - os: linux
       compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - clang-5.0
-      env: COMPILER=clang++-5.0
+      env: COMPILER=clang++
     #- os: osx
       #compiler: clang
       #osx_image: xcode6.4
@@ -53,14 +22,7 @@ matrix:
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      sudo apt-add-repository ppa:beineri/opt-qt521-trusty -y
-      sudo apt-get update -qq
-      sudo apt-get install mesa-common-dev qt52base qt52connectivity -y
-      export PRE_PATH=/opt/qt52
-      CMAKE_URL="https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh"
-      CMAKE_INSTALLER="cmake-3.6.3-Linux-x86_64.sh"
-      wget --no-check-certificate --quiet -O ${CMAKE_INSTALLER} - ${CMAKE_URL}
-      sh ${CMAKE_INSTALLER} --prefix=$HOME --exclude-subdir
+      sudo apt-get install mesa-common-dev qtbase5-dev qtconnectivity5-dev -y
     else
       brew update
       brew uninstall --force cmake
@@ -74,7 +36,8 @@ script:
     cd ${TRAVIS_BUILD_DIR} && pwd
     mkdir build
     cd build && pwd
-    cmake -DQACCORDION_BUILD_DEMO=ON -DCMAKE_CXX_COMPILER=$COMPILER -DCMAKE_PREFIX_PATH=${PRE_PATH} ../ && make
+    cmake -DQACCORDION_BUILD_DEMO=ON -DCMAKE_CXX_COMPILER=$COMPILER ../
+  - make
 
 # blacklist
 branches:
