@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -73,13 +73,13 @@ public:
      * @brief QAccordion constructor
      * @param parent Optionally provide a parent widget
      */
-    explicit QAccordion(QWidget *parent = 0);
+    explicit QAccordion(QWidget *parent = nullptr);
 
     /**
      * @brief Returns the number of content panes
      * @return int
      */
-    int numberOfContentPanes();
+    int numberOfContentPanes() const;
 
     /**
      * @brief Add a new content Pane
@@ -250,7 +250,7 @@ public:
      * Get the index of a ContentPane with \p header. This method will return
      * <b>-1</b> if a ContentPane with this header does not exist.
      */
-    int getContentPaneIndex(QString header);
+    int getContentPaneIndex(QString header) const;
     /**
      * @brief Get the index of a content pane
      * @param contentFrame Content Frame
@@ -259,7 +259,7 @@ public:
      * @details
      * This is an overloaded function of getContentPaneIndex(QString)
      */
-    int getContentPaneIndex(QFrame *contentFrame);
+    int getContentPaneIndex(QFrame *contentFrame) const;
     /**
      * @brief Get the index of a content pane
      * @param contentPane ContentPane*
@@ -268,7 +268,7 @@ public:
      * @details
      * This is an overloaded function of getContentPaneIndex(QString)
      */
-    int getContentPaneIndex(ContentPane *contentPane);
+    int getContentPaneIndex(ContentPane *contentPane) const;
 
     /**
      * @brief Get the index of the active ContentPane
@@ -278,13 +278,13 @@ public:
      * This method will fill a vector with the index of all active ContentPanes.
      * The vector will be empty if no ContentPane is active
      */
-    void getActiveContentPaneIndex(std::vector<int> &indexVector);
+    void getActiveContentPaneIndex(std::vector<int> &indexVector) const;
 
     /**
      * @brief Get the number of content panes
      * @return Number of content panes
      */
-    int getNumberOfContentPanes();
+    int getNumberOfContentPanes() const;
 
     /**
      * @brief Allow multiple ContentPane to be open
@@ -303,7 +303,7 @@ public:
      * @sa
      * setMultiActive()
      */
-    bool getMultiActive();
+    bool getMultiActive() const;
 
     /**
      * @brief If collapsible is true you can close all ContentPanes
@@ -320,7 +320,7 @@ public:
      * @sa
      * setCollapsible()
      */
-    bool getCollapsible();
+    bool getCollapsible() const;
 
     /**
      * @brief Get error string
@@ -364,7 +364,7 @@ private:
                                    QFrame *contentFrame = nullptr,
                                    ContentPane *cpane = nullptr);
     int findContentPaneIndex(QString name = "", QFrame *cframe = nullptr,
-                             ContentPane *cpane = nullptr);
+                             ContentPane *cpane = nullptr) const;
 
     bool checkIndexError(uint index, bool sizeIndexAllowed,
                          const QString &errMessage);
@@ -378,7 +378,7 @@ protected:
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
-    void paintEvent(ATTR_UNUSED QPaintEvent *event);
+    void paintEvent(ATTR_UNUSED QPaintEvent *event) override;
 };
 
 #endif  // QACCORDION_HPP

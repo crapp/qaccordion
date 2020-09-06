@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ ContentPane::ContentPane(QString header, QFrame *content, QWidget *parent)
     this->initDefaults(std::move(header));
 }
 
-bool ContentPane::getActive() { return this->active; }
+bool ContentPane::getActive() const { return this->active; }
 
 QFrame *ContentPane::getContentFrame() { return this->content; }
 

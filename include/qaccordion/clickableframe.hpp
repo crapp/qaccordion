@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QString>
+#include <qnamespace.h>
 
 #include "qaccordion_config.hpp"
 
@@ -50,8 +51,8 @@ public:
      * @param parent Parent widget or 0
      * @param f Qt::WindowFlags
      */
-    explicit ClickableFrame(QString header, QWidget *parent = 0,
-                            Qt::WindowFlags f = 0);
+    explicit ClickableFrame(QString header, QWidget *parent = nullptr,
+                            Qt::WindowFlags f = Qt::Widget);
 
     // TODO: Expose this function to the ContentPane api
     /**
@@ -145,19 +146,19 @@ protected:
      * @brief Reimplemented function to QMouseEvents
      * @param event
      */
-    void mousePressEvent(QMouseEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 
     /**
      * @brief Enter event for mouse over effects.
      * @param event
      */
-    void enterEvent(QEvent *event);
+    void enterEvent(QEvent *event) override;
     /**
      * @brief Leave effect for mouse over effects.
      * @param event
      */
-    void leaveEvent(QEvent *event);
+    void leaveEvent(QEvent *event) override;
 };
 
 #endif  // CLICKABLEFRAME_HPP

@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -71,20 +71,20 @@ public:
      * @param header The Header of the content pane
      * @param parent Parent widget or 0
      */
-    explicit ContentPane(QString header, QWidget *parent = 0);
+    explicit ContentPane(QString header, QWidget *parent = nullptr);
     /**
      * @brief ContentPane constructor
      * @param header The Header of the content pane
      * @param content Content to display when expanded
      * @param parent Parent widget or 0
      */
-    explicit ContentPane(QString header, QFrame *content, QWidget *parent = 0);
+    explicit ContentPane(QString header, QFrame *content, QWidget *parent = nullptr);
 
     /**
      * @brief Check if this Content pane is active
      * @return boolean True if active
      */
-    bool getActive();
+    bool getActive() const;
 
     /**
      * @brief Get the content frame of the content pane
@@ -371,7 +371,7 @@ protected:
      * @brief paintEvent Reimplement paintEvent to use stylesheets in derived Widgets
      * @param event
      */
-    void paintEvent(ATTR_UNUSED QPaintEvent *event);
+    void paintEvent(ATTR_UNUSED QPaintEvent *event) override;
 };
 
 #endif  // CONTENTPANE_HPP

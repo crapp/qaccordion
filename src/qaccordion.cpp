@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ QAccordion::QAccordion(QWidget *parent) : QWidget(parent)
                      &QAccordion::numberOfPanesChanged);
 }
 
-int QAccordion::numberOfContentPanes() { return this->contentPanes.size(); }
+int QAccordion::numberOfContentPanes() const { return this->contentPanes.size(); }
 
 int QAccordion::addContentPane(QString header)
 {
@@ -163,22 +163,22 @@ ContentPane *QAccordion::getContentPane(uint index)
     }
 }
 
-int QAccordion::getContentPaneIndex(QString header)
+int QAccordion::getContentPaneIndex(QString header) const
 {
     return this->findContentPaneIndex(std::move(header));
 }
 
-int QAccordion::getContentPaneIndex(QFrame *contentFrame)
+int QAccordion::getContentPaneIndex(QFrame *contentFrame) const
 {
     return this->findContentPaneIndex("", contentFrame);
 }
 
-int QAccordion::getContentPaneIndex(ContentPane *contentPane)
+int QAccordion::getContentPaneIndex(ContentPane *contentPane) const
 {
     return this->findContentPaneIndex("", nullptr, contentPane);
 }
 
-void QAccordion::getActiveContentPaneIndex(std::vector<int> &indexVector)
+void QAccordion::getActiveContentPaneIndex(std::vector<int> &indexVector) const
 {
     // first of all make sure it is empty
     indexVector.clear();
@@ -191,15 +191,15 @@ void QAccordion::getActiveContentPaneIndex(std::vector<int> &indexVector)
                   });
 }
 
-int QAccordion::getNumberOfContentPanes() { return this->contentPanes.size(); }
+int QAccordion::getNumberOfContentPanes() const { return this->contentPanes.size(); }
 
 void QAccordion::setMultiActive(bool status) { this->multiActive = status; }
 
-bool QAccordion::getMultiActive() { return this->multiActive; }
+bool QAccordion::getMultiActive() const { return this->multiActive; }
 
 void QAccordion::setCollapsible(bool status) { this->collapsible = status; }
 
-bool QAccordion::getCollapsible() { return this->collapsible; }
+bool QAccordion::getCollapsible() const { return this->collapsible; }
 
 QString QAccordion::getError() { return this->errorString; }
 
@@ -228,7 +228,7 @@ int QAccordion::internalAddContentPane(QString header, QFrame *cframe,
 
     emit numberOfContentPanesChanged(this->contentPanes.size());
 
-    return this->contentPanes.size() - 1;
+    return static_cast<int>(this->contentPanes.size() - 1);
 }
 
 bool QAccordion::internalInsertContentPane(uint index, QString header,
@@ -306,7 +306,7 @@ bool QAccordion::internalRemoveContentPane(bool deleteOject, int index,
 }
 
 int QAccordion::findContentPaneIndex(QString name, QFrame *cframe,
-                                     ContentPane *cpane)
+                                     ContentPane *cpane) const
 {
     // simple method that finds the index of a content by Header, content frame
     // or content pane.
