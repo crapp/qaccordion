@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
 private:
     // lorem ipsum api url

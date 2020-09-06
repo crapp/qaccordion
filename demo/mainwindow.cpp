@@ -1,5 +1,5 @@
 // This file is part of qAccordion. An Accordion widget for Qt
-// Copyright © 2015, 2017 Christian Rapp <0x2a at posteo dot org>
+// Copyright © 2015, 2017, 2020 Christian Rapp <0x2a at posteo dot org>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,13 +86,13 @@ void MainWindow::contentPaneAdd(QAccordion *topAccordion)
     auto *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
     this->addCF->layout()->addWidget(headerName);
-    QPushButton *addPaneButton = new QPushButton("Add Content Pane");
+    auto *addPaneButton = new QPushButton("Add Content Pane");
     // use a lambda as slot
     QObject::connect(addPaneButton, &QPushButton::clicked, [this, topAccordion,
                                                             headerName]() {
         if (headerName->text() != "") {
             // create a QFrame that acts as content frame for a new content pane
-            QFrame *frame = new QFrame();
+            auto *frame = new QFrame();
             // add a new content pane with the provided header and the content
             // frame
             int idx = topAccordion->addContentPane(headerName->text(), frame);
@@ -150,7 +150,7 @@ void MainWindow::contentPaneInsert(QAccordion *topAccordion)
             if (headerName->text() != "") {
                 // create a QFrame that acts as content frame for a
                 // new content pane
-                QFrame *frame = new QFrame();
+                auto *frame = new QFrame();
                 // add a new content pane with the provided header
                 // and the content frame
                 bool status = topAccordion->insertContentPane(
@@ -183,7 +183,7 @@ void MainWindow::contentPaneRemove(QAccordion *topAccordion)
     auto *headerName = new QLineEdit();
     headerName->setPlaceholderText("Header name");
     this->removeCF->layout()->addWidget(headerName);
-    QPushButton *removePaneButton = new QPushButton("Remove Content Pane");
+    auto *removePaneButton = new QPushButton("Remove Content Pane");
     this->removeCF->layout()->addWidget(removePaneButton);
     QObject::connect(removePaneButton, &QPushButton::clicked, [headerName,
                                                                topAccordion,
@@ -220,7 +220,7 @@ void MainWindow::contentPaneMove(QAccordion *topAccordion)
     fromToCombos->addWidget(fromBox);
     fromToCombos->addWidget(toBox);
 
-    QPushButton *movePaneButton = new QPushButton("Move Content Pane");
+    auto *movePaneButton = new QPushButton("Move Content Pane");
     movePaneButton->setDisabled(true);
     this->moveCF->layout()->addWidget(movePaneButton);
 
@@ -267,7 +267,7 @@ void MainWindow::createIpsumLabel(QFrame *frame)
 {
     // add some basic stuff to our QFrame
     frame->setLayout(new QVBoxLayout());
-    QLabel *ipsumLabel = new QLabel();
+    auto *ipsumLabel = new QLabel();
     frame->layout()->addWidget(ipsumLabel);
     this->labelIpsumQueue.push(ipsumLabel);
     dynamic_cast<QVBoxLayout *>(frame->layout())->addStretch();
