@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
-project(qAccordion VERSION 0.2.2)
+project(qAccordion VERSION 0.3)
 
 option(QACCORDION_BUILD_DEMO OFF)
 option(QACCORDION_EXTERNAL OFF)
