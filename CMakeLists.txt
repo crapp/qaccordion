@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 project(qAccordion VERSION 0.2.2)
 
-option(QACCORDION_BUILD_TESTER OFF)
+option(QACCORDION_BUILD_DEMO OFF)
 option(QACCORDION_EXTERNAL OFF)
 
 # let cmake handle all the export business on windows
