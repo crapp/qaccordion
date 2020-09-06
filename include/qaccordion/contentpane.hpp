@@ -31,7 +31,7 @@
 #include "qaccordion_config.hpp"
 
 #include "clickableframe.hpp"
-#include "qaccordion.hpp"
+// #include "qaccordion.hpp"
 
 /**
  * @brief Content Pane class
